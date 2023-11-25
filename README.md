@@ -11,6 +11,6 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 
 ## Tech I'm using
 
-- (APIOps)[https://azure.github.io/apiops/]
-- (Postman Collections)[https://www.postman.com/collection/]
+- [APIOps](https://azure.github.io/apiops/)
+- [Postman Collections](https://www.postman.com/collection/)
 - (coming soon) bicep
