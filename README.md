@@ -19,7 +19,7 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
     |AZURE_SUBSCRIPTION_ID|The subscription id of the apim resource |
     |AZURE_TENANT_ID|The tenant id of the service principal|
 
-    *Note:* The names of the environments can be dev, stage etc. If using different names, update the extractor.yaml and release.yaml for the environment names. This would also be a good time to setup [deployment protection rules](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules) if you wish in the environment settings of GitHub.
+    *Note:* The names of the environments can be dev, stage etc. If using different names, update the run-extractor.yaml and run-publisher-with-env.yaml for the environment names. This would also be a good time to setup [deployment protection rules](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules) if you wish in the environment settings of GitHub.
 
 - Grant permissions for the actions to create a PR. Set *Read and write permissions* and "Allow GitHub Actions to create and approve pull requests" under *{repository} -> Settings -> Actions -> General -> Workflow permissions*.
 
