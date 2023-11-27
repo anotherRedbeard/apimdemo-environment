@@ -1,0 +1,27 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+
+    Commenting out the verify logic as it doesn't work with self-signed certificates
+-->
+<fragment>
+	<choose>
+		<when condition="@(context.Request.Certificate == null)">
+			<return-response>
+				<set-status code="403" reason="Certificate must be included in the request" />
+			</return-response>
+		</when>
+		<!--<when condition="@(!context.Request.Certificate.Verify())">
+			<return-response>
+				<set-status code="403" reason="Certificate is invalid, please try again" />
+			</return-response>
+		</when>-->
+		<when condition="@(!context.Deployment.Certificates.Any(c => c.Value.Thumbprint == context.Request.Certificate.Thumbprint))">
+			<return-response>
+				<set-status code="403" reason="Certificate thumbprint is not found, please try again" />
+			</return-response>
+		</when>
+	</choose>
+</fragment>

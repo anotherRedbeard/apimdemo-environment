@@ -1,0 +1,5 @@
+{
+  "properties": {
+    "description": "This is an example of how you could store the aud claim (or any claim for that matter) into a context variable."
+  }
+}

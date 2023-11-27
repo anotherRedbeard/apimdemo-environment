@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "aadb2c-signin-signup-name",
+    "secret": false,
+    "tags": [],
+    "value": "B2C_1_Apim_SignInUp"
+  }
+}

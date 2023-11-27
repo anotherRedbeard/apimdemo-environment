@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "aadb2c-tenant-name",
+    "secret": false,
+    "tags": [],
+    "value": "redmanvancorp"
+  }
+}
