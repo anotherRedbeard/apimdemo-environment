@@ -1,0 +1,21 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+-->
+<fragment>
+	<set-variable name="audClaim" value="@{
+        var authHeader = context.Request.Headers.GetValueOrDefault("Authorization");
+        if (!string.IsNullOrEmpty(authHeader)) {
+            var jwtToken = authHeader.AsJwt();
+            if (jwtToken != null) {
+                var claim = jwtToken.Claims.GetValueOrDefault("aud");
+                if (claim != null) {
+                    return claim;
+                }
+            }
+        }
+        return string.Empty;
+    }" />
+</fragment>

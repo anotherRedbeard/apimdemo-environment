@@ -1,0 +1,24 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+-->
+<fragment>
+	<validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. AADB2C Access token is missing or invalid.">
+		<openid-config url="https://{{aadb2c-tenant-name}}.b2clogin.com/{{aadb2c-tenant-name}}.onmicrosoft.com/{{aadb2c-signin-signup-name}}/v2.0/.well-known/openid-configuration" />
+		<audiences>
+			<audience>36bdc282-89de-45f8-90f6-4a65cc6e72ca</audience>
+		</audiences>
+		<issuers>
+			<issuer>https://redmanvancorp.b2clogin.com/cae33547-efe7-4217-b33d-8c2adbf84d68/v2.0//</issuer>
+		</issuers>
+		<required-claims>
+			<claim name="scp" separator=" " match="any">
+				<value>@((string)context.Variables.GetValueOrDefault("claim1"))</value>
+				<value>@((string)context.Variables.GetValueOrDefault("claim2"))</value>
+				<value>@((string)context.Variables.GetValueOrDefault("claim3"))</value>
+			</claim>
+		</required-claims>
+	</validate-jwt>
+</fragment>

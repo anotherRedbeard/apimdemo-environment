@@ -1,0 +1,34 @@
+{
+  "properties": {
+    "apiRevision": "1",
+    "authenticationSettings": {
+      "oAuth2": {
+        "authorizationServerId": "aadb2c-oauth",
+        "scope": "Colors.Use"
+      }
+    },
+    "contact": {
+      "email": "mark.colorsapi@harrison.ws",
+      "name": "Mark Harrison",
+      "url": "https://github.com/markharrison/ColorsAPI"
+    },
+    "description": "Colors API",
+    "displayName": "Mark Harrison Colors API",
+    "isCurrent": true,
+    "license": {
+      "name": "Use under MIT License",
+      "url": "https://github.com/markharrison/ColorsAPI/blob/master/LICENSE"
+    },
+    "path": "colors",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://colors-api.azurewebsites.net/",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true,
+    "termsOfServiceUrl": "https://github.com/markharrison/ColorsAPI/blob/master/LICENSE"
+  }
+}

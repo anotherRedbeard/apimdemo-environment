@@ -1,0 +1,5 @@
+{
+  "properties": {
+    "description": "This will validate the certificate thumbprints based against all the certs uploaded to APIM"
+  }
+}
