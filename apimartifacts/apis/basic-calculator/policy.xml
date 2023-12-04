@@ -16,12 +16,18 @@
 		<set-variable name="claim1" value="Calculator.Use" />
 		<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />
 		<include-fragment fragment-id="store-jwt-claim-value-v1" />
+		<set-header name="inbound-header" exists-action="override">
+			<value>@(context.Variables.ContainsKey("audClaim") ? (string)context.Variables["audClaim"] : "unknown")</value>
+		</set-header>
 	</inbound>
 	<backend>
 		<base />
 	</backend>
 	<outbound>
 		<base />
+		<set-header name="outbound-header" exists-action="override">
+			<value>1234</value>
+		</set-header>
 	</outbound>
 	<on-error>
 		<base />

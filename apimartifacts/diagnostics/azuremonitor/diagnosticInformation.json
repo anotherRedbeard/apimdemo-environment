@@ -1,6 +1,5 @@
 {
   "properties": {
-    "alwaysLog": "allErrors",
     "backend": {
       "request": {
         "body": {
@@ -15,7 +14,7 @@
           "bytes": 1000
         },
         "headers": [
-          "test-header"
+          "outbound-header"
         ]
       }
     },
@@ -25,8 +24,7 @@
           "bytes": 1000
         },
         "headers": [
-          "inbound-header",
-          "test"
+          "inbound-header"
         ]
       },
       "response": {
@@ -36,14 +34,12 @@
         "headers": []
       }
     },
-    "httpCorrelationProtocol": "Legacy",
     "logClientIp": true,
-    "loggerId": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/loggers/brd-scus-apim-ai-dev",
-    "metrics": true,
+    "loggerId": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/loggers/azuremonitor",
     "sampling": {
       "percentage": 100,
       "samplingType": "Fixed"
     },
-    "verbosity": "verbose"
+    "verbosity": "information"
   }
 }

@@ -13,7 +13,7 @@ paths:
       operationId: ping
       responses:
         '200':
-          description: 
+          description: ''
 components:
   securitySchemes:
     apiKeyHeader:
