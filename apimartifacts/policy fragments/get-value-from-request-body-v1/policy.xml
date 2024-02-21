@@ -1,0 +1,9 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+-->
+<fragment>
+	<set-variable name="bodyValue" value="@(context.Request.Body.As<JObject>(preserveContent: true)["speedUnit"] ?? "")" />
+</fragment>

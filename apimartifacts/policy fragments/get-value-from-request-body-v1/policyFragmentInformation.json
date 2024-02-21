@@ -1,0 +1,5 @@
+{
+  "properties": {
+    "description": "Get a value from a json body in the request."
+  }
+}

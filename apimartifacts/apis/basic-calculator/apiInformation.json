@@ -12,10 +12,9 @@
     "isCurrent": true,
     "path": "calc",
     "protocols": [
-      "http",
       "https"
     ],
-    "serviceUrl": "http://calcapi.cloudapp.net/api",
+    "serviceUrl": "http://calcapi.cloudapp.net/api/",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"

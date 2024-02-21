@@ -4,7 +4,7 @@
     "authenticationSettings": {
       "oAuth2": {
         "authorizationServerId": "aadb2c-oauth",
-        "scope": "Echo.Use"
+        "scope": "https://redmanvancorp.onmicrosoft.com/36bdc282-89de-45f8-90f6-4a65cc6e72ca/Echo.Use"
       }
     },
     "displayName": "Echo API",

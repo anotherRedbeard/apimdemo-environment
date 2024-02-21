@@ -4,7 +4,6 @@ info:
   description: Arithmetics is just a call away!
   version: '1.0'
 servers:
-  - url: http://brd-scus-apimdemo-dev.azure-api.net/calc
   - url: https://brd-scus-apimdemo-dev.azure-api.net/calc
 paths:
   /add:
@@ -19,15 +18,18 @@ paths:
           required: true
           schema:
             enum:
-              - ''
+              - '51'
+              - '52'
             type: string
+            default: '51'
         - name: b
           in: query
           description: Second operand. Default value is <code>49</code>.
           required: true
           schema:
             enum:
-              - ''
+              - '49'
+              - '48'
             type: string
       responses:
         '200':
