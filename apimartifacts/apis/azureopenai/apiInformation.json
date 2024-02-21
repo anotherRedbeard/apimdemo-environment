@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "",
+    "displayName": "AzureOpenAi",
+    "isCurrent": true,
+    "path": "aoai",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://brd-demo-oai.openai.azure.com/openai/deployments",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

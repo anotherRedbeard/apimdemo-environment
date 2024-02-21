@@ -1,5 +1,3 @@
 {
-  "properties": {
-    "description": "Validate the aadb2c token using 3 dynamic scopes"
-  }
+  "properties": {}
 }

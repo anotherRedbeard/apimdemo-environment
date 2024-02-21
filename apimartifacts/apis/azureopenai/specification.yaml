@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: AzureOpenAi
+  description: ''
+  version: '1.0'
+servers:
+  - url: https://brd-scus-apimdemo-dev.azure-api.net/aoai
+paths:
+  '/{deployment-name}/completions':
+    post:
+      summary: completions with key
+      description: Sends a request to the completions endpoint
+      operationId: completions
+      parameters:
+        - name: deployment-name
+          in: path
+          description: Name of the Azure OpenAI deployment
+          required: true
+          schema:
+            type: ''
+        - name: api-version
+          in: query
+          description: Version of the api you want to use
+          required: true
+          schema:
+            enum:
+              - ''
+            type: ''
+            default: ''
+      responses:
+        '200':
+          description: 
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

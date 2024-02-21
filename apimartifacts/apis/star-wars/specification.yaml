@@ -28,6 +28,13 @@ paths:
       responses:
         '200':
           description: ''
+  /film:
+    get:
+      summary: Get Film
+      operationId: get-film
+      responses:
+        '200':
+          description: 
 components:
   securitySchemes:
     apiKeyHeader:
