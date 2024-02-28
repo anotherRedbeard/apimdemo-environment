@@ -3,8 +3,8 @@
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2": {
-        "authorizationServerId": "aadb2c-oauth",
-        "scope": "https://redmanvancorp.onmicrosoft.com/36bdc282-89de-45f8-90f6-4a65cc6e72ca/Echo.Use"
+        "authorizationServerId": "aad-oauth",
+        "scope": "api://4a9079d1-1f5a-401a-afce-432bf31e4beb/Echo.Use"
       }
     },
     "displayName": "Echo API",
