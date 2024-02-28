@@ -3,7 +3,7 @@
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2": {
-        "authorizationServerId": "aadb2c-oauth",
+        "authorizationServerId": "aad-oauth",
         "scope": "Colors.Use"
       }
     },
