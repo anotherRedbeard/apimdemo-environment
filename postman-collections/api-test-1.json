@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "ad021358-4f24-4987-bd33-ea959c50c0fd",
+		"name": "APIM Testing Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "92980"
+	},
+	"item": [
+		{
+			"name": "AAD-Get Auth Code",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate code verifier and code challenge using PKCE",
+							"const codeVerifier = pm.variables.replaceIn('{{$randomOAuthCode}}');",
+							"const codeChallenge = pm.variables.replaceIn('{{$hashSHA256}}', codeVerifier);",
+							"",
+							"// Save code verifier to global variable for token exchange",
+							"pm.globals.set('codeVerifier', codeVerifier);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://login.microsoftonline.com/{{aad-tenant-id}}/oauth2/v2.0/authorize?client_id={{aad-frontend-client-id}}&response_type=code&redirect_uri=https://oauth.pstmn.io/v1/callback&scope=api://{{aad-backend-client-id}}/Calculator.Use api://{{aad-backend-client-id}}/Echo.Use&code_verifier={{codeVerifier}}&code_challenge={{codeChallenge}}&code_challenge_method=S256",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"{{aad-tenant-id}}",
+						"oauth2",
+						"v2.0",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "{{aad-frontend-client-id}}"
+						},
+						{
+							"key": "response_type",
+							"value": "code"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback"
+						},
+						{
+							"key": "scope",
+							"value": "api://{{aad-backend-client-id}}/Calculator.Use api://{{aad-backend-client-id}}/Echo.Use"
+						},
+						{
+							"key": "code_verifier",
+							"value": "{{codeVerifier}}"
+						},
+						{
+							"key": "code_challenge",
+							"value": "{{codeChallenge}}"
+						},
+						{
+							"key": "code_challenge_method",
+							"value": "S256"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AAD-Get Token From Client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set('aad-token', jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{aad-frontend-client-id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{aad-frontend-client-secret}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "api://{{aad-backend-client-id}}/.default",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/{{aad-tenant-id}}/oauth2/v2.0/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"{{aad-tenant-id}}",
+						"oauth2",
+						"v2.0",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AOAI Completion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{scus-subscription-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"prompt\": \"Complete the following phrase:  shave and a haircut  \",\n  \"max_tokens\": 800,\n  \"temperature\": 0.7,\n  \"frequency_penalty\": 0,\n  \"presence_penalty\": 0,\n  \"top_p\": 0.95,\n  \"stop\": null\n}"
+				},
+				"url": {
+					"raw": "https://brd-scus-apimdemo-dev.azure-api.net/aoai/my-davinci-3/completions?api-version=2023-09-15-preview",
+					"protocol": "https",
+					"host": [
+						"brd-scus-apimdemo-dev",
+						"azure-api",
+						"net"
+					],
+					"path": [
+						"aoai",
+						"my-davinci-3",
+						"completions"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "2023-09-15-preview"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AAD Auth - Echo Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"pm.test(\"Successful GET request\", function () {",
+							"    pm.expect(pm.response.code).to.be.equal(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{scus-subscription-key}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{aad-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-apim-trace",
+						"value": "true",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://brd-scus-apimdemo-dev.azure-api.net/echo/resource?param1=sample",
+					"protocol": "https",
+					"host": [
+						"brd-scus-apimdemo-dev",
+						"azure-api",
+						"net"
+					],
+					"path": [
+						"echo",
+						"resource"
+					],
+					"query": [
+						{
+							"key": "param1",
+							"value": "sample"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
