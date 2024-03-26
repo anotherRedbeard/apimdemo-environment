@@ -1,5 +1,8 @@
 [
   {
+    "name": "azureopenai"
+  },
+  {
     "name": "basic-calculator"
   },
   {
