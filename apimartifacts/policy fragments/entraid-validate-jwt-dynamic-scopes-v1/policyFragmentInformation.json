@@ -1,5 +1,3 @@
 {
-  "properties": {
-    "description": "Validates the jwt token using validate jwt and is looking for a dynamic scope that was set previously"
-  }
+  "properties": {}
 }
