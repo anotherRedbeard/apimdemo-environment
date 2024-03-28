@@ -75,10 +75,11 @@ jobs:
 
       # Run the POSTMAN collection tests
       - name: Run Postman tests
+        env:
+          TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         run: > 
           newman run ./postman-collections/api-test-1.json 
-          --env-var "aad-tenant-id=${{ vars.CLIENT_ID }}" 
-          --env-var "aad-tenant-id=${{ secrets.AZURE_TENANT_ID }}" 
+          --env-var "aad-tenant-id=${{ env.TENANT_ID }}" 
           --env-var "aad-frontend-client-id=${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}" 
           --env-var "aad-backend-client-id=${{ secrets.API_TESTING_BACKEND_CLIENT_ID }}" 
           --env-var "aad-frontend-client-secret=${{ secrets.API_TESTING_FRONTEND_CLIENT_SECRET }}" 
