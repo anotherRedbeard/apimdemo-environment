@@ -2,7 +2,7 @@
   "properties": {
     "apiRevision": "1",
     "authenticationSettings": {},
-    "description": "test again",
+    "description": "test again, again",
     "displayName": "AzureOpenAi",
     "isCurrent": true,
     "path": "aoai",
