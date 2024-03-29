@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Echo API
-  description: test
+  description: test again
   version: '1.0'
 servers:
   - url: https://brd-scus-apimdemo-dev.azure-api.net/echo
