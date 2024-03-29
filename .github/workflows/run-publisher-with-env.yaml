@@ -240,7 +240,11 @@ jobs:
           --env-var "apim-uri=${{ env.APIM_URI }}"
           -r htmlextra 
           --reporter-htmlextra-export testResults/apiTestHTMLReport.html
-          --reporter-htmlextra-darkTheme > testResults/runReport1.html
+          --reporter-htmlextra-darkTheme
+
+      - name: Update index.html with test result link
+        run: |
+          sed -i 's|PLACEHOLDER|testResults/apiTestHTMLReport.html|' ./postman-collections/index.html
 
       # Upload the test results to the artifacts
       - name: Output the test results
@@ -253,7 +257,9 @@ jobs:
       - name: Output the test results to pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: testResults
+          path: |
+            testResults
+            postman-collections/index.html
 
   # Deploy job
   deploy-test-apis-report:
