@@ -219,7 +219,7 @@ jobs:
       # Create directory to hold the test results
       - name: Create test results directory
         run: |
-          mkdir -p test-results
+          mkdir -p testResults
 
       # Run the POSTMAN collection tests
       - name: Run Postman tests
@@ -237,5 +237,14 @@ jobs:
           --env-var "aad-backend-client-id=${{ env.BACKEND_CLIENT_ID }}" 
           --env-var "aad-frontend-client-secret=${{ env.FRONTEND_CLIENT_SECRET }}" 
           --env-var "scus-subscription-key=${{ env.SUBSCRIPTION_KEY }}"  
-          --env-var "apim-uri=${{ env.APIM_URI }}"  
-          --bail
+          --env-var "apim-uri=${{ env.APIM_URI }}"
+          -r htmlextra 
+          --reporter-htmlextra-export testResults/apiTestHTMLReport.html
+          --reporter-htmlextra-darkTheme > testResults/runReport1.html
+
+      # Upload the test results to the artifacts
+      - name: Output the test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: RunReports
+          path: testResults 
