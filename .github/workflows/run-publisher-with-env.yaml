@@ -245,6 +245,7 @@ jobs:
       - name: Update index.html with test result link
         run: |
           sed -i 's|PLACEHOLDER|testResults/apiTestHTMLReport.html|' ./postman-collections/index.html
+          cp ./postman-collections/index.html testResults/index.html
 
       # Upload the test results to the artifacts
       - name: Output the test results
@@ -257,9 +258,7 @@ jobs:
       - name: Output the test results to pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: |
-            testResults
-            postman-collections/index.html
+          path: testResults
 
   # Deploy job
   deploy-test-apis-report:
