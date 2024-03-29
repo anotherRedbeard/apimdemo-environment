@@ -15,9 +15,6 @@ on:
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH:
         required: true
         type: string
-      APIM_URI:
-        required: true
-        type: string
 
 env:
   apiops_release_version: ${{ vars.APIOPS_VERSION }}
