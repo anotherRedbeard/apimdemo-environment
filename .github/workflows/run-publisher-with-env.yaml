@@ -228,7 +228,7 @@ jobs:
           FRONTEND_CLIENT_ID: ${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}
           FRONTEND_CLIENT_SECRET: ${{ secrets.API_TESTING_FRONTEND_CLIENT_SECRET }}
           BACKEND_CLIENT_ID: ${{ secrets.API_TESTING_BACKEND_CLIENT_ID }}
-          SUBSCRIPTION_KEY: ${{ secrets.API_TESTING_SUBSCRIPTION_KEY }}
+          SUBSCRIPTION_KEY: ${{ secrets.APIM_TESTING_SUBSCRIPTION_KEY }}
           APIM_URI: ${{ vars.APIM_SERVICE_NAME }}.azure-api.net
         run: > 
           newman run ./postman-collections/api-test-1.json 
