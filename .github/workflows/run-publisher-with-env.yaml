@@ -244,7 +244,35 @@ jobs:
 
       # Upload the test results to the artifacts
       - name: Output the test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: RunReports
           path: testResults/apiTestHTMLReport.html
+
+      # Upload the test results to the pages artifacts
+      - name: Output the test results to pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: testResults/apiTestHTMLReport.html
+
+  # Deploy job
+  deploy-test-apis-report:
+    # Add a dependency to the build job
+    needs: test-apis
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
