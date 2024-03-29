@@ -87,12 +87,10 @@
 					"raw": "{\n  \"prompt\": \"Complete the following phrase:  shave and a haircut  \",\n  \"max_tokens\": 800,\n  \"temperature\": 0.7,\n  \"frequency_penalty\": 0,\n  \"presence_penalty\": 0,\n  \"top_p\": 0.95,\n  \"stop\": null\n}"
 				},
 				"url": {
-					"raw": "https://brd-scus-apimdemo-dev.azure-api.net/aoai/my-davinci-3/completions?api-version=2023-09-15-preview",
+					"raw": "https://{{apim-uri}}/aoai/my-davinci-3/completions?api-version=2023-09-15-preview",
 					"protocol": "https",
 					"host": [
-						"brd-scus-apimdemo-dev",
-						"azure-api",
-						"net"
+						"{{apim-uri}}"
 					],
 					"path": [
 						"aoai",
@@ -151,12 +149,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://brd-scus-apimdemo-dev.azure-api.net/echo/resource?param1=sample",
+					"raw": "https://{{apim-uri}}/echo/resource?param1=sample",
 					"protocol": "https",
 					"host": [
-						"brd-scus-apimdemo-dev",
-						"azure-api",
-						"net"
+						"{{apim-uri}}"
 					],
 					"path": [
 						"echo",

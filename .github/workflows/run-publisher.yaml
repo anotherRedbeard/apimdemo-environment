@@ -36,6 +36,7 @@ jobs:
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
+      APIM_URI: "${{ vars.APIM_SERVICE_NAME }}.azure-api.net"
       COMMIT_ID: ${{ needs.get-commit.outputs.commit_id }}
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts # change this to the artifacts folder
     secrets: inherit
@@ -47,5 +48,6 @@ jobs:
     uses: ./.github/workflows/run-publisher-with-env.yaml
     with:
       API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
+      APIM_URI: "${{ vars.APIM_SERVICE_NAME }}.azure-api.net"
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts # change this to the artifacts folder
     secrets: inherit

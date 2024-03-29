@@ -15,6 +15,9 @@ on:
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH:
         required: true
         type: string
+      APIM_URI:
+        required: true
+        type: string
 
 env:
   apiops_release_version: ${{ vars.APIOPS_VERSION }}
@@ -225,11 +228,17 @@ jobs:
       - name: Run Postman tests
         env:
           TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          FRONTEND_CLIENT_ID: ${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}
+          FRONTEND_CLIENT_SECRET: ${{ secrets.API_TESTING_FRONTEND_CLIENT_SECRET }}
+          BACKEND_CLIENT_ID: ${{ secrets.API_TESTING_BACKEND_CLIENT_ID }}
+          SUBSCRIPTION_KEY: ${{ secrets.API_TESTING_SUBSCRIPTION_KEY }}
+          APIM_URI: ${{ inputs.APIM_URI }}
         run: > 
           newman run ./postman-collections/api-test-1.json 
           --env-var "aad-tenant-id=${{ env.TENANT_ID }}" 
-          --env-var "aad-frontend-client-id=${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}" 
-          --env-var "aad-backend-client-id=${{ secrets.API_TESTING_BACKEND_CLIENT_ID }}" 
-          --env-var "aad-frontend-client-secret=${{ secrets.API_TESTING_FRONTEND_CLIENT_SECRET }}" 
-          --env-var "scus-subscription-key=${{ secrets.APIM_TESTING_SUBSCRIPTION_KEY }}"  
+          --env-var "aad-frontend-client-id=${{ env.FRONTEND_CLIENT_ID }}" 
+          --env-var "aad-backend-client-id=${{ env.BACKEND_CLIENT_ID }}" 
+          --env-var "aad-frontend-client-secret=${{ env.FRONTEND_CLIENT_SECRET }}" 
+          --env-var "scus-subscription-key=${{ env.SUBSCRIPTION_KEY }}"  
+          --env-var "apim-uri=${{ env.APIM_URI }}"  
           --bail
