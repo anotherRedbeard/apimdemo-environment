@@ -253,7 +253,7 @@ jobs:
       - name: Output the test results to pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: testResults/apiTestHTMLReport.html
+          path: testResults
 
   # Deploy job
   deploy-test-apis-report:
