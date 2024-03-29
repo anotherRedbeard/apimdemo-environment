@@ -239,12 +239,12 @@ jobs:
           --env-var "scus-subscription-key=${{ env.SUBSCRIPTION_KEY }}"  
           --env-var "apim-uri=${{ env.APIM_URI }}"
           -r htmlextra 
-          --reporter-htmlextra-export testResults/apiTestHTMLReport.html
+          --reporter-htmlextra-export testResults/apiTestHTMLReport-${{ inputs.API_MANAGEMENT_ENVIRONMENT }}.html
           --reporter-htmlextra-darkTheme
 
       - name: Update index.html with test result link
         run: |
-          sed -i 's|PLACEHOLDER|testResults/apiTestHTMLReport.html|' ./postman-collections/index.html
+          sed -i 's|${{ inputs.API_MANAGEMENT_ENVIRONMENT }}-PLACEHOLDER|apiTestHTMLReport-${{ inputs.API_MANAGEMENT_ENVIRONMENT }}.html|' ./postman-collections/index.html
           cp ./postman-collections/index.html testResults/index.html
 
       # Upload the test results to the artifacts
@@ -252,7 +252,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RunReports
-          path: testResults/apiTestHTMLReport.html
+          path: testResults/apiTestHTMLReport-${{ inputs.API_MANAGEMENT_ENVIRONMENT }}.html
 
       # Upload the test results to the pages artifacts
       - name: Output the test results to pages
