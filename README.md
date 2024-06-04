@@ -1,7 +1,7 @@
 # apimdemo-environment
 This is the repo that holds everything I need to setup a new apimdemo environment.  I keep this around in case I need to stand my demo back up in short order.
 
-## Prerequisits
+## Prerequisites
 
 - You will need to create a new client_id and secret on an existing or new service principal.
   - Here is the command to create the new service principal
@@ -27,4 +27,5 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 
 - [APIOps](https://azure.github.io/apiops/)
 - [Postman Collections](https://www.postman.com/collection/)
+- Powershell and CLI [Scripts](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/scripts) to create infra
 - (coming soon) bicep
