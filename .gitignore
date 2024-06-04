@@ -1,2 +1,3 @@
-/scripts/*.dev.sh
-/scripts/*.dev.ps1
+# all dev scripts
+**/scripts/*.dev.sh
+**/scripts/*.dev.ps1
