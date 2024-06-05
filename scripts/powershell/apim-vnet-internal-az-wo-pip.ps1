@@ -1,13 +1,18 @@
 # Define variables for resource group and subscription
-$subscriptionId = "<Subscription ID>"
-$resourceGroupName = "myRG"
-$apimName = "myTestAPIMInstance020"
-$subnetName = "MyAPIMPremTest"
-$vnetName = "myApimVNetTest"
-$location = "South Central US"
-$org = "Contoso"
-$adminEmail = "<your admin email>"
-$vpnType = "Internal"
+param (
+    [string]$subscriptionId = "<your subscription ID>",
+    [string]$resourceGroupName = "myRG",
+    [string]$apimName = "myTestAPIMwopip020",
+    [string]$subnetName = "MyAPIMPremTest",
+    [string]$vnetName = "myApimVNetTest",
+    [string]$location = "South Central US",
+    [string]$org = "Contoso",
+    [string]$adminEmail = "<your admin email>",
+    [string]$vpnType = "Internal"
+)
+
+#get debug output
+$DebugPreference = "Continue"
 
 # Define the resource ID for the VNet and subnet
 $vnetResourceId = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Network/virtualNetworks/$vnetName"
