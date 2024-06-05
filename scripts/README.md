@@ -18,11 +18,15 @@ This will create a virtual network with 2 subnets. Then it will create the apim 
 
 This directory contains PowerShell scripts. PowerShell is a cross-platform task automation solution made up of a command-line shell, a scripting language, and a configuration management framework. These scripts are used for various tasks such as setting up the environment, running tests, and deploying the application.
 
-#### apim-vnet-internal-az.ps1
+#### apim-vnet-internal-az-wo-pip.ps1
 
-This will use existing vNet to create an Azure API resource with availability zones enabled, vNet integration in Internal mode. 
+This will use existing vNet to create an Azure API resource with availability zones enabled, vNet integration in Internal mode.
 
-Currently this requires a Public IP, but that requirement should go away soon.
+Currently this requires a Public IP, so this script will fail, but that requirement should go away soon.
+
+#### apim-vnet-internal-az-pip.ps1
+
+This will use existing vNet to create an Azure API resource with availability zones enabled, vNet integration in Internal mode and it will create a new public IP and use it in the APIM creation.
 
 ## Usage
 
