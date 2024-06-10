@@ -29,3 +29,7 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 - [Postman Collections](https://www.postman.com/collection/)
 - Powershell and CLI [Scripts](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/scripts) to create infra
 - (coming soon) bicep
+
+## Automated Testing with Postman Collection
+
+todo:  add details of automated testing with postman collections
