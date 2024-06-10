@@ -1,0 +1,49 @@
+{
+  "properties": {
+    "alwaysLog": "allErrors",
+    "backend": {
+      "request": {
+        "body": {
+          "bytes": 100
+        },
+        "headers": [
+          "User-Agent"
+        ]
+      },
+      "response": {
+        "body": {
+          "bytes": 100
+        },
+        "headers": [
+          "User-Agent"
+        ]
+      }
+    },
+    "frontend": {
+      "request": {
+        "body": {
+          "bytes": 32
+        },
+        "headers": [
+          "User-Agent"
+        ]
+      },
+      "response": {
+        "body": {
+          "bytes": 100
+        },
+        "headers": [
+          "User-Agent"
+        ]
+      }
+    },
+    "httpCorrelationProtocol": "W3C",
+    "logClientIp": true,
+    "loggerId": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/loggers/brd-scus-apim-ai-dev",
+    "sampling": {
+      "percentage": 100,
+      "samplingType": "Fixed"
+    },
+    "verbosity": "verbose"
+  }
+}

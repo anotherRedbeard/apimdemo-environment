@@ -14,7 +14,7 @@
 		</audiences>
 	</validate-azure-ad-token>
 	<choose>
-		<when condition="@(!(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("roles","").Contains("App.Echo.Use") || ((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("scp","").Contains("Echo.Use4")))">
+		<when condition="@(!(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("roles","").Contains("App.Echo.Use") || ((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("scp","").Contains(((string)context.Variables.GetValueOrDefault("claim1")))))">
 			<return-response>
 				<set-status code="403" reason="Forbidden" />
 				<set-body template="liquid">{
