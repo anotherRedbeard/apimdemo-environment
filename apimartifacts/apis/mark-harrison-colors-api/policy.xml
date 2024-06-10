@@ -15,7 +15,8 @@
 		<base />
 		<set-variable name="claim1" value="Colors.Use" />
 		<!--<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />-->
-		<include-fragment fragment-id="validate-certificates-in-apim-v1" />
+		<!--<include-fragment fragment-id="entraid-validate-jwt-dynamic-scopes-v1" />-->
+		<!--<include-fragment fragment-id="validate-certificates-in-apim-v1" />-->
 	</inbound>
 	<backend>
 		<base />
