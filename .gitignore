@@ -1,3 +1,6 @@
 # all dev scripts
 /scripts/**/*.dev.sh
 /scripts/**/*.dev.ps1
+
+# all dev bicepparm files
+/**/*.dev.bicepparam

@@ -28,8 +28,13 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 - [APIOps](https://azure.github.io/apiops/)
 - [Postman Collections](https://www.postman.com/collection/)
 - Powershell and CLI [Scripts](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/scripts) to create infra
-- (coming soon) bicep
+- [APIM GenAI Gateway](https://techcommunity.microsoft.com/t5/azure-integration-services-blog/introducing-genai-gateway-capabilities-in-azure-api-management/ba-p/4146525)
+- [bicep](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep) to implement some of the GenAI features
 
 ## Automated Testing with Postman Collection
 
 todo:  add details of automated testing with postman collections
+
+## APIM GenAI Gateway
+
+todo:  add details of how to enable all the GenAI gateway features
