@@ -83,7 +83,7 @@ paths:
                 logprobs:
                   type: integer
                   description: "Include the log probabilities on the logprobs most likely tokens, as well the chosen tokens. For example, if logprobs is 5, the API will return a list of the 5 most likely tokens. The API will always return the logprob of the sampled token, so there may be up to logprobs+1 elements in the response.\nMinimum of 0 and maximum of 5 allowed."
-                  default: 
+                  default: ''
                   nullable: true
                 suffix:
                   type: string
@@ -211,7 +211,7 @@ paths:
                 choices:
                   - index: 0
                     text: The price for bubblegum decreased on thursday.
-                    logprobs: 
+                    logprobs: ''
                     finish_reason: stop
         '400':
           description: Service unavailable
@@ -431,7 +431,7 @@ paths:
               temperature: 1
               top_p: 1
               stream: false
-              stop: 
+              stop: ''
               max_tokens: 4096
               presence_penalty: 0
               frequency_penalty: 0
@@ -688,9 +688,7 @@ paths:
               schema:
                 type: string
                 description: 'Transcribed text in the output format (when response_format was one of text, vtt or srt).'
-              examples:
-                default:
-                  value: 
+              example: ''
   '/deployments/{deployment-id}/audio/translations':
     post:
       summary: Transcribes and translates input audio into English text.
@@ -741,9 +739,7 @@ paths:
               schema:
                 type: string
                 description: 'Transcribed text in the output format (when response_format was one of text, vtt or srt).'
-              examples:
-                default:
-                  value: 
+              example: ''
   '/deployments/{deployment-id}/images/generations':
     post:
       summary: Generates a batch of images from a text caption on a given DALLE model deployment
@@ -1125,7 +1121,7 @@ components:
                 type: string
               description: Array minimum size of 1 and maximum of 4
           description: Up to 4 sequences where the API will stop generating further tokens.
-          default: 
+          default: ''
         max_tokens:
           type: integer
           description: 'The maximum number of tokens allowed for the generated answer. By default, the number of tokens the model can return will be (4096 - prompt tokens).'

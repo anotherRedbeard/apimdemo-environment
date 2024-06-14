@@ -9,10 +9,11 @@ paths:
   /todoitems:
     get:
       summary: Get
+      description: Get
       operationId: get
       responses:
         '200':
-          description: 
+          description: ''
 components:
   securitySchemes:
     apiKeyHeader:

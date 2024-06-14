@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "credentials": {
+      "name": "myeventhub"
+    },
+    "description": "adding a new logger with system assigned managed identity",
+    "isBuffered": true,
+    "loggerType": "azureEventHub"
+  }
+}
