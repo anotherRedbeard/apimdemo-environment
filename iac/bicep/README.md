@@ -1,6 +1,10 @@
 # Bicep
 
-This directory contains scripts that are used for various tasks in this project.
+This directory contains bicep templates that are used for various tasks in this project. If you want to use your own parameter files, this repo is setup to copy the `*.bicepparam` files and create your own with the `dev.bicepparam` extension. They will be ignored from check-in.
+
+1. **APIM smart load balancing with circuit breaker**
+
+    `create-aoai-load-balancing.bicep` is the main template for this. Here we are creating 3 backends (these are OpenAI endpoints) in 3 different Azure regions and load balancing across each of them based on the deployment name. That is 2 backend pools, one for each deployment. This setup is using Round Robin, but there are ways to use weighted and priority in the backend pools. You can find more info in the [load balancing options](https://learn.microsoft.com/en-us/azure/api-management/backends?tabs=bicep#load-balancing-options) doc.
 
 ## Deploying with Bicep
 
@@ -46,12 +50,3 @@ Before you begin, ensure you have the following installed:
     ```bash
     az deployment group create --resource-group <your-resource-group> --name <your-deployment-name> --parameters <your-file>.bicepparam
     ```
-
-### Folder structure
-
-We have this folder broken down into the modules folder and then the main bicep files. Below is a description of each of the main files and what modules they use
-
-#### create-aoai-load-balancing.bicep
-
-This file will create 2 circuit breaker gateways and 2 backend pools based on region using the `apim-circuit-breaker-backends.bicep` and `apim-load-balance-backendpool.bicep` modules.  Follow the steps to deploy above to deploy this to your subscription.
-
