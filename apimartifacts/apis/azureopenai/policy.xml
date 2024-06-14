@@ -28,7 +28,7 @@
 			<dimension name="Subscription ID" />
 			<dimension name="API ID" />
 		</azure-openai-emit-token-metric>
-		<azure-openai-token-limit counter-key="@(context.Subscription.Id)" tokens-per-minute="100" estimate-prompt-tokens="false" />
+		<azure-openai-token-limit counter-key="@(context.Subscription.Id)" tokens-per-minute="5000" estimate-prompt-tokens="false" />
 		<!--Load Balancing-->
 		<!-- Extract deployment-id from the request URL and set it as a variable -->
 		<set-variable name="deploymentId" value="@(context.Request.MatchedParameters["deployment-id"])" />
@@ -45,6 +45,10 @@
 		<set-header name="Authorization" exists-action="override">
 			<value>@("Bearer " + (string)context.Variables["managed-id-access-token"])</value>
 		</set-header>
+		<!--Semantic cache lookup-->
+		<!--<azure-openai-semantic-cache-lookup embeddings-backend-auth="system-assigned" embeddings-backend-id="embeddings-backend" score-threshold="0.05">
+            <vary-by>@(context.Subscription.Id)</vary-by>
+        </azure-openai-semantic-cache-lookup>-->
 	</inbound>
 	<backend>
 		<retry condition="@(context.Response.StatusCode == 429 || context.Response.StatusCode == 503)" count="2" interval="0" first-fast-retry="true">
@@ -63,6 +67,8 @@
 	</backend>
 	<outbound>
 		<base />
+		<!--Semantic cache store-->
+		<azure-openai-semantic-cache-store duration="60" />
 		<!-- Add the actual backend URL to the response header -->
 		<set-header name="X-Backend-URL" exists-action="override">
 			<value>@(context.Request.Url.ToString())</value>
