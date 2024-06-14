@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "description": "This is the backend that will be used by the semantic cache policy to call the embeddings service.",
+    "protocol": "http",
+    "url": "https://brd-demo-oai.openai.azure.com/openai/deployments/ada-embedding/embeddings"
+  }
+}
