@@ -37,4 +37,21 @@ todo:  add details of automated testing with postman collections
 
 ## APIM GenAI Gateway
 
-todo:  add details of how to enable all the GenAI gateway features
+This repo shows how to use each of the new GenAI gateway features listed below:
+
+  1. **Token Limit Policy**
+    - Using this policy you can set limits, expressed in tokens-per-minute(TPM).
+    - [Policy Documentation](https://aka.ms/apim/openai/token-limit-policy)
+    - [My Implementation Example](https://github.com/anotherRedbeard/apimdemo-environment/blob/a89ce525e2db887f3cc0514183c00a053d039176/apimartifacts/apis/azureopenai/policy.xml#L13)
+  2. **Emit Token Metric Policy**
+    - Captures prompt, completions, and total token usage metrics and sends them to an Application Insights namespace of your choice. There are a few pre-requisites that you need to ensure you enable to make this work.
+    - [Policy Documentation](https://aka.ms/apim/openai/token-metric-policy)
+    - [My Implementation Example](https://github.com/anotherRedbeard/apimdemo-environment/blob/main/apimartifacts/apis/azureopenai/policy.xml#21)
+  3. **Load Balancer and Circuit Breaker**
+    - Allows you to support round-robin, weighted, and priority-based load balancing as well as setting up gateways to use circuit breaker pattern.
+    - [Documentation](https://learn.microsoft.com/en-us/azure/api-management/backends?tabs=bicep)
+    - [My implementation Example](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep) is create in the bicep section of this repo.
+  4. **Semantic Caching Policy**
+    - Allows you to leverage any external cache compatible with RediSearch. You will need create an Azure OpenAI embedding backend so this policy can take advantage of that.
+    - [Policy Documentation](https://aka.ms/apim/openai/semantic-caching)
+    - My Implementation Example--Coming Soon--
