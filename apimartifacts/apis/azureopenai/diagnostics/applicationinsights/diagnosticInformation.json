@@ -1,5 +1,6 @@
 {
   "properties": {
+    "alwaysLog": "allErrors",
     "backend": {
       "request": {
         "body": {
@@ -28,7 +29,7 @@
         "headers": []
       }
     },
-    "httpCorrelationProtocol": "W3C",
+    "httpCorrelationProtocol": "Legacy",
     "logClientIp": true,
     "loggerId": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/loggers/brd-scus-apim-ai-dev",
     "metrics": true,
