@@ -18,6 +18,18 @@ This directory contains bicep templates that are used for various tasks in this 
 
     `create-apim-backend.bicep` is the main template to create a new backend in APIM.
 
+3. **Create base APIM instance**
+
+    `create-base-apim.bicep` is the main template to create a base developer instance of API Management. I will be adding to this any dependency that I need to recreate my dev environment.
+
+    What's Included:
+
+    - Developer sku of API management
+    - Application Insights *(coming soon)*
+    - Identities for the developer portal *(coming soon)*
+    - OAuth2.0 servers to handle authentication *(coming soon)*
+    - Diagnostic Loggers *(coming soon)*
+
 ## Deploying with Bicep
 
 Bicep is an Infrastructure as Code (IaC) language developed by Microsoft for deploying Azure resources in a declarative manner. It simplifies the deployment process and enhances readability and maintainability of your infrastructure code. Here is the [official Bicep documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
