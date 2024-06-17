@@ -4,6 +4,14 @@ This directory contains bicep templates that are used for various tasks in this 
 
 1. **APIM smart load balancing with circuit breaker**
 
+    Prerequisites:
+    - You will need to create 3 Azure OpenAPI endpoints in 3 different regions with 2 deployments (make sure you have the same model version in each region or it will fail). Here is what I have setup:
+        | Region | Deployments (version) |
+        | ------------- | ----------- |
+        |South Central US | gpt-35-turbo (0301), text-embedding-ada-002(2) |
+        |East US| gpt-35-turbo (0301), text-embedding-ada-002(2) |
+        |West Europe|text-embedding-ada-002 (2)|
+
     `create-aoai-load-balancing.bicep` is the main template for this. Here we are creating 3 backends (these are OpenAI endpoints) in 3 different Azure regions and load balancing across each of them based on the deployment name. That is 2 backend pools, one for each deployment. This setup is using Round Robin, but there are ways to use weighted and priority in the backend pools. You can find more info in the [load balancing options](https://learn.microsoft.com/en-us/azure/api-management/backends?tabs=bicep#load-balancing-options) doc.
 
 2. **APIM create a backend**

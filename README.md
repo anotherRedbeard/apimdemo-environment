@@ -19,6 +19,13 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
     |AZURE_SUBSCRIPTION_ID|The subscription id of the apim resource |
     |AZURE_TENANT_ID|The tenant id of the service principal|
 
+    | Variable Name | Description |
+    | ------------- | ----------- |
+    |APIM_SERVICE_NAME |The name of the APIM instance to migrate from |
+    |APIM_RG_NAME|The name of the resource group the APIM instance is in|
+    |APIOPS_VERSION|This is the version of APIOps that I am using|
+    |LOG_LEVEL|Sets the log level as to what kind of logging will be displayed in the logs.|
+
     *Note:* The names of the environments can be dev, stage etc. If using different names, update the run-extractor.yaml and run-publisher-with-env.yaml for the environment names. This would also be a good time to setup [deployment protection rules](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules) if you wish in the environment settings of GitHub.
 
 - Grant permissions for the actions to create a PR. Set *Read and write permissions* and "Allow GitHub Actions to create and approve pull requests" under *{repository} -> Settings -> Actions -> General -> Workflow permissions*.
@@ -31,11 +38,26 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 - [APIM GenAI Gateway](https://techcommunity.microsoft.com/t5/azure-integration-services-blog/introducing-genai-gateway-capabilities-in-azure-api-management/ba-p/4146525)
 - [bicep](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep) to implement some of the GenAI features
 
-## Automated Testing with Postman Collection
+### APIOps Steps
+
+For full documentation steps of how to setup and run APIOps, it would be best to check the [Official Documentation](https://azure.github.io/apiops/apiops/3-apimTools/), but since I've already done all of that here are the steps I use to deploy.
+
+#### Portal First Deployment
+
+  1. Run the extractor.yaml
+    a. This will create a PR for you to approve, once you approve the PR the publisher.yaml pipeline will execute which will deploy your code to all the environments
+
+#### Code First Deployment
+
+  1. Create a PR for the changes that you've made.
+  2. Approve the PR
+    a. Once you approve the PR the publisher.yaml pipeline will execute which will deploy your code to all the environments
+
+### Automated Testing with Postman Collection
 
 todo:  add details of automated testing with postman collections
 
-## APIM GenAI Gateway
+### APIM GenAI Gateway
 
 This repo shows how to use each of the new GenAI gateway features listed below:
 
