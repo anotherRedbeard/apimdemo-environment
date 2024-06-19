@@ -12,8 +12,6 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 
     | Secret Name | Description |
     | ------------- | ----------- |
-    |APIM_INSTANCE_NAME |The name of the APIM instance to migrate from |
-    |RESOURCE_GROUP_NAME|The name of the resource group the APIM instance is in|
     |AZURE_CLIENT_ID|The client id of the service principal|
     |AZURE_CLIENT_SECRET|The client secret of the service principal|
     |AZURE_SUBSCRIPTION_ID|The subscription id of the apim resource |
