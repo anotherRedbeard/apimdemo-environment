@@ -1,5 +1,6 @@
 {
   "properties": {
+    "path": "calc",
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2": {
@@ -8,9 +9,8 @@
       }
     },
     "description": "Arithmetics is just a call away!",
-    "displayName": "Basic Calculator",
     "isCurrent": true,
-    "path": "calc",
+    "displayName": "Basic Calculator",
     "protocols": [
       "https"
     ],

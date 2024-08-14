@@ -1,15 +1,15 @@
 {
   "properties": {
-    "path": "academo",
+    "path": "test-api",
     "apiRevision": "1",
     "authenticationSettings": {},
-    "description": "",
+    "description": "Azure OpenAI APIs for completions and search",
     "isCurrent": true,
-    "displayName": "ACADemo",
+    "displayName": "Test OpenAPI Import",
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://brd-private-todo-app.livelysky-edba692f.southcentralus.azurecontainerapps.io/api",
+    "serviceUrl": "https://brd-scus-apimdemo-dev.azure-api.net/aoai",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"
