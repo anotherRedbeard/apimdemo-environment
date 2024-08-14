@@ -311,8 +311,9 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "${{ github.workspace }}/postman/collections/APIM Testing Demo.json" -e "92980-65a1361f-6b4d-4a33-8cd5-eac3be7e4914" --integration-id "167233-${{ github.run_id }}"
-
+          postman collection run "${{ github.workspace }}/postman-collections/api-test-1.json" --integration-id "167233-${{ github.run_id }}"
+          # Lint your API using Postman CLI
+          postman api lint 3ae6e1e2-f21d-467b-9864-ab8f39555305 --integration-id 167233
       #- name: Run Postman tests
       #  env:
       #    TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
