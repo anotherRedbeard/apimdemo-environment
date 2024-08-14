@@ -279,18 +279,18 @@ jobs:
     needs: build
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@master
 
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18.x'
+      #- name: Install Node
+      #  uses: actions/setup-node@v2
+      #  with:
+      #    node-version: '18.x'
 
       # Install postman's newman command line utility and also the htmlextra reporter
-      - name: Install newman
-        run: |
-          npm install -g newman
-          npm install -g newman-reporter-htmlextra
+      #- name: Install newman
+      #  run: |
+      #    npm install -g newman
+      #    npm install -g newman-reporter-htmlextra
 
       # Create directory to hold the test results
       - name: Create test results directory
@@ -298,25 +298,32 @@ jobs:
           mkdir -p testResults
 
       # Run the POSTMAN collection tests
-      - name: Run Postman tests
-        env:
-          TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          FRONTEND_CLIENT_ID: ${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}
-          FRONTEND_CLIENT_SECRET: ${{ secrets.API_TESTING_FRONTEND_CLIENT_SECRET }}
-          BACKEND_CLIENT_ID: ${{ secrets.API_TESTING_BACKEND_CLIENT_ID }}
-          SUBSCRIPTION_KEY: ${{ secrets.APIM_TESTING_SUBSCRIPTION_KEY }}
-          APIM_URI: ${{ vars.APIM_SERVICE_NAME }}.azure-api.net
-        run: > 
-          newman run ./postman-collections/api-test-1.json 
-          --env-var "aad-tenant-id=${{ env.TENANT_ID }}" 
-          --env-var "aad-frontend-client-id=${{ env.FRONTEND_CLIENT_ID }}" 
-          --env-var "aad-backend-client-id=${{ env.BACKEND_CLIENT_ID }}" 
-          --env-var "aad-frontend-client-secret=${{ env.FRONTEND_CLIENT_SECRET }}" 
-          --env-var "scus-subscription-key=${{ env.SUBSCRIPTION_KEY }}"  
-          --env-var "apim-uri=${{ env.APIM_URI }}"
-          -r htmlextra 
-          --reporter-htmlextra-export testResults/apiTestHTMLReport-${{ inputs.API_MANAGEMENT_ENVIRONMENT }}.html
-          --reporter-htmlextra-darkTheme
+      - uses: matt-ball/newman-action@master
+        with:
+          collection: ./postman-collections/api-test-1.json
+          environment: postman_environment.json
+          reporters: '["emojitrain"]'
+          envVar: '[{ "aad-tenant-id": "${{ secrets.AZURE_TENANT_ID }}", "aad-frontend-client-id": "${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}" }]'
+          
+      #- name: Run Postman tests
+      #  env:
+      #    TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      #    FRONTEND_CLIENT_ID: ${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}
+      #    FRONTEND_CLIENT_SECRET: ${{ secrets.API_TESTING_FRONTEND_CLIENT_SECRET }}
+      #    BACKEND_CLIENT_ID: ${{ secrets.API_TESTING_BACKEND_CLIENT_ID }}
+      #    SUBSCRIPTION_KEY: ${{ secrets.APIM_TESTING_SUBSCRIPTION_KEY }}
+      #    APIM_URI: ${{ vars.APIM_SERVICE_NAME }}.azure-api.net
+      #  run: > 
+      #    newman run ./postman-collections/api-test-1.json 
+      #    --env-var "aad-tenant-id=${{ env.TENANT_ID }}" 
+      #    --env-var "aad-frontend-client-id=${{ env.FRONTEND_CLIENT_ID }}" 
+      #    --env-var "aad-backend-client-id=${{ env.BACKEND_CLIENT_ID }}" 
+      #    --env-var "aad-frontend-client-secret=${{ env.FRONTEND_CLIENT_SECRET }}" 
+      #    --env-var "scus-subscription-key=${{ env.SUBSCRIPTION_KEY }}"  
+      #    --env-var "apim-uri=${{ env.APIM_URI }}"
+      #    -r htmlextra 
+      #    --reporter-htmlextra-export testResults/apiTestHTMLReport-${{ inputs.API_MANAGEMENT_ENVIRONMENT }}.html
+      #    --reporter-htmlextra-darkTheme
 
       - name: Update index.html with test result link
         run: |
