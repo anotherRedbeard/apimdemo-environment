@@ -40,6 +40,9 @@
 			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
 				<set-backend-service backend-id="adaembedding-backendpool" />
 			</when>
+			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt-4o")">
+				<set-backend-service backend-id="weu-aoai-backend" />
+			</when>
 		</choose>
 		<!--OpenAI Policies-->
 		<set-header name="Authorization" exists-action="override">
@@ -61,6 +64,9 @@
 				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
 					<set-backend-service backend-id="adaembedding-backendpool" />
 				</when>
+				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt-4o")">
+					<set-backend-service backend-id="weu-aoai-backend" />
+				</when>
 			</choose>
 			<forward-request buffer-request-body="true" />
 		</retry>
@@ -76,15 +82,15 @@
 		<choose>
 			<when condition="@(context.Response.StatusCode >= 200 && context.Response.StatusCode < 300)">
 				<log-to-eventhub logger-id="EventHubLogger1">@{
-                        var responseBody = context.Response.Body?.As<JObject>(true);
+                        var responseBody = context.Response.Body?.As<String>(true);
+
                         return new JObject(
                             new JProperty("EventTime", DateTime.UtcNow.ToString()),
                             new JProperty("ServiceName", context.Deployment.ServiceName),
                             new JProperty("RequestId", context.RequestId),
                             new JProperty("RequestIp", context.Request.IpAddress),
                             new JProperty("OperationName", context.Operation.Name),
-                            new JProperty("PromptTokens", responseBody["usage"]["prompt_tokens"].ToString()),
-                            new JProperty("TotalTokens", responseBody["usage"]["total_tokens"].ToString())
+                            new JProperty("ResponseBody", responseBody)
                         ).ToString();
                     }</log-to-eventhub>
 			</when>

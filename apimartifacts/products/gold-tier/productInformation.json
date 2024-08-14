@@ -1,8 +1,8 @@
 {
   "properties": {
-    "approvalRequired": true,
-    "description": "This is for our gold tier clients",
     "displayName": "Gold Tier",
+    "description": "This is for our gold tier clients",
+    "approvalRequired": true,
     "state": "published",
     "subscriptionRequired": true,
     "terms": "Here are the legal terms, do you agree?"

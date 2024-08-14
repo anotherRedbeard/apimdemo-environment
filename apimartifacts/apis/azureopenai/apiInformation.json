@@ -1,11 +1,11 @@
 {
   "properties": {
+    "path": "aoai",
     "apiRevision": "1",
     "authenticationSettings": {},
     "description": "Azure OpenAI APIs for completions and search",
-    "displayName": "Azure OpenAI Service API",
     "isCurrent": true,
-    "path": "aoai",
+    "displayName": "Azure OpenAI Service API",
     "protocols": [
       "https"
     ],
