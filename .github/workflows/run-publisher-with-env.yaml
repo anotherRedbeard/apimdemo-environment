@@ -301,7 +301,6 @@ jobs:
       - uses: matt-ball/newman-action@master
         with:
           collection: ./postman-collections/api-test-1.json
-          environment: postman_environment.json
           reporters: '["emojitrain"]'
           envVar: '[{ "aad-tenant-id": "${{ secrets.AZURE_TENANT_ID }}", "aad-frontend-client-id": "${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}" }]'
           
