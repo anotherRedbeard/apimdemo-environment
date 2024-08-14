@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ad021358-4f24-4987-bd33-ea959c50c0fd",
+		"_postman_id": "1c24e130-a926-4392-92c2-648e298b30a6",
 		"name": "APIM Testing Demo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "92980"
+		"_uid": "92980-1c24e130-a926-4392-92c2-648e298b30a6"
 	},
 	"item": [
 		{
@@ -16,10 +16,12 @@
 							"var jsonData = pm.response.json();",
 							"pm.environment.set('aad-token', jsonData.access_token);"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"id": "d58709ea-2af3-4206-93a7-a873e7e6b830"
 					}
 				}
 			],
+			"id": "92b72493-93d1-453a-86d2-e44059503097",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -68,6 +70,7 @@
 		},
 		{
 			"name": "AOAI Completion",
+			"id": "35e89075-fe55-45bf-9816-fced7fd3d551",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -121,10 +124,12 @@
 							"    pm.expect(pm.response.code).to.be.equal(200);",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"id": "a110006f-b95b-4ea8-9ce2-9d391b38f73e"
 					}
 				}
 			],
+			"id": "62259edc-7f66-42ea-9e45-201cb17b3e4c",
 			"request": {
 				"auth": {
 					"type": "noauth"
