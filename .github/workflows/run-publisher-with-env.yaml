@@ -304,12 +304,15 @@ jobs:
           mkdir -p testResults
 
       # Run the POSTMAN collection tests
-      - uses: matt-ball/newman-action@master
-        with:
-          collection: ./postman-collections/api-test-1.json
-          reporters: '["cli"]'
-          #envVar: '[{ "aad-tenant-id": "${{ env.TENANT_ID }}", "aad-frontend-client-id": "${{ env.FRONTEND_CLIENT_ID }}", "aad-backend-clien-id": "${{ env.BACKEND_CLIENT_ID }}", "aad-frontend-client-secret": "${{ env.FRONTEND_CLIENT_SECRET }}", "scus-subscription-key", "${{ env.SUBSCRIPTION_KEY }}", "apim-uri", "${{ env.APIM_URI }}"}]'
-          
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
+        run: |
+          postman collection run "${{ github.workspace }}/postman/collections/APIM Testing Demo.json" -e "92980-65a1361f-6b4d-4a33-8cd5-eac3be7e4914" --integration-id "167233-${{ github.run_id }}"
+
       #- name: Run Postman tests
       #  env:
       #    TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
