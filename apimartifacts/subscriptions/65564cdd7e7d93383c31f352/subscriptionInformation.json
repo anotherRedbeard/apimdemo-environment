@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Andrew-Starter",
+    "scope": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/products/starter",
+    "allowTracing": false,
+    "ownerId": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/users/65555a9d217d201b1c89e9a9",
+    "state": "active"
+  }
+}

@@ -1,11 +1,11 @@
 {
   "properties": {
+    "path": "health-check",
     "apiRevision": "1",
     "authenticationSettings": {},
     "description": "",
-    "displayName": "Health Check",
     "isCurrent": true,
-    "path": "health-check",
+    "displayName": "Health Check",
     "protocols": [
       "https"
     ],

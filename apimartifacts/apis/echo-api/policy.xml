@@ -16,6 +16,9 @@
 		<set-variable name="claim1" value="Echo.Use" />
 		<!--<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />-->
 		<include-fragment fragment-id="entraid-validate-jwt-dynamic-scopes-v1" />
+		<ip-filter action="allow">
+			<address-range from="1.1.1.1" to="1.1.1.1" />
+		</ip-filter>
 	</inbound>
 	<backend>
 		<base />

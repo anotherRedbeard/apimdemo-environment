@@ -1,5 +1,6 @@
 {
   "properties": {
+    "path": "echo",
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2": {
@@ -8,9 +9,8 @@
       }
     },
     "description": "test",
-    "displayName": "Echo API",
     "isCurrent": true,
-    "path": "echo",
+    "displayName": "Echo API",
     "protocols": [
       "https"
     ],

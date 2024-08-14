@@ -1,10 +1,12 @@
 {
   "properties": {
+    "loggerType": "azureEventHub",
     "credentials": {
+      "endpointAddress": "brd-scus-apim-eh-dev.servicebus.windows.net",
+      "identityClientId": "{{66672b71463461136c78195a}}",
       "name": "myeventhub"
     },
     "description": "adding a new logger with system assigned managed identity",
-    "isBuffered": true,
-    "loggerType": "azureEventHub"
+    "isBuffered": true
   }
 }

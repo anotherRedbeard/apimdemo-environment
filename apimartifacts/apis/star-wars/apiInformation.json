@@ -1,5 +1,6 @@
 {
   "properties": {
+    "path": "sw",
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2": {
@@ -8,9 +9,8 @@
       }
     },
     "description": "Star Wars proxy",
-    "displayName": "Star Wars",
     "isCurrent": true,
-    "path": "sw",
+    "displayName": "Star Wars",
     "protocols": [
       "https"
     ],

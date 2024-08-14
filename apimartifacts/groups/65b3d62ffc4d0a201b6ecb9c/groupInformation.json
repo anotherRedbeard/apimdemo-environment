@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "All Company",
+    "description": "This is the default group for everyone in the network",
+    "externalId": "aad://mngenvmcap084427.onmicrosoft.com/groups/a8ed548d-53d3-479b-ba09-ae1f957e6e2b",
+    "type": "external"
+  }
+}
