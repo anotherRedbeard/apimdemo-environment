@@ -19,6 +19,12 @@ on:
 env:
   apiops_release_version: ${{ vars.APIOPS_VERSION }}
   Logging__LogLevel__Default: ${{ vars.LOG_LEVEL }}
+  TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  FRONTEND_CLIENT_ID: ${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}
+  FRONTEND_CLIENT_SECRET: ${{ secrets.API_TESTING_FRONTEND_CLIENT_SECRET }}
+  BACKEND_CLIENT_ID: ${{ secrets.API_TESTING_BACKEND_CLIENT_ID }}
+  SUBSCRIPTION_KEY: ${{ secrets.APIM_TESTING_SUBSCRIPTION_KEY }}
+  APIM_URI: ${{ vars.APIM_SERVICE_NAME }}.azure-api.net
   
 jobs:
   build:
@@ -302,7 +308,7 @@ jobs:
         with:
           collection: ./postman-collections/api-test-1.json
           reporters: '["emojitrain"]'
-          envVar: '[{ "aad-tenant-id": "${{ secrets.AZURE_TENANT_ID }}", "aad-frontend-client-id": "${{ secrets.API_TESTING_FRONTEND_CLIENT_ID }}" }]'
+          envVar: '[{ "aad-tenant-id": "${{ env.TENANT_ID }}", "aad-frontend-client-id": "${{ env.FRONTEND_CLIENT_ID }}", "aad-backend-clien-id": "${{ env.BACKEND_CLIENT_ID }}", "aad-frontend-client-secret": "${{ env.FRONTEND_CLIENT_SECRET }}", "scus-subscription-key", "${{ env.SUBSCRIPTION_KEY }}", "apim-uri", "${{ env.APIM_URI }}"}]'
           
       #- name: Run Postman tests
       #  env:
