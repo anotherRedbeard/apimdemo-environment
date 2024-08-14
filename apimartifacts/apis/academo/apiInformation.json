@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "academo",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "",
+    "isCurrent": true,
+    "displayName": "ACADemo",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://brd-private-todo-app.livelysky-edba692f.southcentralus.azurecontainerapps.io/api",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

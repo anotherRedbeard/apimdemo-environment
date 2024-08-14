@@ -1,0 +1,24 @@
+{
+  "properties": {
+    "path": "echo",
+    "apiRevision": "1",
+    "authenticationSettings": {
+      "oAuth2": {
+        "authorizationServerId": "aad-oauth",
+        "scope": "api://4a9079d1-1f5a-401a-afce-432bf31e4beb/Echo.Use"
+      }
+    },
+    "description": "test",
+    "isCurrent": true,
+    "displayName": "Echo API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "http://echoapi.cloudapp.net/api",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
