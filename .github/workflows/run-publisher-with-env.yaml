@@ -53,7 +53,14 @@ jobs:
         # specify environment specific secrets to be replaced. For example the QA environment could have a different set sercrets to
         # replace within the configuration.[environment].yaml file
         env:
-          testSecretValue: ${{ vars.AZURE_RG_NAME }}
+          appInsightsLoggerKey: ${{ secrets.APPINSIGHTS_LOGGER_KEY }}
+          b2cAudience: ${{ secrets.B2C_AUDIENCE }}
+          b2cIssuerGuid: ${{ secrets.B2C_ISSUER_GUID }}
+          azureOpenAIKey: ${{ secrets.AZURE_OPENAI_KEY }}
+          allowedIPAddress: ${{ secrets.ALLOWED_IP_ADDRESS }}
+          entraidBackendAudience: ${{ secrets.ENTRAID_BACKEND_AUDIENCE }}
+          entraidTenant: ${{ secrets.ENTRAID_TEANANT }}
+          frontDoorId: ${{ secrets.FRONT_DOOR_ID }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')

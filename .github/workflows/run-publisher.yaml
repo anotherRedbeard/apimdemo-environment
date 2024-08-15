@@ -48,4 +48,5 @@ jobs:
     with:
       API_MANAGEMENT_ENVIRONMENT: dev # change this to match the dev environment created in settings
       API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts # change this to the artifacts folder
+      CONFIGURATION_YAML_PATH: configuration.dev.yaml # change this to the configuration file
     secrets: inherit

@@ -1,0 +1,43 @@
+apimServiceName: red-scus-apimdemo-dev
+namedValues:
+  - name: 66672b71463461136c78195a
+    properties:
+      displayName: Logger-Credentials--66672b71463461136c78195b
+      value: SystemAssigned
+  - name: 655686af217d201b1c89ecc2
+    properties:
+      displayName: Logger-Credentials--655686af217d201b1c89ecc3
+      value: "{#appInsightsLoggerKey#}"
+  - name: aadb2c-audience
+    properties:
+      displayName: aadb2c-audience
+      value: "{#b2cAudience#}"
+  - name: aadb2c-issuer-guid
+    properties:
+      displayName: aadb2c-issuer-guid
+      value: "{#b2cIssuerGuid#}"
+  - name: allowed-ip-address
+    properties:
+      displayName: allowed-ip-address
+      value: "{#allowedIPAddress#}"
+  - name: AzureOpenAIKey
+    properties:
+      displayName: AzureOpenAIKey
+      value: "{#azureOpenAIKey#}"
+  - name: entraid-backend-audience
+    properties:
+      displayName: entraid-backend-audience
+      value: "{#entraidBackendAudience#}"
+  - name: entraid-tenant
+    properties:
+      displayName: entraid-tenant
+      value: "{#entraidTenant#}"
+  - name: FrontDoorId
+    properties:
+      displayName: FrontDoorId
+      value: "{#frontDoorId#}"
+  - name: test
+    properties:
+      displayName: signingKey
+      keyVault: 
+        secretIdentifier: https://red-scus-apimdemo-kv-prd.vault.azure.net/secrets/APIM-signing-key
