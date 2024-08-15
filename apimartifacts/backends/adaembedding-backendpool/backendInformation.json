@@ -1,6 +1,7 @@
 {
   "properties": {
     "description": "Load balancer for ada backends",
+    "protocol": "http",
     "type": "Pool",
     "url": "https://www.backend-pool.com"
   }
