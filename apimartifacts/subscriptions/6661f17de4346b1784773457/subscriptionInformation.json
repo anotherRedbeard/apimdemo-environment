@@ -1,9 +1,0 @@
-{
-  "properties": {
-    "displayName": "test",
-    "scope": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/products/unlimited",
-    "allowTracing": false,
-    "ownerId": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/Microsoft.ApiManagement/service/brd-scus-apimdemo-dev/users/6661efc7463461136c7815f6",
-    "state": "active"
-  }
-}
