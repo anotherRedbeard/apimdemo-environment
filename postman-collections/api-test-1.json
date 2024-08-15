@@ -22,6 +22,9 @@
 				}
 			],
 			"id": "92b72493-93d1-453a-86d2-e44059503097",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -71,6 +74,9 @@
 		{
 			"name": "AOAI Completion",
 			"id": "35e89075-fe55-45bf-9816-fced7fd3d551",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [
@@ -90,14 +96,15 @@
 					"raw": "{\n  \"prompt\": \"Complete the following phrase:  shave and a haircut  \",\n  \"max_tokens\": 800,\n  \"temperature\": 0.7,\n  \"frequency_penalty\": 0,\n  \"presence_penalty\": 0,\n  \"top_p\": 0.95,\n  \"stop\": null\n}"
 				},
 				"url": {
-					"raw": "https://{{apim-uri}}/aoai/my-davinci-3/completions?api-version=2023-09-15-preview",
+					"raw": "https://{{apim-uri}}/aoai/deployments/gpt35-model/completions?api-version=2023-09-15-preview",
 					"protocol": "https",
 					"host": [
 						"{{apim-uri}}"
 					],
 					"path": [
 						"aoai",
-						"my-davinci-3",
+						"deployments",
+						"gpt35-model",
 						"completions"
 					],
 					"query": [
@@ -130,6 +137,9 @@
 				}
 			],
 			"id": "62259edc-7f66-42ea-9e45-201cb17b3e4c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "noauth"
