@@ -31,10 +31,11 @@ paths:
   /film:
     get:
       summary: Get Film
+      description: Get Film
       operationId: get-film
       responses:
         '200':
-          description: 
+          description: ''
 components:
   securitySchemes:
     apiKeyHeader:
