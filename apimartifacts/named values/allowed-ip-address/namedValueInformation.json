@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "displayName": "allowed-ip-address",
+    "secret": true,
+    "tags": []
+  }
+}
