@@ -309,18 +309,9 @@ jobs:
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
       - name: Login to Postman CLI
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-      - name: Run API tests
+      - name: Run API testis
         run: |
-          postman collection run "${{ github.workspace }}/postman-collections/api-test-1.json" 
-            --env-var "aad-tenant-id=${{ env.TENANT_ID }}" 
-            --env-var "aad-frontend-client-id=${{ env.FRONTEND_CLIENT_ID }}" 
-            --env-var "aad-backend-client-id=${{ env.BACKEND_CLIENT_ID }}" 
-            --env-var "aad-frontend-client-secret=${{ env.FRONTEND_CLIENT_SECRET }}" 
-            --env-var "scus-subscription-key=${{ env.SUBSCRIPTION_KEY }}"  
-            --env-var "apim-uri=${{ env.APIM_URI }}"
-            --integration-id "167233-${{ github.run_id }}"
-          # Lint your API using Postman CLI
-          postman api lint 3ae6e1e2-f21d-467b-9864-ab8f39555305 --integration-id 167233
+          postman collection run "${{ github.workspace }}/postman-collections/api-test-1.json" --env-var "aad-tenant-id=${{ env.TENANT_ID }}" --env-var "aad-frontend-client-id=${{ env.FRONTEND_CLIENT_ID }}" --env-var "aad-backend-client-id=${{ env.BACKEND_CLIENT_ID }}" --env-var "aad-frontend-client-secret=${{ env.FRONTEND_CLIENT_SECRET }}" --env-var "scus-subscription-key=${{ env.SUBSCRIPTION_KEY }}"  --env-var "apim-uri=${{ env.APIM_URI }}" --integration-id "167233-${{ github.run_id }}"
       #- name: Run Postman tests
       #  env:
       #    TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

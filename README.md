@@ -53,7 +53,11 @@ For full documentation steps of how to setup and run APIOps, it would be best to
 
 ### Automated Testing with Postman Collection
 
-todo:  add details of automated testing with postman collections
+For the test automation using Postman Collections this repo is taking advantage of the [Postman CLI](https://learning.postman.com/docs/postman-cli/postman-cli-overview/). Previously we were using Newman, but now have switched over to use the CLI as it supports interaction with the Postman UI.
+
+This is what we followed to [integration Postman with GitHub Actions](https://learning.postman.com/docs/integrations/available-integrations/ci-integrations/github-actions/#configuring-the-postman-cli-for-github-actions).  We already had a folder named `postman-collections` so we did need to configure that differently in the setup. This integration also creates a `.postman` folder in your repo that has config files that get auto-generated so you don't have to change anything there.
+
+Finally we are not using the `postman api lint` command since we don't have a need for it, but also we don't want to keep up with the api definition in code for our purposes.
 
 ### APIM GenAI Gateway
 
