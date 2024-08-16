@@ -47,3 +47,7 @@ loggers:
       loggerType: azureEventHub
       credentials:
         endpointAddress: "red-scus-apim-eh-dev.servicebus.windows.net"
+        identityClientId: {{66672b71463461136c78195a}}
+        name: myeventhub
+      isBuffered: true
+      description: "adding a new logger with system assigned managed identity"
