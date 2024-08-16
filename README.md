@@ -3,11 +3,17 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 
 ## Prerequisites
 
+- First and foremost, you will need an Azure API Management instance up and running.
+  - If you don't have one, you can take a look at my bicep files to deploy the infrastructure that we use to setup this demo environment.
+  - [Bicep Samples](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep)
+
 - You will need to create a new client_id and secret on an existing or new service principal.
   - Here is the command to create the new service principal
+
     ```# Bash script
       az ad sp create-for-rbac --name myServicePrincipalName1 --role reader --scopes /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG1
     ```
+
 - Create environments for each of the apim instances under *{repository} -> Settings -> Environments* with the below secrets:
 
     | Secret Name | Description |

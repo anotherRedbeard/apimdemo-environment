@@ -18,9 +18,9 @@ This directory contains bicep templates that are used for various tasks in this 
 
     `create-apim-backend.bicep` is the main template to create a new backend in APIM.
 
-3. **Create base APIM instance**
+3. **Create APIMDemo APIM instance**
 
-    `create-base-apim.bicep` is the main template to create a base developer instance of API Management. I will be adding to this any dependency that I need to recreate my dev environment.
+    `create-apimdemo-resource.bicep` is the main template to create a demo developer instance of API Management.
 
     What's Included:
 
@@ -29,6 +29,14 @@ This directory contains bicep templates that are used for various tasks in this 
     - Identities for the developer portal *(coming soon)*
     - OAuth2.0 servers to handle authentication *(coming soon)*
     - Diagnostic Loggers *(coming soon)*
+
+4. **Create base APIM instance**
+
+    `create-base-apim.bicep` is the main template to create a base developer instance of API Management. 
+
+    What's Included:
+
+    - Developer sku of API management
 
 ## Deploying with Bicep
 

@@ -45,4 +45,4 @@ loggers:
     - name: EventHubLogger1
       properties:
         credentials:
-          identityClientId: "{{Logger-Credentials--639121f85ddd1701d02ea240}}"
+          identityClientId: "{{Logger-Credentials--66672b71463461136c78195b}}"
