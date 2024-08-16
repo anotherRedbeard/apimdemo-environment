@@ -41,3 +41,8 @@ namedValues:
       displayName: signingKey
       keyVault: 
         secretIdentifier: https://red-scus-apimdemo-kv-prd.vault.azure.net/secrets/APIM-signing-key
+loggers:
+    - name: EventHubLogger1
+      properties:
+        credentials:
+          identityClientId: "{{Logger-Credentials--639121f85ddd1701d02ea240}}"
