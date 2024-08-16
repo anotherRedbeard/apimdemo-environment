@@ -2,7 +2,7 @@
   "properties": {
     "loggerType": "azureEventHub",
     "credentials": {
-      "endpointAddress": "brd-scus-apim-eh-dev.servicebus.windows.net",
+      "endpointAddress": "red-scus-apim-eh-dev.servicebus.windows.net",
       "identityClientId": "{{66672b71463461136c78195a}}",
       "name": "myeventhub"
     },
