@@ -1,6 +1,6 @@
 {
   "properties": {
-    "displayName": "entraid-tenant-domain",
+    "displayName": "entraid-tenant-group-allCompany-id",
     "secret": true,
     "tags": []
   }

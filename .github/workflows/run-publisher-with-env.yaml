@@ -60,7 +60,7 @@ jobs:
           allowedIPAddress: ${{ secrets.ALLOWED_IP_ADDRESS }}
           entraidBackendAudience: ${{ secrets.ENTRAID_BACKEND_AUDIENCE }}
           entraidTenant: ${{ secrets.ENTRAID_TEANANT }}
-          entraidTenantDomain: ${{ secrets.ENTRAID_TEANANT_DOMAIN }}
+          entraidTenantGroupAllCompanyId: ${{ secrets.ENTRAID_TEANANT_GROUP_ALLCOMPANY_ID }}
           frontDoorId: ${{ secrets.FRONT_DOOR_ID }}
 
       - name: Run publisher without Config Yaml but with Commit ID

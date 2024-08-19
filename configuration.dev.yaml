@@ -34,8 +34,8 @@ namedValues:
       value: "{#entraidTenant#}"
   - name: entraid-tenant-domain
     properties:
-      displayName: entraid-tenant-domain
-      value: "{#entraidTenantDomain#}"
+      displayName: entraid-tenant-group-allCompany-id
+      value: "{#entraidTenantGroupAllCompanyId#}"
   - name: FrontDoorId
     properties:
       displayName: FrontDoorId
@@ -53,4 +53,4 @@ loggers:
 groups:
   - name: 65b3d62ffc4d0a201b6ecb9c
     properties:
-      externalId: "aad://{{entraid-tenant-domain}}/groups/{{entraid-tenant}}"
+      externalId: "{{entraid-tenant-group-allCompany-id}}"
