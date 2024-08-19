@@ -32,6 +32,10 @@ namedValues:
     properties:
       displayName: entraid-tenant
       value: "{#entraidTenant#}"
+  - name: entraid-tenant-domain
+    properties:
+      displayName: entraid-tenant-domain
+      value: "{#entraidTenantDomain#}"
   - name: FrontDoorId
     properties:
       displayName: FrontDoorId
@@ -42,7 +46,11 @@ namedValues:
       keyVault: 
         secretIdentifier: https://red-scus-apimdemo-kv-prd.vault.azure.net/secrets/APIM-signing-key
 loggers:
-    - name: EventHubLogger1
-      properties:
-        credentials:
-          identityClientId: "{{Logger-Credentials--66672b71463461136c78195b}}"
+  - name: EventHubLogger1
+    properties:
+      credentials:
+        identityClientId: "{{Logger-Credentials--66672b71463461136c78195b}}"
+groups:
+  - name: 65b3d62ffc4d0a201b6ecb9c
+    properties:
+      externalId: "aad://{{entraid-tenant-domain}}/groups/{{entraid-tenant}}"
