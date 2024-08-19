@@ -95,6 +95,7 @@ module service 'br/public:avm/res/api-management/service:0.1.7' = {
         authority: 'login.windows.net'
         clientId: clientId
         clientSecret: clientSecret
+        clientLibrary: 'MSAL-2'
         name: 'aad'
         signinTenant: tenantName
       }
