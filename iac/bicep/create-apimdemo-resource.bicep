@@ -41,6 +41,9 @@ param clientSecret string
 @description('The tenant name for the identity provider.')
 param tenantName string = '<tenantName>'
 
+@description('The main endpoint url for the auth server.')
+param authServerEndpointUrl string = '<authServerEndpointUrl>'
+
 //event hub resource
 module namespace 'br/public:avm/res/event-hub/namespace:0.4.0' = {
   name: 'namespaceDeployment'
@@ -85,8 +88,30 @@ module service 'br/public:avm/res/api-management/service:0.1.7' = {
     publisherEmail: adminEmail
     publisherName: orgName
     // Non-required parameters
-    sku: apimSku
-    skuCount: apimCapacity
+    authorizationServers: {
+      secureList: [
+        {
+          authorizationEndpoint: '${authServerEndpointUrl}/oauth2/v2.0/authorize'
+          authorizationMethods: [
+            'GET'
+            'POST'
+          ]
+          clientAuthenticationMethod: [
+            'Body'
+          ]
+          clientId: clientId
+          clientRegistrationEndpoint: 'https://localhost'
+          clientSecret: clientSecret
+          defaultScope: 'User.Read'
+          grantTypes: [
+            'authorizationCode'
+            'authorizationCodeWithPkce'
+          ]
+          name: 'AAD-OAuth'
+          tokenEndpoint: '${authServerEndpointUrl}/oauth2/v2.0/token'
+        }
+      ]
+    }
     identityProviders: [
       {
         allowedTenants: [
@@ -104,5 +129,7 @@ module service 'br/public:avm/res/api-management/service:0.1.7' = {
     managedIdentities: {
       systemAssigned: true
     }
+    sku: apimSku
+    skuCount: apimCapacity
   }
 }

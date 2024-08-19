@@ -2,12 +2,6 @@
   "properties": {
     "path": "sw",
     "apiRevision": "1",
-    "authenticationSettings": {
-      "oAuth2": {
-        "authorizationServerId": "aadb2c-oauth",
-        "scope": "StarWars.Use"
-      }
-    },
     "description": "Star Wars proxy",
     "isCurrent": true,
     "displayName": "Star Wars",
