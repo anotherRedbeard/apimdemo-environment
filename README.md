@@ -1,11 +1,12 @@
 # apimdemo-environment
+
 This is the repo that holds everything I need to setup a new apimdemo environment.  I keep this around in case I need to stand my demo back up in short order.
 
 ## Prerequisites
 
 - First and foremost, you will need an Azure API Management instance up and running.
   - If you don't have one, you can take a look at my bicep files to deploy the infrastructure that we use to setup this demo environment.
-  - [Bicep Samples](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep)
+  - [Bicep Samples](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep) - The APIMDemo bicep should contain all that you need to get the infrastructure setup. Any manual steps that need to be executed will be listed in the [Bicep Readme](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep)
 
 - You will need to create a new client_id and secret on an existing or new service principal.
   - Here is the command to create the new service principal

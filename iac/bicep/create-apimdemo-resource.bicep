@@ -31,6 +31,16 @@ param eventHubNS string = 'eventHubNS'
 @description('The name of the eventhub instance.')
 param eventHubName string = 'eventHubName'
 
+@description('Client Id for the identity provider.')
+param clientId string = '<clientId>'
+
+@description('Client Secret for the identity provider.')
+@secure()
+param clientSecret string
+
+@description('The tenant name for the identity provider.')
+param tenantName string = '<tenantName>'
+
 //event hub resource
 module namespace 'br/public:avm/res/event-hub/namespace:0.4.0' = {
   name: 'namespaceDeployment'
@@ -76,7 +86,19 @@ module service 'br/public:avm/res/api-management/service:0.1.7' = {
     publisherName: orgName
     // Non-required parameters
     sku: apimSku
-    skuCount: apimCapacity 
+    skuCount: apimCapacity
+    identityProviders: [
+      {
+        allowedTenants: [
+          tenantName
+        ]
+        authority: 'login.windows.net'
+        clientId: clientId
+        clientSecret: clientSecret
+        name: 'aad'
+        signinTenant: tenantName
+      }
+    ]
     location: location
     managedIdentities: {
       systemAssigned: true

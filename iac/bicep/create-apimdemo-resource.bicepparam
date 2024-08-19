@@ -8,3 +8,6 @@ param apimSku = 'Developer'
 param apimCapacity = 1
 param eventHubNS = 'eventHubNS'
 param eventHubName = 'eventHubName'
+param clientId = '<clientId>'
+param clientSecret = '<clientSecret>'
+param tenantName = '<tenantName>'

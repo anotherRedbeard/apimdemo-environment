@@ -22,13 +22,21 @@ This directory contains bicep templates that are used for various tasks in this 
 
     `create-apimdemo-resource.bicep` is the main template to create a demo developer instance of API Management.
 
+    Prerequisites:
+    - You will need to fill out the bicep parameter file and in some cases create resources for that. For example, you will need an app registration to get the client id and secret
+
     What's Included:
 
     - Developer sku of API management
     - Application Insights *(coming soon)*
     - Identities for the developer portal *(coming soon)*
+      - This will require an app registration with at least `User.Read.All` and `Group.Read.All`. You can read more here to create the [app registrations](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-aad#manually-enable-microsoft-entra-application-and-identity-provider) to this setup if you have questions.
     - OAuth2.0 servers to handle authentication *(coming soon)*
     - Diagnostic Loggers *(coming soon)*
+
+    Manual Steps (We hope to fully automate this):
+
+    - You will need to grant the `Azure Event Hubs Data Sender` role to the Managed Identity for the Event Hub that gets created in this bicep to the Azure API Management Managed Identity
 
 4. **Create base APIM instance**
 
