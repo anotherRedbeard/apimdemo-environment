@@ -12,12 +12,13 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "d58709ea-2af3-4206-93a7-a873e7e6b830",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.environment.set('aad-token', jsonData.access_token);"
 						],
 						"type": "text/javascript",
-						"id": "d58709ea-2af3-4206-93a7-a873e7e6b830"
+						"packages": {}
 					}
 				}
 			],
@@ -48,7 +49,7 @@
 						},
 						{
 							"key": "scope",
-							"value": "api://{{aad-backend-client-id}}/.default",
+							"value": "api://apimdemo-backend/.default",
 							"type": "text"
 						}
 					]
