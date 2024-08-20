@@ -44,6 +44,9 @@ param tenantName string = '<tenantName>'
 @description('The main endpoint url for the auth server.')
 param authServerEndpointUrl string = '<authServerEndpointUrl>'
 
+@description('Name of the APIM keyvault.')
+param apimKeyVaultName string = '<apimKeyVaultName>'
+
 //event hub resource
 module namespace 'br/public:avm/res/event-hub/namespace:0.4.0' = {
   name: 'namespaceDeployment'
@@ -131,5 +134,31 @@ module service 'br/public:avm/res/api-management/service:0.1.7' = {
     }
     sku: apimSku
     skuCount: apimCapacity
+  }
+}
+
+module vault 'br/public:avm/res/key-vault/vault:0.7.1' = {
+  name: 'vaultDeployment'
+  params: {
+    // Required parameters
+    name: apimKeyVaultName
+    // Non-required parameters
+    enablePurgeProtection: false
+    enableRbacAuthorization: true
+    location: location
+    roleAssignments: [
+      {
+        principalId: service.outputs.systemAssignedMIPrincipalId
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Key Vault Secrets User'
+      }
+    ]
+    secrets: [
+      {
+        contentType: 'Id'
+        name: 'favoritePerson'
+        value: '3'
+      }
+    ]
   }
 }

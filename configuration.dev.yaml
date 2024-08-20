@@ -46,9 +46,9 @@ namedValues:
       value: "{#frontDoorId#}"
   - name: test
     properties:
-      displayName: signingKey
+      displayName: test
       keyVault: 
-        secretIdentifier: https://red-scus-apimdemo-kv-prd.vault.azure.net/secrets/APIM-signing-key
+        secretIdentifier: https://red-scus-apimdemo-kv.vault.azure.net/secrets/favoritePerson
 loggers:
   - name: EventHubLogger1
     properties:
