@@ -24,6 +24,10 @@ namedValues:
     properties:
       displayName: AzureOpenAIKey
       value: "{#azureOpenAIKey#}"
+  - name: entra-frontend-client-id
+    properties:
+      displayName: entra-frontend-client-id
+      value: "ffb6be58-c386-42f8-81f2-3dc51f9b5d33"
   - name: entraid-backend-audience
     properties:
       displayName: entraid-backend-audience
