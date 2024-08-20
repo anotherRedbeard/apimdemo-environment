@@ -78,4 +78,4 @@ diagnostics:
     - name: applicationinsights
       properties:
         verbosity: Error
-        loggerId: "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apiopsdemo-rg-dev/providers/Microsoft.ApiManagement/service/brd-apim-dev/loggers/red-scus-apim-ai-dev"
+        loggerId: "/subscriptions/{{subscription-id}}/resourceGroups/{{resource-group-name}}/providers/Microsoft.ApiManagement/service/res-scus-apimdemo-dev/loggers/red-scus-apimdemo-appinsights"
