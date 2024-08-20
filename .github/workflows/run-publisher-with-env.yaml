@@ -63,7 +63,7 @@ jobs:
           entraidTenantGroupAllCompanyId: ${{ secrets.ENTRAID_TEANANT_GROUP_ALLCOMPANY_ID }}
           frontDoorId: ${{ secrets.FRONT_DOOR_ID }}
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resource-group-name: ${{ vars.AZURE_RG_NAME }}
+          resourceGroupName: ${{ vars.AZURE_RG_NAME }}
 
       - name: Run publisher without Config Yaml but with Commit ID
         if: ( inputs.CONFIGURATION_YAML_PATH == '' &&  inputs.COMMIT_ID != '')
