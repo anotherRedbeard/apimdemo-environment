@@ -75,7 +75,11 @@ groups:
     properties:
       externalId: "{{entraid-tenant-group-allCompany-id}}"
 diagnostics:
-    - name: applicationinsights
-      properties:
-        verbosity: Error
-        loggerId: "/subscriptions/{{subscription-id}}/resourceGroups/{{resource-group-name}}/providers/Microsoft.ApiManagement/service/res-scus-apimdemo-dev/loggers/red-scus-apimdemo-appinsights"
+  - name: applicationinsights
+    properties:
+      verbosity: Error
+      loggerId: "/subscriptions/{{subscription-id}}/resourceGroups/{{resource-group-name}}/providers/Microsoft.ApiManagement/service/res-scus-apimdemo-dev/loggers/red-scus-apimdemo-appinsights"
+  - name: azuremonitor
+    properties:
+      loggerId: "/subscriptions/{{subscription-id}}/resourceGroups/{{resource-group-name}}/providers/Microsoft.ApiManagement/service/res-scus-apimdemo-dev/loggers/azuremonitor"
+    
