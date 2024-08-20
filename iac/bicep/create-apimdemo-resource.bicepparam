@@ -13,3 +13,6 @@ param clientSecret = '<clientSecret>'
 param tenantName = '<tenantName>'
 param authServerEndpointUrl = '<authServerEndpointUrl>'
 param apimKeyVaultName = '<apimKeyVaultName>'
+param lawName = '<lawName>'
+param appInsightsName = '<appInsightsName>'
+

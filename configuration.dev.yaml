@@ -44,6 +44,14 @@ namedValues:
     properties:
       displayName: FrontDoorId
       value: "{#frontDoorId#}"
+  - name: subscription-id
+    properties:
+      displayName: subscription-id
+      value: "{#subscriptionId#}"
+  - name: resource-group-name
+    properties:
+      displayName: resource-group-name
+      value: "{#resourceGroupName#}"
   - name: test
     properties:
       displayName: test
@@ -54,7 +62,20 @@ loggers:
     properties:
       credentials:
         identityClientId: "{{Logger-Credentials--66672b71463461136c78195b}}"
+  - name: brd-scus-apim-ai-dev
+    properties:
+      loggerType: applicationInsights
+      description: App insights logger info
+      resourceId: "/subscriptions/{{subscription-id}}/resourceGroups/{{resource-group-name}}/providers/microsoft.insights/components/res-scus-apimdemo-appinsights"
+      credentials:
+        instrumentationKey: "{{Logger-Credentials--655686af217d201b1c89ecc3}}"
+      isBuffered: true
 groups:
   - name: 65b3d62ffc4d0a201b6ecb9c
     properties:
       externalId: "{{entraid-tenant-group-allCompany-id}}"
+diagnostics:
+    - name: applicationinsights
+      properties:
+        verbosity: Error
+        loggerId: "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apiopsdemo-rg-dev/providers/Microsoft.ApiManagement/service/brd-apim-dev/loggers/red-scus-apim-ai-dev"

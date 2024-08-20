@@ -47,6 +47,12 @@ param authServerEndpointUrl string = '<authServerEndpointUrl>'
 @description('Name of the APIM keyvault.')
 param apimKeyVaultName string = '<apimKeyVaultName>'
 
+@description('Name of the log analytics workspace.')
+param lawName string = '<lawName>'
+
+@description('Name of the app insights resource.')
+param appInsightsName string = '<appInsightsName>'
+
 //event hub resource
 module namespace 'br/public:avm/res/event-hub/namespace:0.4.0' = {
   name: 'namespaceDeployment'
@@ -160,5 +166,26 @@ module vault 'br/public:avm/res/key-vault/vault:0.7.1' = {
         value: '3'
       }
     ]
+  }
+}
+
+module workspace 'br/public:avm/res/operational-insights/workspace:0.5.0' = {
+  name: 'workspaceDeployment'
+  params: {
+    // Required parameters
+    name: lawName
+    // Non-required parameters
+    location: location
+  }
+}
+
+module component 'br/public:avm/res/insights/component:0.4.0' = {
+  name: 'componentDeployment'
+  params: {
+    // Required parameters
+    name: appInsightsName
+    workspaceResourceId: workspace.outputs.resourceId
+    // Non-required parameters
+    location: location
   }
 }
