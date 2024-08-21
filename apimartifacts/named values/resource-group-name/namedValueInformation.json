@@ -1,7 +1,0 @@
-{
-  "properties": {
-    "displayName": "resource-group-name",
-    "secret": true,
-    "tags": []
-  }
-}

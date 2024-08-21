@@ -44,14 +44,6 @@ namedValues:
     properties:
       displayName: FrontDoorId
       value: "{#frontDoorId#}"
-  - name: subscription-id
-    properties:
-      displayName: subscription-id
-      value: "{#subscriptionId#}"
-  - name: resource-group-name
-    properties:
-      displayName: resource-group-name
-      value: "{#resourceGroupName#}"
   - name: test
     properties:
       displayName: test
