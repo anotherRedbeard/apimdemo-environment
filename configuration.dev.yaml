@@ -74,4 +74,18 @@ diagnostics:
   - name: azuremonitor
     properties:
       loggerId: "/subscriptions/{#subscriptionId#}/resourceGroups/{#resourceGroupName#}/providers/Microsoft.ApiManagement/service/res-scus-apimdemo-dev/loggers/azuremonitor"
+backends:
+  - name: embeddings-backend
+    properties:
+      url: "https://red-scus-demo-oai.openai.com/openai/deployments/ada-embedding/embeddings"
+  - name: eus-backend
+    properties:
+      url: "https://red-eus-demo-oai.openai.com/openai/"
+  - name: scus-backend
+    properties:
+      url: "https://red-scus-demo-oai.openai.com/openai/"
+  - name: weu-backend
+    properties:
+      url: "https://red-weu-demo-oai.openai.com/openai/"
+
     

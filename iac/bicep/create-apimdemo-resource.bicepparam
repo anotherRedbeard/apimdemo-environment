@@ -15,4 +15,22 @@ param authServerEndpointUrl = '<authServerEndpointUrl>'
 param apimKeyVaultName = '<apimKeyVaultName>'
 param lawName = '<lawName>'
 param appInsightsName = '<appInsightsName>'
+param aoaiResources = [
+  {
+    aoaiName: 'aoaiResourceName'
+    location: 'aoaiResourceLocation'
+    deployments: {
+      model: {
+        format: 'aoaiDeploymentModelFormat'
+        name: 'aoaiDeploymentModelName'
+        version: 'aoaiDeploymentModelVersion'
+      }
+      name: 'aoaiDeploymentName'
+      sku: {
+        name: 'skuName'
+        capacity: 'skuCapacity'
+      }
+    }
+  }
+]
 

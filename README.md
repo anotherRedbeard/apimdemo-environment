@@ -17,19 +17,33 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 
 - Create environments for each of the apim instances under *{repository} -> Settings -> Environments* with the below secrets:
 
-    | Secret Name | Description |
-    | ------------- | ----------- |
-    |AZURE_CLIENT_ID|The client id of the service principal|
-    |AZURE_CLIENT_SECRET|The client secret of the service principal|
-    |AZURE_SUBSCRIPTION_ID|The subscription id of the apim resource |
-    |AZURE_TENANT_ID|The tenant id of the service principal|
+    | Secret Name | Description | Usage |
+    | ------------- | ----------- | ------------- |
+    |ALLOWED_IP_ADDRESS|This is used in an example policy to limit to a specific IP address|APIOps|
+    |APIM_TESTING_SUBSCRIPTION_KEY|Subscription key that postman will use to send the test requests to APIM and confirm the endpoints|Postman Testing Automation|
+    |API_TESTING_BACKEND_CLIENT_ID|Client id of the backend app registration for token request|Postman Testing Automation|
+    |API_TESTING_FRONTEND_CLIENT_ID|Client id of the frontend app registration for token request|Postman Testing Automation|
+    |API_TESTING_FRONTEND_CLIENT_SECRET|Client Secret from the frontend app registration so we can perform a client credential flow to test the apis|Postman Testing Automation|
+    |APPINSIGHTS_LOGGER_KEY|Instrumentation key from the app insights resource so we can connect it to the APIM resource.|APIOps|
+    |AZURE_CLIENT_ID|The client id of the service principal|APIOps|
+    |AZURE_CLIENT_SECRET|The client secret of the service principal|APIOps|
+    |AZURE_OPENAI_KEY|The AOAI key, are not using this any longer since we are authenticating via Managed Identity|GenAI Gateway AOAI|
+    |AZURE_SUBSCRIPTION_ID|The subscription id of the apim resource |APIOps|
+    |AZURE_TENANT_ID|The tenant id of the service principal|APIOps|
+    |B2C_AUDIENCE|B2C Audience for B2C auth validation|APIOps|
+    |B2C_ISSUER_GUID|B2C Issuer for B2C auth validation|APIOps|
+    |ENTRAID_BACKEND_AUDIENCE|EntraId Audience for EntraId auth validation|APIOps|
+    |ENTRAID_TENANT|EntraId Tenant Id for EntraId auth validation|APIOps|
+    |ENTRAID_TENANT_GROUP_ALLCOMPANY_ID|EntraId group id for `All Company` EntraId group for syncing|APIOps|
+    |FRONT_DOOR_ID|Azure Front Door Id that is used to ensure traffic is coming to APIM from FrontDoor in APIM Policy|APIOps|
+    |POSTMAN_API_KEY|Postman api key for automation|Postman Testing Automation|
 
-    | Variable Name | Description |
-    | ------------- | ----------- |
-    |APIM_SERVICE_NAME |The name of the APIM instance to migrate from |
-    |APIM_RG_NAME|The name of the resource group the APIM instance is in|
-    |APIOPS_VERSION|This is the version of APIOps that I am using|
-    |LOG_LEVEL|Sets the log level as to what kind of logging will be displayed in the logs.|
+    | Variable Name | Description | Usage |
+    | ------------- | ----------- | ---|
+    |APIM_SERVICE_NAME |The name of the APIM instance to migrate from |APIOps|
+    |APIM_RG_NAME|The name of the resource group the APIM instance is in|APIOps|
+    |APIOPS_VERSION|This is the version of APIOps that I am using|APIOps|
+    |LOG_LEVEL|Sets the log level as to what kind of logging will be displayed in the logs.|APIOps|
 
     *Note:* The names of the environments can be dev, stage etc. If using different names, update the run-extractor.yaml and run-publisher-with-env.yaml for the environment names. This would also be a good time to setup [deployment protection rules](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules) if you wish in the environment settings of GitHub.
 
@@ -41,7 +55,7 @@ This is the repo that holds everything I need to setup a new apimdemo environmen
 - [Postman Collections](https://www.postman.com/collection/)
 - Powershell and CLI [Scripts](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/scripts) to create infra
 - [APIM GenAI Gateway](https://techcommunity.microsoft.com/t5/azure-integration-services-blog/introducing-genai-gateway-capabilities-in-azure-api-management/ba-p/4146525)
-- [bicep](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep) to implement some of the GenAI features
+- [bicep](https://github.com/anotherRedbeard/apimdemo-environment/tree/main/iac/bicep) to implement the GenAI features as well as general infrastructure to support everything else.
 
 ### APIOps Steps
 

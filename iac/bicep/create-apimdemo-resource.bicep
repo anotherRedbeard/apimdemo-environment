@@ -53,42 +53,10 @@ param lawName string = '<lawName>'
 @description('Name of the app insights resource.')
 param appInsightsName string = '<appInsightsName>'
 
-//event hub resource
-module namespace 'br/public:avm/res/event-hub/namespace:0.4.0' = {
-  name: 'namespaceDeployment'
-  params: {
-    // Required parameters
-    name: eventHubNS
-    // Non-required parameters
-    location: location
-    managedIdentities: {
-      systemAssigned: true
-    }
-    requireInfrastructureEncryption: true
-    skuName: 'Basic'
-    authorizationRules: [
-      {
-        name: 'RootManageSharedAccessKey'
-        rights: [
-          'Listen'
-          'Manage'
-          'Send'
-        ]
-      }
-    ]
-    eventhubs: [
-      {
-        name: eventHubName
-        messageRetentionInDays: 1
-        retentionDescriptionCleanupPolicy: 'Delete'
-        retentionDescriptionRetentionTimeInHours: 3
-        partitionCount: 2
-        status: 'Active'
-      }
-    ]
-  }
-}
+@description('Array of Azure OpenAI resources with their corresponding deployments.')
+param aoaiResources array
 
+//apim instance creation
 module service 'br/public:avm/res/api-management/service:0.1.7' = {
   name: 'apimServiceDeployment'
   params: {
@@ -143,6 +111,66 @@ module service 'br/public:avm/res/api-management/service:0.1.7' = {
   }
 }
 
+//event hub resource
+module namespace 'br/public:avm/res/event-hub/namespace:0.4.0' = {
+  name: 'namespaceDeployment'
+  params: {
+    // Required parameters
+    name: eventHubNS
+    // Non-required parameters
+    location: location
+    managedIdentities: {
+      systemAssigned: true
+    }
+    requireInfrastructureEncryption: true
+    skuName: 'Basic'
+    authorizationRules: [
+      {
+        name: 'RootManageSharedAccessKey'
+        rights: [
+          'Listen'
+          'Manage'
+          'Send'
+        ]
+      }
+    ]
+    disableLocalAuth: false
+    eventhubs: [
+      {
+        authorizationRules: [
+          {
+            name: 'RootManageSharedAccessKey'
+            rights: [
+              'Listen'
+              'Manage'
+              'Send'
+            ]
+          }
+        ]
+        name: eventHubName
+        messageRetentionInDays: 1
+        retentionDescriptionCleanupPolicy: 'Delete'
+        retentionDescriptionRetentionTimeInHours: 3
+        partitionCount: 2
+        status: 'Active'
+      }
+    ]
+    networkRuleSets: {
+      defaultAction: 'Allow'
+      publicNetworkAccess: 'Enabled'
+      trustedServiceAccessEnabled: false
+    }
+    roleAssignments: [
+      {
+        principalId: service.outputs.systemAssignedMIPrincipalId
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Azure Event Hubs Data Sender'
+      }
+    ]
+  }
+}
+
+//key vault resource
 module vault 'br/public:avm/res/key-vault/vault:0.7.1' = {
   name: 'vaultDeployment'
   params: {
@@ -169,6 +197,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.7.1' = {
   }
 }
 
+//log analytics workspace resource
 module workspace 'br/public:avm/res/operational-insights/workspace:0.5.0' = {
   name: 'workspaceDeployment'
   params: {
@@ -179,6 +208,7 @@ module workspace 'br/public:avm/res/operational-insights/workspace:0.5.0' = {
   }
 }
 
+//app insights resource
 module component 'br/public:avm/res/insights/component:0.4.0' = {
   name: 'componentDeployment'
   params: {
@@ -189,3 +219,28 @@ module component 'br/public:avm/res/insights/component:0.4.0' = {
     location: location
   }
 }
+
+//create azure open ai resource
+module aoaiResource 'br/public:avm/res/cognitive-services/account:0.7.0' = [for resource in aoaiResources: {
+  name: 'openAIDeployment-${resource.aoaiName}'
+  params: {
+    // Required parameters
+    kind: 'OpenAI'
+    name: resource.aoaiName
+    // Non-required parameters
+    deployments: [for deployment in resource.deployments: {
+        model: {
+          format: deployment.model.format
+          name: deployment.model.name
+          version: deployment.model.version
+        }
+        name: deployment.name
+        sku: {
+          capacity: deployment.sku.capacity
+          name: deployment.sku.name
+        }
+      }
+    ]
+    location: resource.location
+  }
+}]
