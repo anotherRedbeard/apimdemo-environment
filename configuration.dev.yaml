@@ -58,10 +58,10 @@ namedValues:
       keyVault: 
         secretIdentifier: https://red-scus-apimdemo-kv.vault.azure.net/secrets/favoritePerson
 loggers:
-  - name: EventHubLogger1
-    properties:
-      credentials:
-        identityClientId: "{{Logger-Credentials--66672b71463461136c78195b}}"
+  #- name: EventHubLogger1
+  #  properties:
+  #    credentials:
+  #      identityClientId: "{{Logger-Credentials--66672b71463461136c78195b}}"
   - name: brd-scus-apim-ai-dev
     properties:
       loggerType: applicationInsights
