@@ -74,6 +74,21 @@
 		},
 		{
 			"name": "AOAI Completion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b346db8f-b13c-4afb-a969-949d3b4bfa38",
+						"exec": [
+							"pm.test(\"Successful GET request\", function () {",
+							"    pm.expect(pm.response.code).to.be.equal(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"id": "35e89075-fe55-45bf-9816-fced7fd3d551",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -89,6 +104,11 @@
 					{
 						"key": "Ocp-Apim-Subscription-Key",
 						"value": "{{scus-subscription-key}}",
+						"type": "text"
+					},
+					{
+						"key": "ocp-apim-trace",
+						"value": "true",
 						"type": "text"
 					}
 				],
