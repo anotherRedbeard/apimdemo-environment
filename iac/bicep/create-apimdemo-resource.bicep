@@ -231,6 +231,10 @@ module aoaiResource 'br/public:avm/res/cognitive-services/account:0.7.0' = [for 
     kind: 'OpenAI'
     name: resource.aoaiName
     // Non-required parameters
+    customSubDomainName: resource.aoaiName
+    publicNetworkAccess: 'Enabled'
+    restrictOutboundNetworkAccess: false
+    disableLocalAuth: false
     deployments: [for deployment in resource.deployments: {
         model: {
           format: deployment.model.format
@@ -245,6 +249,13 @@ module aoaiResource 'br/public:avm/res/cognitive-services/account:0.7.0' = [for 
       }
     ]
     location: resource.location
+    roleAssignments: [
+      {
+        principalId: service.outputs.systemAssignedMIPrincipalId
+        principalType: 'ServicePrincipal'
+        roleDefinitionIdOrName: 'Cognitive Services OpenAI User'
+      }
+    ]
   }
 }]
 

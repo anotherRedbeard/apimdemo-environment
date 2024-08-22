@@ -31,13 +31,72 @@ module circuitBreakerBackends './modules/apim-circuit-breaker-backends.bicep' = 
   }
 }
 
+var backendPools = [
+  {
+    poolName: 'adaembedding-backendpool'
+    poolTypeName: 'Pool'
+    services: [
+      {
+        id: circuitBreakerBackends.outputs.eusBackendId
+        priority: null
+        weight: null 
+      }
+      {
+        id: circuitBreakerBackends.outputs.scusBackendId
+        priority: null
+        weight: null 
+      }
+      {
+        id: circuitBreakerBackends.outputs.weuBackendId
+        priority: null 
+        weight: null
+      }
+    ]
+  }
+  {
+    poolName: 'gpt35-backendpool'
+    poolTypeName: 'Pool'
+    services: [
+      {
+        id: circuitBreakerBackends.outputs.eusBackendId
+        priority: null
+        weight: null 
+      }
+      {
+        id: circuitBreakerBackends.outputs.scusBackendId 
+        priority: null
+        weight: null 
+      }
+      {
+        id: circuitBreakerBackends.outputs.weuBackendId
+        priority: null 
+        weight: null
+      }
+    ]
+  }
+  {
+    poolName: 'gpt4o-backendpool'
+    poolTypeName: 'Pool'
+    services: [
+      {
+        id: circuitBreakerBackends.outputs.eusBackendId
+        priority: null
+        weight: null 
+      }
+      {
+        id: circuitBreakerBackends.outputs.scusBackendId
+        priority: null
+        weight: null 
+      }
+    ]
+  }
+]
+
 // Create Load Balancing Pools
 module loadBalancingPools './modules/apim-load-balance-backendpool.bicep' = {
   name: 'LoadBalancingPoolsDeployment'
   params: {
     apimName: apimName
-    scusBackendId: circuitBreakerBackends.outputs.scusBackendId
-    eusBackendId: circuitBreakerBackends.outputs.eusBackendId
-    weuBackendId: circuitBreakerBackends.outputs.weuBackendId
+    backends: backendPools
   }
 }

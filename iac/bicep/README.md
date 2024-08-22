@@ -69,6 +69,12 @@ Before you begin, ensure you have the following installed:
 
     `create-aoai-load-balancing.bicep` is the main template for this. Here we are creating 3 backends (these are OpenAI endpoints) in 3 different Azure regions and load balancing across each of them based on the deployment name. That is 2 backend pools, one for each deployment. This setup is using Round Robin, but there are ways to use weighted and priority in the backend pools. You can find more info in the [load balancing options](https://learn.microsoft.com/en-us/azure/api-management/backends?tabs=bicep#load-balancing-options) doc.
 
+    **Command to deploy via bicep:**
+
+    ```bash
+    az deployment group create --resource-group <resource-group-name> --name smart-loadbalancing-deployment --parameters ./iac/bicep/create-aoai-load-balancing.dev.bicepparam
+    ```
+
 2. **APIM create a backend**
 
     `create-apim-backend.bicep` is the main template to create a new backend in APIM.
