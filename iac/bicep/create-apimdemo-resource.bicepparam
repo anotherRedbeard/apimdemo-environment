@@ -33,4 +33,16 @@ param aoaiResources = [
     }
   }
 ]
-
+param backendPools = [
+  {
+    poolName: 'poolName'
+    poolTypeName: 'poolTypeName'
+    services: [
+      {
+        id: 'backendServiceId'
+        priority: 1
+        weight: 3
+      }
+    ]
+  }
+]

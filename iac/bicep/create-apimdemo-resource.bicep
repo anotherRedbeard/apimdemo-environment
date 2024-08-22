@@ -56,6 +56,9 @@ param appInsightsName string = '<appInsightsName>'
 @description('Array of Azure OpenAI resources with their corresponding deployments.')
 param aoaiResources array
 
+@description('Array of APIM backend pools that need to be setup.')
+param backendPools array
+
 //apim instance creation
 module service 'br/public:avm/res/api-management/service:0.1.7' = {
   name: 'apimServiceDeployment'
@@ -244,3 +247,12 @@ module aoaiResource 'br/public:avm/res/cognitive-services/account:0.7.0' = [for 
     location: resource.location
   }
 }]
+
+// Create Load Balancing Pools
+module loadBalancingPools './modules/apim-load-balance-backendpool.bicep' = {
+  name: 'LoadBalancingPoolsDeployment'
+  params: {
+    apimName: apimName
+    backends: backendPools
+  }
+}
