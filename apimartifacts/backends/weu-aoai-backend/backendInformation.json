@@ -1,6 +1,14 @@
 {
   "properties": {
+    "credentials": {
+      "header": {}
+    },
+    "description": "WestEurope openai backend",
     "protocol": "http",
+    "tls": {
+      "validateCertificateChain": false,
+      "validateCertificateName": false
+    },
     "url": "https://red-weu-demo-oai.openai.azure.com/openai/"
   }
 }
