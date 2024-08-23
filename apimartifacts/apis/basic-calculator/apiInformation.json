@@ -4,7 +4,7 @@
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2": {
-        "authorizationServerId": "aad-oauth",
+        "authorizationServerId": "AAD-OAuth",
         "scope": "Calculator.Use"
       }
     },

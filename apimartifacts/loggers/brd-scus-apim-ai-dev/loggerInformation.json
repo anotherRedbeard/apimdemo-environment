@@ -4,7 +4,8 @@
     "credentials": {
       "instrumentationKey": "{{Logger-Credentials--655686af217d201b1c89ecc3}}"
     },
+    "description": "App insights logger info",
     "isBuffered": true,
-    "resourceId": "/subscriptions/ac81efbd-2d16-4829-9c4c-228a17db1f32/resourceGroups/brd-scus-apim-rg/providers/microsoft.insights/components/brd-scus-apim-ai-dev"
+    "resourceId": "/subscriptions/0272c02b-5a38-4b6b-86e6-dcc4ff2ff0e8/resourceGroups/red-scus-apim-rg/providers/microsoft.insights/components/res-scus-apimdemo-appinsights"
   }
 }

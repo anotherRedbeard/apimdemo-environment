@@ -40,8 +40,8 @@
 			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
 				<set-backend-service backend-id="adaembedding-backendpool" />
 			</when>
-			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt-4o")">
-				<set-backend-service backend-id="weu-aoai-backend" />
+			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt4o-model")">
+				<set-backend-service backend-id="gpt4o-backendpool" />
 			</when>
 		</choose>
 		<!--OpenAI Policies-->
@@ -64,8 +64,8 @@
 				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
 					<set-backend-service backend-id="adaembedding-backendpool" />
 				</when>
-				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt-4o")">
-					<set-backend-service backend-id="weu-aoai-backend" />
+				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt4o-model")">
+					<set-backend-service backend-id="gpt4o-backendpool" />
 				</when>
 			</choose>
 			<forward-request buffer-request-body="true" />
