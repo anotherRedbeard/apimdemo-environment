@@ -11,77 +11,77 @@
     - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
 -->
 <policies>
-	<inbound>
-		<base />
-		<!--OpenAI Policies-->
-		<!--<set-header name="api-key" exists-action="override">
+    <inbound>
+        <base />
+        <!--OpenAI Policies-->
+        <!--<set-header name="api-key" exists-action="override">
             <value>{{AzureOpenAIKey}}</value>
         </set-header>-->
-		<authentication-managed-identity resource="https://cognitiveservices.azure.com" output-token-variable-name="managed-id-access-token" ignore-error="false" />
-		<!--There are pre-reqs to this policy that you must do in order to get this to show up in AppInsights-->
-		<!--1. An OpenAI api must be added to APIM Instance-->
-		<!--2. APIM instance must be integrated with AppInsights-->
-		<!--3. AppInsights logging must be enabled for the api you want to log-->
-		<!--4. Enable customer metrics with dimensions in AppInsights-->
-		<azure-openai-emit-token-metric namespace="AzureOpenAI">
-			<dimension name="Client IP" value="@(context.Request.IpAddress)" />
-			<dimension name="Subscription ID" />
-			<dimension name="API ID" />
-		</azure-openai-emit-token-metric>
-		<azure-openai-token-limit counter-key="@(context.Subscription.Id)" tokens-per-minute="5000" estimate-prompt-tokens="false" />
-		<!--Load Balancing-->
-		<!-- Extract deployment-id from the request URL and set it as a variable -->
-		<set-variable name="deploymentId" value="@(context.Request.MatchedParameters["deployment-id"])" />
-		<!-- Route based on the deployment-id value -->
-		<choose>
-			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt35-model")">
-				<set-backend-service backend-id="gpt35-backendpool" />
-			</when>
-			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
-				<set-backend-service backend-id="adaembedding-backendpool" />
-			</when>
-			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt-4o")">
-				<set-backend-service backend-id="weu-aoai-backend" />
-			</when>
-		</choose>
-		<!--OpenAI Policies-->
-		<set-header name="Authorization" exists-action="override">
-			<value>@("Bearer " + (string)context.Variables["managed-id-access-token"])</value>
-		</set-header>
-		<!--Semantic cache lookup-->
-		<!--<azure-openai-semantic-cache-lookup embeddings-backend-auth="system-assigned" embeddings-backend-id="embeddings-backend" score-threshold="0.05">
+        <authentication-managed-identity resource="https://cognitiveservices.azure.com" output-token-variable-name="managed-id-access-token" ignore-error="false" />
+        <!--There are pre-reqs to this policy that you must do in order to get this to show up in AppInsights-->
+        <!--1. An OpenAI api must be added to APIM Instance-->
+        <!--2. APIM instance must be integrated with AppInsights-->
+        <!--3. AppInsights logging must be enabled for the api you want to log-->
+        <!--4. Enable customer metrics with dimensions in AppInsights-->
+        <azure-openai-emit-token-metric namespace="AzureOpenAI">
+            <dimension name="Client IP" value="@(context.Request.IpAddress)" />
+            <dimension name="Subscription ID" />
+            <dimension name="API ID" />
+        </azure-openai-emit-token-metric>
+        <azure-openai-token-limit counter-key="@(context.Subscription.Id)" tokens-per-minute="5000" estimate-prompt-tokens="false" />
+        <!--Load Balancing-->
+        <!-- Extract deployment-id from the request URL and set it as a variable -->
+        <set-variable name="deploymentId" value="@(context.Request.MatchedParameters["deployment-id"])" />
+        <!-- Route based on the deployment-id value -->
+        <choose>
+            <when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt35-model")">
+                <set-backend-service backend-id="gpt35-backendpool" />
+            </when>
+            <when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
+                <set-backend-service backend-id="adaembedding-backendpool" />
+            </when>
+            <when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt4o-model")">
+                <set-backend-service backend-id="gpt4o-backendpool" />
+            </when>
+        </choose>
+        <!--OpenAI Policies-->
+        <set-header name="Authorization" exists-action="override">
+            <value>@("Bearer " + (string)context.Variables["managed-id-access-token"])</value>
+        </set-header>
+        <!--Semantic cache lookup-->
+        <!--<azure-openai-semantic-cache-lookup embeddings-backend-auth="system-assigned" embeddings-backend-id="embeddings-backend" score-threshold="0.05">
             <vary-by>@(context.Subscription.Id)</vary-by>
         </azure-openai-semantic-cache-lookup>-->
-	</inbound>
-	<backend>
-		<retry condition="@(context.Response.StatusCode == 429 || context.Response.StatusCode == 503)" count="2" interval="0" first-fast-retry="true">
-			<!-- Force an evaluation of available backends rather than retrying the failing one. -->
-			<!-- Route based on the deployment-id value -->
-			<choose>
-				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt35-model")">
-					<set-backend-service backend-id="gpt35-backendpool" />
-				</when>
-				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
-					<set-backend-service backend-id="adaembedding-backendpool" />
-				</when>
-				<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt-4o")">
-					<set-backend-service backend-id="weu-aoai-backend" />
-				</when>
-			</choose>
-			<forward-request buffer-request-body="true" />
-		</retry>
-	</backend>
-	<outbound>
-		<base />
-		<!--Semantic cache store-->
-		<azure-openai-semantic-cache-store duration="60" />
-		<!-- Add the actual backend URL to the response header -->
-		<set-header name="X-Backend-URL" exists-action="override">
-			<value>@(context.Request.Url.ToString())</value>
-		</set-header>
-		<choose>
-			<when condition="@(context.Response.StatusCode >= 200 && context.Response.StatusCode < 300)">
-				<log-to-eventhub logger-id="EventHubLogger1">@{
+    </inbound>
+    <backend>
+        <retry condition="@(context.Response.StatusCode == 429 || context.Response.StatusCode == 503)" count="2" interval="0" first-fast-retry="true">
+            <!-- Force an evaluation of available backends rather than retrying the failing one. -->
+            <!-- Route based on the deployment-id value -->
+            <choose>
+                <when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt35-model")">
+                    <set-backend-service backend-id="gpt35-backendpool" />
+                </when>
+                <when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "ada-embedding")">
+                    <set-backend-service backend-id="adaembedding-backendpool" />
+                </when>
+                <when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt4o-model")">
+                    <set-backend-service backend-id="gpt4o-backendpool" />
+                </when>
+            </choose>
+            <forward-request buffer-request-body="true" />
+        </retry>
+    </backend>
+    <outbound>
+        <base />
+        <!--Semantic cache store-->
+        <azure-openai-semantic-cache-store duration="60" />
+        <!-- Add the actual backend URL to the response header -->
+        <set-header name="X-Backend-URL" exists-action="override">
+            <value>@(context.Request.Url.ToString())</value>
+        </set-header>
+        <choose>
+            <when condition="@(context.Response.StatusCode >= 200 && context.Response.StatusCode < 300)">
+                <log-to-eventhub logger-id="EventHubLogger1">@{
                         var responseBody = context.Response.Body?.As<String>(true);
 
                         return new JObject(
@@ -93,10 +93,10 @@
                             new JProperty("ResponseBody", responseBody)
                         ).ToString();
                     }</log-to-eventhub>
-			</when>
-		</choose>
-	</outbound>
-	<on-error>
-		<base />
-	</on-error>
+            </when>
+        </choose>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
 </policies>
