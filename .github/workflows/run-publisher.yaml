@@ -2,9 +2,10 @@ name: Run - Publisher
 
 on:
   # Triggers the workflow on pull request events but only for the main branch
-  pull_request:
-    branches: [main]
-    types: [closed]
+  pull_request_review:
+    types: [submitted]
+    branches:
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,7 +20,28 @@ on:
           - "publish-all-artifacts-in-repo"
 
 jobs:
+  check-approval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is approved
+        id: approval
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const reviews = await github.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+            const approved = reviews.data.some(review => review.state === 'APPROVED');
+            return approved;
+      - name: Fail if not approved
+        if: steps.approval.outputs.result != 'true'
+        run: exit 1
+  
   get-commit:
+    needs: check-approval
     runs-on: ubuntu-latest
     steps:
       # Set the COMMIT_ID env variable
