@@ -1,6 +1,14 @@
 {
   "properties": {
+    "credentials": {
+      "header": {}
+    },
+    "description": "SouthCentralUS openai backend",
     "protocol": "http",
+    "tls": {
+      "validateCertificateChain": false,
+      "validateCertificateName": false
+    },
     "url": "https://red-scus-demo-oai.openai.azure.com/openai/"
   }
 }
