@@ -67,11 +67,6 @@ var backendPools = [
         priority: null
         weight: null 
       }
-      {
-        id: circuitBreakerBackends.outputs.weuBackendId
-        priority: null 
-        weight: null
-      }
     ]
   }
   {
