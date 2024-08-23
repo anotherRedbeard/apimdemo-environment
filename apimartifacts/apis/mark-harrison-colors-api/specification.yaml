@@ -12,7 +12,7 @@ info:
     url: https://github.com/markharrison/ColorsAPI/blob/master/LICENSE
   version: '1.0'
 servers:
-  - url: https://brd-scus-apimdemo-dev.azure-api.net/colors
+  - url: https://red-scus-apimdemo-dev.azure-api.net/colors
 paths:
   /colors:
     get:
