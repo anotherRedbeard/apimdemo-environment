@@ -4,7 +4,7 @@
     "apiRevision": "1",
     "authenticationSettings": {
       "oAuth2": {
-        "authorizationServerId": "aad-oauth",
+        "authorizationServerId": "AAD-OAuth",
         "scope": "api://4a9079d1-1f5a-401a-afce-432bf31e4beb/Colors.Use"
       }
     },

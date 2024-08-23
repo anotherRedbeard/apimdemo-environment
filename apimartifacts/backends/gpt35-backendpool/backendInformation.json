@@ -1,8 +1,5 @@
 {
   "properties": {
-    "description": "Load balancer for gpt35 backends",
-    "protocol": "http",
-    "type": "Pool",
-    "url": "https://www.backend-pool.com"
+    "description": "Load balancer for Pool backends"
   }
 }

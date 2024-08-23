@@ -4,7 +4,7 @@ info:
   description: ''
   version: '1.0'
 servers:
-  - url: https://brd-scus-apimdemo-dev.azure-api.net/health-check
+  - url: https://red-scus-apimdemo-dev.azure-api.net/health-check
 paths:
   /ping:
     get:
