@@ -77,15 +77,15 @@ diagnostics:
 backends:
   - name: embeddings-backend
     properties:
-      url: "https://red-scus-demo-oai.openai.com/openai/deployments/ada-embedding/embeddings"
+      url: "https://red-scus-demo-oai.openai.azure.com/openai/deployments/ada-embedding/embeddings"
   - name: eus-aoai-backend
     properties:
-      url: "https://red-eus-demo-oai.openai.com/openai/"
+      url: "https://red-eus-demo-oai.openai.azure.com/openai/"
   - name: scus-aoai-backend
     properties:
-      url: "https://red-scus-demo-oai.openai.com/openai/"
+      url: "https://red-scus-demo-oai.openai.azure.com/openai/"
   - name: weu-aoai-backend
     properties:
-      url: "https://red-weu-demo-oai.openai.com/openai/"
+      url: "https://red-weu-demo-oai.openai.azure.com/openai/"
 
     
