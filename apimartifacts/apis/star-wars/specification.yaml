@@ -4,7 +4,7 @@ info:
   description: Star Wars proxy
   version: '1.0'
 servers:
-  - url: https://brd-scus-apimdemo-dev.azure-api.net/sw
+  - url: https://red-scus-apimdemo-dev.azure-api.net/sw
 paths:
   /people/:
     get:

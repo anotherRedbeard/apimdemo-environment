@@ -2,7 +2,6 @@
   "properties": {
     "description": "Load balancer for davinci backends",
     "protocol": "http",
-    "type": "Pool",
     "url": "https://www.backend-pool.com"
   }
 }

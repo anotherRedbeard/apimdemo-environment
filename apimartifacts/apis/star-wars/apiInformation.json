@@ -2,6 +2,7 @@
   "properties": {
     "path": "sw",
     "apiRevision": "1",
+    "authenticationSettings": {},
     "description": "Star Wars proxy",
     "isCurrent": true,
     "displayName": "Star Wars",
