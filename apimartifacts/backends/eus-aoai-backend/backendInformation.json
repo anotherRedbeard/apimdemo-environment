@@ -1,6 +1,14 @@
 {
   "properties": {
+    "credentials": {
+      "header": {}
+    },
+    "description": "EastUs openai backend",
     "protocol": "http",
+    "tls": {
+      "validateCertificateChain": false,
+      "validateCertificateName": false
+    },
     "url": "https://red-eus-demo-oai.openai.azure.com/openai/"
   }
 }
