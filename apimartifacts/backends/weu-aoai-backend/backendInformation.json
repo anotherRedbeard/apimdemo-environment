@@ -1,6 +1,6 @@
 {
   "properties": {
     "protocol": "http",
-    "url": "https://brd-weu-aoai.openai.azure.com/openai/"
+    "url": "https://red-weu-demo-oai.openai.azure.com/openai/"
   }
 }
