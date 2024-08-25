@@ -3,7 +3,7 @@
     "path": "aoai",
     "apiRevision": "1",
     "authenticationSettings": {},
-    "description": "Azure OpenAI APIs for completions and search",
+    "description": "Azure OpenAI APIs for completions and search test",
     "isCurrent": true,
     "displayName": "Azure OpenAI Service API",
     "protocols": [
