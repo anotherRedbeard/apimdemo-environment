@@ -100,3 +100,7 @@ This repo shows how to use each of the new GenAI gateway features listed below:
     - Allows you to leverage any external cache compatible with RediSearch. You will need create an Azure OpenAI embedding backend so this policy can take advantage of that.
     - [Policy Documentation](https://aka.ms/apim/openai/semantic-caching)
     - My Implementation Example--Coming Soon--
+
+### Scripts
+
+I have created a few scripts to help me test things out. There is currently no specific README for them, but each script has inline comments to describe what is happening. In the future I will move these into the bicep section and create a main file to deploy these specific setups.
