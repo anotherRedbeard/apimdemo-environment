@@ -61,6 +61,7 @@ Before you begin, ensure you have the following installed:
 
     Prerequisites:
     - You will need to create 3 Azure OpenAPI endpoints in 3 different regions with 2 deployments (make sure you have the same model version in each region or it will fail). Here is what I have setup:
+
         | Region | Deployments (version) |
         | ------------- | ----------- |
         |South Central US | gpt-35-turbo (0301), text-embedding-ada-002(2) |
@@ -103,8 +104,23 @@ Before you begin, ensure you have the following installed:
 
 4. **Create base APIM instance**
 
-    `create-base-apim.bicep` is the main template to create a base developer instance of API Management. 
+    `create-base-apim.bicep` is the main template to create a base developer instance of API Management.
 
     What's Included:
 
     - Developer sku of API management
+
+5. **Create based APIM instance raw bicep**
+
+    `create-base-apim-raw.bicep` is the main template to create a base developer instance of API Management with the new preview features.
+
+    What's Included:
+
+    - Developer sku of API management
+
+    **Command to deploy via bicep:**
+
+    ```bash
+    az group create --name <resource-group-name> --location <location>
+    az deployment group create --resource-group <resource-group-name> --name apim-rawbicep-deployment --parameters ./iac/bicep/create-base-apim-raw.dev.bicepparam
+    ```
