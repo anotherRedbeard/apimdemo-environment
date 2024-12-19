@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "credentials": {
+      "header": {
+        "x-functions-key": [
+          "{{live-scuc-prd-pyfuncdemo-app-key}}"
+        ]
+      }
+    },
+    "description": "live-scuc-prd-pyfuncdemo-app",
+    "protocol": "http",
+    "resourceId": "https://management.azure.com/subscriptions/c32b355a-3c13-4bd7-8b52-4202f962418a/resourceGroups/livescucprdpyfuncdemoapp/providers/Microsoft.Web/sites/live-scuc-prd-pyfuncdemo-app",
+    "url": "https://live-scuc-prd-pyfuncdemo-app.azurewebsites.net/api"
+  }
+}

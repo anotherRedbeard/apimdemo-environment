@@ -16,8 +16,8 @@
 		<!--<check-header name="X-Azure-FDID" failed-check-httpcode="403" failed-check-error-message="Invalid request, must route through approved device." ignore-case="false">
             <value>{{FrontDoorId}}</value>
         </check-header>-->
-		<set-variable name="claim1" value="StarWars.Use" />
-		<!--<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />-->
+		<set-variable name="claim1" value="starwars.read" />
+		<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />
 	</inbound>
 	<backend>
 		<base />

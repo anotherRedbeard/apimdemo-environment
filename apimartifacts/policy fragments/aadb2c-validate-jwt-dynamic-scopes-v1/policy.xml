@@ -6,12 +6,12 @@
 -->
 <fragment>
 	<validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. AADB2C Access token is missing or invalid.">
-		<openid-config url="https://{{aadb2c-tenant-name}}.b2clogin.com/{{aadb2c-tenant-name}}.onmicrosoft.com/{{aadb2c-signin-signup-name}}/v2.0/.well-known/openid-configuration" />
+		<openid-config url="https://{{aadb2c-tenant-name}}.b2clogin.com/{{aadb2c-tenant-name}}.onmicrosoft.com/{{aadb2c-signupin-policy-name}}/v2.0/.well-known/openid-configuration" />
 		<audiences>
 			<audience>{{aadb2c-audience}}</audience>
 		</audiences>
 		<issuers>
-			<issuer>https://redmanvancorp.b2clogin.com/{{aadb2c-issuer-guid}}/v2.0//</issuer>
+			<issuer>https://{{aadb2c-tenant-name}}.b2clogin.com/{{aadb2c-tenant-id}}/v2.0/</issuer>
 		</issuers>
 		<required-claims>
 			<claim name="scp" separator=" " match="any">

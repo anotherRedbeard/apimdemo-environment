@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "displayName": "live-scus-pyazfuncdemo-app-key",
+    "secret": true,
+    "tags": [
+      "key",
+      "function",
+      "auto"
+    ]
+  }
+}

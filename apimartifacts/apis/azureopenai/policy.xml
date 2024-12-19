@@ -48,6 +48,7 @@
 		<set-header name="Authorization" exists-action="override">
 			<value>@("Bearer " + (string)context.Variables["managed-id-access-token"])</value>
 		</set-header>
+		<set-variable name="requestBody" value="@(context.Request.Body.As<string>(preserveContent: true))" />
 		<!--Semantic cache lookup-->
 		<!--<azure-openai-semantic-cache-lookup embeddings-backend-auth="system-assigned" embeddings-backend-id="embeddings-backend" score-threshold="0.05">
             <vary-by>@(context.Subscription.Id)</vary-by>
@@ -82,15 +83,56 @@
 		<choose>
 			<when condition="@(context.Response.StatusCode >= 200 && context.Response.StatusCode < 300)">
 				<log-to-eventhub logger-id="EventHubLogger1">@{
-                        var responseBody = context.Response.Body?.As<String>(true);
+                        var responseBody = context.Response.Body?.As<string>(true);
+                        var requestBody = (string)context.Variables["requestBody"];
 
+                        JObject responseJson = null;
+                        JObject usageData = null;
+
+                        if (!string.IsNullOrEmpty(responseBody))
+                        {
+                            try
+                            {
+                                // Split the streamed response into individual lines
+                                var lines = responseBody.Split(new[] { "\ndata: " }, StringSplitOptions.RemoveEmptyEntries);
+
+                                foreach (var line in lines)
+                                {
+                                    // Check for the [DONE] marker
+                                    if (line.Trim().Equals("[DONE]", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        break;
+                                    }
+
+                                    // Remove the leading 'data: ' and parse the JSON fragment
+                                    var cleanLine = line.TrimStart();
+                                    if (!cleanLine.StartsWith("{"))
+                                    {
+                                        continue; // Skip invalid lines
+                                    }
+
+                                    var jsonFragment = JObject.Parse(cleanLine);
+
+                                    // Check for the "usage" property
+                                    if (jsonFragment.ContainsKey("usage"))
+                                    {
+                                        usageData = (JObject)jsonFragment["usage"];
+                                        break; // Stop searching once found
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // Optional logging for debugging
+                                //context.Logger.LogError($"Error processing streamed response: {ex.Message}");
+                            }
+                        }
                         return new JObject(
-                            new JProperty("EventTime", DateTime.UtcNow.ToString()),
-                            new JProperty("ServiceName", context.Deployment.ServiceName),
-                            new JProperty("RequestId", context.RequestId),
-                            new JProperty("RequestIp", context.Request.IpAddress),
-                            new JProperty("OperationName", context.Operation.Name),
-                            new JProperty("ResponseBody", responseBody)
+                            new JProperty("eventTime", DateTime.UtcNow), 
+                            new JProperty("apiOperation", context.Variables.ContainsKey("apiOperation") ? (string)context.Variables["apiOperation"] : string.Empty),
+                            new JProperty("appSubscriptionKey", context.Request.Headers.GetValueOrDefault("Ocp-Apim-Subscription-Key",string.Empty)),                     
+                            new JProperty("request", requestBody),
+                            new JProperty("responseUsage",usageData )
                         ).ToString();
                     }</log-to-eventhub>
 			</when>

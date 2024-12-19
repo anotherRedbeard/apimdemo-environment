@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "displayName": "live-scuc-prd-pyfuncdemo-app-key",
+    "secret": true,
+    "tags": [
+      "key",
+      "function",
+      "auto"
+    ]
+  }
+}
