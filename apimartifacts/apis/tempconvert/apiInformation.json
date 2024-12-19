@@ -8,7 +8,7 @@
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://red-scus-apimdemo-dev.azure-api.net/tempconvert",
+    "serviceUrl": "https://www.w3schools.com/xml/tempconvert.asmx",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"
