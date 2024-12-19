@@ -55,7 +55,7 @@ jobs:
         env:
           appInsightsLoggerKey: ${{ secrets.APPINSIGHTS_LOGGER_KEY }}
           b2cAudience: ${{ secrets.B2C_AUDIENCE }}
-          b2cIssuerGuid: ${{ secrets.B2C_ISSUER_GUID }}
+          b2cTenantId: ${{ secrets.B2C_TENANT_ID }}
           azureOpenAIKey: ${{ secrets.AZURE_OPENAI_KEY }}
           allowedIPAddress: ${{ secrets.ALLOWED_IP_ADDRESS }}
           entraidBackendAudience: ${{ secrets.ENTRAID_BACKEND_AUDIENCE }}

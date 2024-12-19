@@ -12,10 +12,10 @@ namedValues:
     properties:
       displayName: aadb2c-audience
       value: "{#b2cAudience#}"
-  - name: aadb2c-issuer-guid
+  - name: aadb2c-tenant-id
     properties:
-      displayName: aadb2c-issuer-guid
-      value: "{#b2cIssuerGuid#}"
+      displayName: aadb2c-tenant-id
+      value: "{#b2cTenantId#}"
   - name: allowed-ip-address
     properties:
       displayName: allowed-ip-address
