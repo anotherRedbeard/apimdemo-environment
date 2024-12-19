@@ -13,7 +13,7 @@
 <policies>
 	<inbound>
 		<base />
-		<set-variable name="claim1" value="Echo.Use" />
+		<set-variable name="role1" value="App.Echo.Use" />
 		<!--<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />-->
 		<include-fragment fragment-id="entraid-validate-jwt-dynamic-scopes-v1" />
 		<!--<ip-filter action="allow">

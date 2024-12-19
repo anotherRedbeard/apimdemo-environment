@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "tempconvert",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "isCurrent": true,
+    "displayName": "TempConvert",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://www.w3schools.com/xml/tempconvert.asmx",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true,
+    "type": "soap"
+  }
+}

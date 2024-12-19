@@ -5,7 +5,7 @@
     "authenticationSettings": {
       "oAuth2": {
         "authorizationServerId": "AAD-OAuth",
-        "scope": "Calculator.Use"
+        "scope": "api://apimdemo-backend/Calculator.Use"
       }
     },
     "description": "Arithmetics is just a call away!",

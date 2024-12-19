@@ -1,6 +1,6 @@
 {
   "properties": {
-    "displayName": "aadb2c-signin-signup-name",
+    "displayName": "aadb2c-tenant-id",
     "secret": true,
     "tags": []
   }

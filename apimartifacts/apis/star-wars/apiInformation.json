@@ -2,14 +2,19 @@
   "properties": {
     "path": "sw",
     "apiRevision": "1",
-    "authenticationSettings": {},
+    "authenticationSettings": {
+      "oAuth2": {
+        "authorizationServerId": "aadb2c-oauth-ping",
+        "scope": "https://redmanb2corg.onmicrosoft.com/api://apim-demo-backend/starwars.read"
+      }
+    },
     "description": "Star Wars proxy",
     "isCurrent": true,
     "displayName": "Star Wars",
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://swapi.dev/api",
+    "serviceUrl": "https://swapi.py4e.com/api",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"

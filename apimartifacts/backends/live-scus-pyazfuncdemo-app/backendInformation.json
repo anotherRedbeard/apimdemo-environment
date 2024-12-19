@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "credentials": {
+      "header": {
+        "x-functions-key": [
+          "{{live-scus-pyazfuncdemo-app-key}}"
+        ]
+      }
+    },
+    "description": "live-scus-pyazfuncdemo-app",
+    "protocol": "http",
+    "resourceId": "https://management.azure.com/subscriptions/0272c02b-5a38-4b6b-86e6-dcc4ff2ff0e8/resourceGroups/livescuspyazfuncdemoapp/providers/Microsoft.Web/sites/live-scus-pyazfuncdemo-app",
+    "url": "https://live-scus-pyazfuncdemo-app.azurewebsites.net/api"
+  }
+}
