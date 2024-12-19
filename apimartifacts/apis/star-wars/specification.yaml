@@ -36,6 +36,14 @@ paths:
       responses:
         '200':
           description: ''
+  /*:
+    get:
+      summary: Wildcard
+      description: Wildcard path
+      operationId: wildcard
+      responses:
+        '200':
+          description: 
 components:
   securitySchemes:
     apiKeyHeader:
