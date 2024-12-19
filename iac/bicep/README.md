@@ -110,7 +110,14 @@ Before you begin, ensure you have the following installed:
 
     - Developer sku of API management
 
-5. **Create based APIM instance raw bicep**
+    **Command to deploy via bicep:**
+
+    ```bash
+    az group create --name <resource-group-name> --location <location>
+    az deployment group create --resource-group <resource-group-name> --name apim-base-deployment --parameters ./iac/bicep/create-base-apim.dev.bicepparam
+    ```
+
+5. **Create base APIM instance raw bicep**
 
     `create-base-apim-raw.bicep` is the main template to create a base developer instance of API Management with the new preview features.
 
@@ -124,3 +131,34 @@ Before you begin, ensure you have the following installed:
     az group create --name <resource-group-name> --location <location>
     az deployment group create --resource-group <resource-group-name> --name apim-rawbicep-deployment --parameters ./iac/bicep/create-base-apim-raw.dev.bicepparam
     ```
+
+6. **Create base APIM instance with networking options**
+
+    `create-base-apim-with-netowrking.bicep` is the main template to create a base premium instance of API Management with networking options (Vnet and subnet). These options are applied as for my demos I want to show what it looks like to do it via the Portal, but it could be easily updated to make it add the networking in the template.
+
+    What's Included:
+
+    - Premium sku of API Management
+    - VNet
+    - Subnet (/27 for APIM)
+
+    **Command to deploy via bicep:**
+
+    ```base
+    az group create --name <resource-group-name> --location <location>
+    az deployment group create --resource-group <resource-group-name> --name apim-base-with-network-deployment --parameters ./iac/bicep/create-base-apim-with-networking.dev.bicepparam
+    ```
+
+### Cleanup
+
+Make sure you clean up when you are done using these resources. The simplest way to do that is to just delete the resource group:
+
+```bash
+az group delete --name <resource-group-name>
+```
+
+This will delete everything for you, but the API Management instance will be soft-deleted.  Check out this feature [here](https://learn.microsoft.com/en-us/azure/api-management/soft-delete).  To permanantely delete (purge) the API Managment instance run the following command:
+
+```bash
+az apim deletedservice purge --service-name <apim-service-name> --location <location>
+```
