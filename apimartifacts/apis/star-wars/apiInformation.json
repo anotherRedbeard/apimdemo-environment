@@ -5,7 +5,7 @@
     "authenticationSettings": {
       "oAuth2": {
         "authorizationServerId": "aadb2c-oauth-ping",
-        "scope": "https://redmanb2corg.onmicrosoft.com/api://apim-demo-backend/starwars.read"
+        "scope": "https://redmanb2corg.onmicrosoft.com/apim-demo-backend/starwars.read"
       }
     },
     "description": "Star Wars proxy",
