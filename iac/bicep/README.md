@@ -57,94 +57,85 @@ Before you begin, ensure you have the following installed:
 
 ### Deploying examples in this repo
 
-1. **APIM smart load balancing with circuit breaker**
+#### **APIM smart load balancing with circuit breaker**
 
-    Prerequisites:
-    - You will need to create 3 Azure OpenAPI endpoints in 3 different regions with 2 deployments (make sure you have the same model version in each region or it will fail). Here is what I have setup:
+- **Prerequisites**
+  - You will need to create 3 Azure OpenAPI endpoints in 3 different regions with 2 deployments (make sure you have the same model version in each region or it will fail). Here is what I have setup:
 
-        | Region | Deployments (version) |
-        | ------------- | ----------- |
-        |South Central US | gpt-35-turbo (0301), text-embedding-ada-002(2) |
-        |East US| gpt-35-turbo (0301), text-embedding-ada-002(2) |
-        |West Europe|text-embedding-ada-002 (2)|
+    | Region | Deployments (version) |
+    | ------------- | ----------- |
+    |South Central US | gpt-35-turbo (0301), text-embedding-ada-002(2) |
+    |East US| gpt-35-turbo (0301), text-embedding-ada-002(2) |
+    |West Europe|text-embedding-ada-002 (2)|
 
-    `create-aoai-load-balancing.bicep` is the main template for this. Here we are creating 3 backends (these are OpenAI endpoints) in 3 different Azure regions and load balancing across each of them based on the deployment name. That is 2 backend pools, one for each deployment. This setup is using Round Robin, but there are ways to use weighted and priority in the backend pools. You can find more info in the [load balancing options](https://learn.microsoft.com/en-us/azure/api-management/backends?tabs=bicep#load-balancing-options) doc.
+- `create-aoai-load-balancing.bicep` is the main template for this. Here we are creating 3 backends (these are OpenAI endpoints) in 3 different Azure regions and load balancing across each of them based on the deployment name. That is 2 backend pools, one for each deployment. This setup is using Round Robin, but there are ways to use weighted and priority in the backend pools. You can find more info in the [load balancing options](https://learn.microsoft.com/en-us/azure/api-management/backends?tabs=bicep#load-balancing-options) doc.
 
-    **Command to deploy via bicep:**
+- **Command to deploy via bicep:**
 
     ```bash
     az deployment group create --resource-group <resource-group-name> --name smart-loadbalancing-deployment --parameters ./iac/bicep/create-aoai-load-balancing.dev.bicepparam
     ```
 
-2. **APIM create a backend**
+#### APIM create a backend
 
-    `create-apim-backend.bicep` is the main template to create a new backend in APIM.
+- `create-apim-backend.bicep` is the main template to create a new backend in APIM.
 
-3. **Create APIMDemo APIM instance**
+#### Create APIMDemo APIM instance
 
-    `create-apimdemo-resource.bicep` is the main template to create a demo developer instance of API Management.
-
-    Prerequisites:
-    - You will need to fill out the bicep parameter file and in some cases create resources for that. For example, you will need an app registration to get the client id and secret
-
-    What's Included:
-
-    - Developer sku of API management
-    - Application Insights 
-    - Identities for the developer portal
-      - This will require an app registration with at least `User.Read.All` and `Group.Read.All`. You can read more here to create the [app registrations](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-aad#manually-enable-microsoft-entra-application-and-identity-provider) to this setup if you have questions.
+- **Prerequisites:**
+  - You will need to fill out the bicep parameter file and in some cases create resources for that. For example, you will need an app registration to get the client id and secret
+- `create-apimdemo-resource.bicep` is the main template to create a demo developer instance of API Management.
+- **What's Included:**
+  - Developer sku of API management
+  - Application Insights
+  - Identities for the developer portal
+    - This will require an app registration with at least `User.Read.All` and `Group.Read.All`. You can read more here to create the [app registrations](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-aad#manually-enable-microsoft-entra-application-and-identity-provider) to this setup if you have questions.
     - OAuth2.0 servers to handle authentication
     - Diagnostic Loggers
 
-    **Command to deploy via bicep:**
+- **Command to deploy via bicep:**
 
     ```bash
     az deployment group create --resource-group <resource-group-name> --name apimdemo-deployment --parameters ./iac/bicep/create-apimdemo-resource.dev.bicepparam
     ```
 
-4. **Create base APIM instance**
+#### Create base APIM instance
 
-    `create-base-apim.bicep` is the main template to create a base developer instance of API Management.
+- `create-base-apim.bicep` is the main template to create a base developer instance of API Management.
+- **What's Included:**
+  - Developer sku of API management
 
-    What's Included:
-
-    - Developer sku of API management
-
-    **Command to deploy via bicep:**
+- **Command to deploy via bicep:**
 
     ```bash
     az group create --name <resource-group-name> --location <location>
     az deployment group create --resource-group <resource-group-name> --name apim-base-deployment --parameters ./iac/bicep/create-base-apim.dev.bicepparam
     ```
 
-5. **Create base APIM instance raw bicep**
+#### Create base APIM instance raw bicep
 
-    `create-base-apim-raw.bicep` is the main template to create a base developer instance of API Management with the new preview features.
+- `create-base-apim-raw.bicep` is the main template to create a base developer instance of API Management with the new preview features.
+- **What's Included:**
+  - Developer sku of API management
 
-    What's Included:
-
-    - Developer sku of API management
-
-    **Command to deploy via bicep:**
+- **Command to deploy via bicep:**
 
     ```bash
     az group create --name <resource-group-name> --location <location>
     az deployment group create --resource-group <resource-group-name> --name apim-rawbicep-deployment --parameters ./iac/bicep/create-base-apim-raw.dev.bicepparam
     ```
 
-6. **Create base APIM instance with networking options**
+#### Create base APIM instance with networking options
 
-    `create-base-apim-with-netowrking.bicep` is the main template to create a base premium instance of API Management with networking options (Vnet and subnet). These options are applied as for my demos I want to show what it looks like to do it via the Portal, but it could be easily updated to make it add the networking in the template.
+- `create-base-apim-with-netowrking.bicep` is the main template to create a base premium instance of API Management with networking options (Vnet and subnet). These options are applied as for my demos I want to show what it looks like to do it via the Portal, but it could be easily updated to make it add the networking in the template.
+- **What's Included:**
+  - Premium sku of API Management
+  - VNet
+  - Subnet (/27 for APIM)
 
-    What's Included:
+- **Command to deploy via bicep:**
 
-    - Premium sku of API Management
-    - VNet
-    - Subnet (/27 for APIM)
-
-    **Command to deploy via bicep:**
-
-    ```base
+    ```bash
     az group create --name <resource-group-name> --location <location>
     az deployment group create --resource-group <resource-group-name> --name apim-base-with-network-deployment --parameters ./iac/bicep/create-base-apim-with-networking.dev.bicepparam
     ```
