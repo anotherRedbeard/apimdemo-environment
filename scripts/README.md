@@ -10,31 +10,52 @@ The `scripts` directory has the following structure:
 
 This directory contains scripts written for the Azure Command-Line Interface (CLI). These scripts are used to interact with Azure services.
 
-#### apim-vnet-internal-az-premium.sh
+#### ./apim-vnet-internal-az-premium.sh
 
 This will create a virtual network with 2 subnets. Then it will create the apim resource. Once that is complete it will use the ARM api to update the virtual network
 
-#### create-apim-nsgs.sh
+#### ./create-apim-nsgs.sh
 
 This will create all the documented nsg that you need and it will do that based on the parameter you give it (either Internal or External). It's based on the rules from [this document](https://learn.microsoft.com/en-us/azure/api-management/api-management-using-with-vnet?tabs=stv2#configure-nsg-rules).
 
-#### create-apim-automate-devportal-classic-skus.sh
+#### ./create-apim-automate-devportal-classic-skus.sh
 
-Prerequisites:
+This will create an APIM resource and then proceed to automate the provisioning of the developer portal for the Classic SKUs. For the v2 SKUs you just need to set the `developerPortalStatus` property to 'Enabled' and that will provision the portal for you.  This is a bit involved as you need to call a few APIs to get the SSO token with the Developer Portal url. It then uses Playwright (any headless browser will do here) to call that URL just as an Admin would for the provisioning of the portal the first time. Then it runs the REST api to create a new revision which publishes the portal and then it's ready for use.
 
-- jq library for JSON parsing.
+- **Prerequisites:**
+
+  - jq library for JSON parsing.
 
     ```bash
     brew install jq
     ```
 
-- playwright library so you can execute the browser call
+  - playwright library so you can execute the browser call
 
     ```bash
     npx playwright install
     ```
 
-This will create an APIM resource and then proceed to automate the provisioning of the developer portal for the Classic SKUs. For the v2 SKUs you just need to set the `developerPortalStatus` property to 'Enabled' and that will provision the portal for you.  This is a bit involved as you need to call a few APIs to get the SSO token with the Developer Portal url. It then uses Playwright (any headless browser will do here) to call that URL just as an Admin would for the provisioning of the portal the first time. Then it runs the REST api to create a new revision which publishes the portal and then it's ready for use.
+#### ./trace-apim-example.sh
+
+This is an example of how you can trace a call in APIM by using these [instructions](https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-api-inspector#enable-tracing-for-an-api). 
+The general steps are as follows:
+
+> 1. Obtain a token credential for tracing.
+> 2. Add the token value in an `Apim-Debug-Authorization` request header to the API Management gateway.
+> 3. Obtain a trace ID in the `Apim-Trace-Id` response header.
+> 4. Retrieve the trace corresponding to the trace ID.
+
+There are 6 parameters needed to run this script and they must be passed in the following order:
+
+1. **Subscription ID**: This is your subscription ID
+2. **Resource Group Name**: Name of the resource group where you APIM instance resides
+3. **API Mananagement Service Name**:  Name of the API Management you are testing with
+4. **API Name**: Name of the api you are testing
+5. **URL Encoded URI**: This is the URL encoded URL that you are attempting to test in APIM
+6. **API Management Subscription Key**: Subscription key to use with the APIM call you are making
+
+The script outputs the response from the API call as well as the trace log assuming everything goes well. I wrote this to help folks out attempting to trace API calls until more tooling becomes available.
 
 ### powershell
 
