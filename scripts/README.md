@@ -57,6 +57,11 @@ There are 6 parameters needed to run this script and they must be passed in the 
 
 The script outputs the response from the API call as well as the trace log assuming everything goes well. I wrote this to help folks out attempting to trace API calls until more tooling becomes available.
 
+- **Prerequisites:**
+
+  - AZ CLI
+    - You must also already be logged in using `az login` with an account that has Contributor or higher on the APIM instance before running the script
+
 ### powershell
 
 This directory contains PowerShell scripts. PowerShell is a cross-platform task automation solution made up of a command-line shell, a scripting language, and a configuration management framework. These scripts are used for various tasks such as setting up the environment, running tests, and deploying the application.
