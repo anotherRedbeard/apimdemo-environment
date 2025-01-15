@@ -148,7 +148,7 @@ Make sure you clean up when you are done using these resources. The simplest way
 az group delete --name <resource-group-name>
 ```
 
-This will delete everything for you, but the API Management instance will be soft-deleted.  Check out this feature [here](https://learn.microsoft.com/en-us/azure/api-management/soft-delete).  To permanantely delete (purge) the API Managment instance run the following command:
+This will delete everything for you, but the API Management instance will be soft-deleted.  Check out this feature [here](https://learn.microsoft.com/en-us/azure/api-management/soft-delete).  To permanently delete (purge) the API Management instance run the following command:
 
 ```bash
 az apim deletedservice purge --service-name <apim-service-name> --location <location>
