@@ -43,7 +43,7 @@ paths:
       operationId: wildcard
       responses:
         '200':
-          description: 
+          description: ''
 components:
   securitySchemes:
     apiKeyHeader:

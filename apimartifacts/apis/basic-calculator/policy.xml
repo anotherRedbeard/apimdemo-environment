@@ -20,6 +20,7 @@
             <value>@(context.Variables.ContainsKey("audClaim") ? (string)context.Variables["audClaim"] : "unknown")</value>
         </set-header>
         -->
+		<authentication-certificate certificate-id="apim-kv-test-cert" />
 	</inbound>
 	<backend>
 		<base />
