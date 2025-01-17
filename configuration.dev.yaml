@@ -49,6 +49,10 @@ namedValues:
       displayName: test
       keyVault: 
         secretIdentifier: https://red-scus-apimdemo-kv.vault.azure.net/secrets/favoritePerson
+  - name: new-value
+    properties:
+      displayName: new-value
+      value: "{#resourceGroupName#}"
 loggers:
   - name: EventHubLogger1
     properties:
