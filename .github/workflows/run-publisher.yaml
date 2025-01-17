@@ -46,7 +46,6 @@ jobs:
           fi
 
   get-commit:
-    if: github.event.inputs.COMMIT_ID_CHOICE != 'publish-all-artifacts-in-repo'
     needs: check-branch
     runs-on: ubuntu-latest
     steps:
