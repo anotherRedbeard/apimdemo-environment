@@ -37,6 +37,6 @@
       "percentage": 100,
       "samplingType": "fixed"
     },
-    "verbosity": "verbose"
+    "verbosity": "error"
   }
 }
