@@ -21,6 +21,7 @@ on:
 
 jobs:
   check-merge:
+    if: github.event.inputs.COMMIT_ID_CHOICE != 'publish-all-artifacts-in-repo'
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is merged
@@ -32,6 +33,7 @@ jobs:
           fi
 
   check-branch:
+    if: github.event.inputs.COMMIT_ID_CHOICE != 'publish-all-artifacts-in-repo'
     needs: check-merge
     runs-on: ubuntu-latest
     steps:
@@ -43,8 +45,8 @@ jobs:
             exit 1
           fi
 
-  
   get-commit:
+    if: github.event.inputs.COMMIT_ID_CHOICE != 'publish-all-artifacts-in-repo'
     needs: check-branch
     runs-on: ubuntu-latest
     steps:
