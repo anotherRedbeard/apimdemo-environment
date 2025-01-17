@@ -1,5 +1,27 @@
 {
   "properties": {
+    "circuitBreaker": {
+      "rules": [
+        {
+          "acceptRetryAfter": true,
+          "failureCondition": {
+            "count": 1,
+            "errorReasons": [
+              "Non 200-300 status codes"
+            ],
+            "interval": "PT1M",
+            "statusCodeRanges": [
+              {
+                "max": 599,
+                "min": 400
+              }
+            ]
+          },
+          "name": "myBreakerRule",
+          "tripDuration": "PT1M"
+        }
+      ]
+    },
     "credentials": {
       "header": {}
     },
