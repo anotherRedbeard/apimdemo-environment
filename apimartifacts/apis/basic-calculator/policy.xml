@@ -21,6 +21,9 @@
         </set-header>
         -->
 		<authentication-certificate certificate-id="apim-kv-test-cert" />
+		<set-header name="Host" exists-action="override">
+			<value>@(context.Request.OriginalUrl.Host)</value>
+		</set-header>
 	</inbound>
 	<backend>
 		<base />
