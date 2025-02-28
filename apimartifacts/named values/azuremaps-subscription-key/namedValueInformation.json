@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "displayName": "azuremaps-subscription-key",
+    "keyVault": {
+      "secretIdentifier": "https://red-scus-apimdemo-kv.vault.azure.net/secrets/azuremaps-subscription-key"
+    },
+    "secret": true,
+    "tags": []
+  }
+}

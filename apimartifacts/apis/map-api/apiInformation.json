@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "map",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "",
+    "isCurrent": true,
+    "displayName": "Map API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://us.atlas.microsoft.com",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
