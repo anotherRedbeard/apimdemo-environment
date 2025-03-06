@@ -8,9 +8,12 @@
 	<!-- Throttle, authorize, validate, cache, or transform the requests -->
 	<inbound>
 		<base />
-		<cache-lookup vary-by-developer="true" vary-by-developer-groups="true" downstream-caching-type="none" must-revalidate="true" allow-private-response-caching="true">
+		<cache-lookup vary-by-developer="true" vary-by-developer-groups="true" allow-private-response-caching="true" must-revalidate="true" downstream-caching-type="none">
 			<vary-by-query-parameter>query</vary-by-query-parameter>
 		</cache-lookup>
+		<set-query-parameter name="api-version" exists-action="override">
+			<value>1.0</value>
+		</set-query-parameter>
 		<rewrite-uri template="/search/fuzzy/json" copy-unmatched-params="true" />
 	</inbound>
 	<!-- Control if and how the requests are forwarded to services  -->

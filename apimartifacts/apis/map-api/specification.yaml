@@ -13,7 +13,7 @@ paths:
       operationId: search-fuzzy
       responses:
         '200':
-          description: 
+          description: ''
   /geocode:
     get:
       summary: Geocode
@@ -21,7 +21,7 @@ paths:
       operationId: geocode
       responses:
         '200':
-          description: 
+          description: ''
   /geocode/xml:
     get:
       summary: Geocode xml
@@ -29,7 +29,7 @@ paths:
       operationId: 67c08e97646a6b8841cc0094
       responses:
         '200':
-          description: 
+          description: ''
   /geocode/batch/sync:
     post:
       summary: Sync Geocode Batch
@@ -37,7 +37,7 @@ paths:
       operationId: 67c0c1dd7c2f94775fdfc9b0
       responses:
         '200':
-          description: 
+          description: ''
   /geocode/reverse/batch/sync:
     post:
       summary: Sync Reverse Geocode Batch
@@ -45,7 +45,7 @@ paths:
       operationId: 67c0c3ccee9004e5499f16e3
       responses:
         '200':
-          description: 
+          description: ''
   /geocode/batch/async:
     post:
       summary: Async Geocode Batch
@@ -53,7 +53,7 @@ paths:
       operationId: 67c0c667f091076985dc4a9b
       responses:
         '200':
-          description: 
+          description: ''
   /geocode/reverse/batch/async:
     post:
       summary: Async Reverse Geocode Batch
@@ -61,7 +61,7 @@ paths:
       operationId: 67c1e183833da788411dad45
       responses:
         '200':
-          description: 
+          description: ''
   '/default/{path}':
     get:
       summary: Default Route
@@ -76,7 +76,7 @@ paths:
             type: ''
       responses:
         '200':
-          description: 
+          description: ''
 components:
   securitySchemes:
     apiKeyHeader:

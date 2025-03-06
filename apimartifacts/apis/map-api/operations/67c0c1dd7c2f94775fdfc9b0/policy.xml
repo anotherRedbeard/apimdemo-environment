@@ -13,9 +13,6 @@
 		<set-query-parameter name="subscription-key" exists-action="override">
 			<value>{{azuremaps-subscription-key}}</value>
 		</set-query-parameter>
-		<set-query-parameter name="api-version" exists-action="override">
-			<value>1.0</value>
-		</set-query-parameter>
 		<rewrite-uri template="/geocode:batch" copy-unmatched-params="true" />
 	</inbound>
 	<!-- Control if and how the requests are forwarded to services  -->
