@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "entra-staticwebapp-aud",
+    "secret": false,
+    "tags": [],
+    "value": "api://red-swa-backend-api/"
+  }
+}

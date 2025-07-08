@@ -1,0 +1,14 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+-->
+<fragment>
+	<!-- Save response and user in state store -->
+	<choose>
+		<when condition="@(!string.IsNullOrEmpty((string)context.Variables["outputResponseId"]))">
+			<cache-store-value key="@(context.Variables.GetValueOrDefault<string>("outputResponseId",""))" value="@(context.Variables.GetValueOrDefault<string>("userId",""))" duration="36500" />
+		</when>
+	</choose>
+</fragment>

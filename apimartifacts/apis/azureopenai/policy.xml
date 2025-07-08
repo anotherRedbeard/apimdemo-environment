@@ -13,6 +13,9 @@
 <policies>
 	<inbound>
 		<base />
+		<!-- Extract deployment-id from the request URL and set it as a variable -->
+		<set-variable name="deploymentId" value="@(context.Request.MatchedParameters["deployment-id"])" />
+		<include-fragment fragment-id="llm-dynamic-policies-by-usecase-v1" />
 		<!--OpenAI Policies-->
 		<!--<set-header name="api-key" exists-action="override">
             <value>{{AzureOpenAIKey}}</value>
@@ -27,11 +30,10 @@
 			<dimension name="Client IP" value="@(context.Request.IpAddress)" />
 			<dimension name="Subscription ID" />
 			<dimension name="API ID" />
+			<dimension name="custom" value="@(context.Variables.GetValueOrDefault<String>("deploymentId"))" />
 		</azure-openai-emit-token-metric>
 		<azure-openai-token-limit counter-key="@(context.Subscription.Id)" tokens-per-minute="5000" estimate-prompt-tokens="false" />
 		<!--Load Balancing-->
-		<!-- Extract deployment-id from the request URL and set it as a variable -->
-		<set-variable name="deploymentId" value="@(context.Request.MatchedParameters["deployment-id"])" />
 		<!-- Route based on the deployment-id value -->
 		<choose>
 			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt35-model")">

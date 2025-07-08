@@ -1,0 +1,24 @@
+{
+  "properties": {
+    "path": "response-api/openai",
+    "apiRevision": "1",
+    "authenticationSettings": {
+      "oAuth2": {
+        "authorizationServerId": "aad-oauth",
+        "scope": "api://apimdemo-backend/.default"
+      }
+    },
+    "description": "Azure OpenAI APIs for completions and search",
+    "isCurrent": true,
+    "displayName": "Responses API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://red-scus-apimdemo-dev.azure-api.net/response-api/openai",
+    "subscriptionKeyParameterNames": {
+      "header": "api-key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

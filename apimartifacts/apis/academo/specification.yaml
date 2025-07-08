@@ -6,11 +6,67 @@ info:
 servers:
   - url: https://red-scus-apimdemo-dev.azure-api.net/academo
 paths:
-  /todoitems:
+  /api/todoitems:
     get:
       summary: Get
       description: Get
       operationId: get
+      responses:
+        '200':
+          description: ''
+  '/api/todoitems/{id}':
+    put:
+      summary: Put
+      description: Get
+      operationId: 67ef05a34a742483f8079c1a
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+    delete:
+      summary: Delete
+      description: Delete
+      operationId: 67f42dda3faebdccb85d6fb4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+  /api/todoitems/:
+    post:
+      summary: Post
+      description: Get
+      operationId: 67ef077ca79a3cc35e601d05
+      responses:
+        '200':
+          description: ''
+  '/config/{path}':
+    get:
+      summary: Config
+      description: Configuration endpoint in container app
+      operationId: config
+      parameters:
+        - name: path
+          in: path
+          description: Config endpoint path
+          required: true
+          schema:
+            enum:
+              - getenvironment
+              - getconfigbootstrapped
+              - getconfig
+              - getconfigwithmsi
+              - getconfigusingtoken
+            type: string
       responses:
         '200':
           description: ''

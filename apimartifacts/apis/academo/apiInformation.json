@@ -9,7 +9,7 @@
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://brd-private-todo-app.livelysky-edba692f.southcentralus.azurecontainerapps.io/api",
+    "serviceUrl": "https://todo-webapi-aca.niceplant-53bb5b2f.eastus2.azurecontainerapps.io",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"

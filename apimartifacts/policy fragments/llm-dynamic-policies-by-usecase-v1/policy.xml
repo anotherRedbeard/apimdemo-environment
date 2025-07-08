@@ -1,0 +1,80 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+-->
+<fragment>
+	<set-variable name="UseCaseId" value="@((string)context.Request.Headers.GetValueOrDefault("UseCaseId"))" />
+	<choose>
+		<when condition="@(context.Variables.GetValueOrDefault<String>("UseCaseId") == "" || context.Variables.GetValueOrDefault<String>("deploymentId") == "null")">
+			<return-response>
+				<set-status code="400" reason="Bad Request" />
+				<set-header name="Content-Type" exists-action="override">
+					<value>text/plain</value>
+				</set-header>
+				<set-body>You must send in all the required headers and parameters</set-body>
+			</return-response>
+		</when>
+	</choose>
+	<cache-lookup-value key="@((string)context.Variables["UseCaseId"])" variable-name="cachedFuncResponse" />
+	<choose>
+		<when condition="@(context.Variables.ContainsKey("cachedFuncResponse"))">
+			<!-- Use cached response -->
+			<set-variable name="useFuncResponse" value="@((string)context.Variables["cachedFuncResponse"])" />
+		</when>
+		<otherwise>
+			<send-request mode="new" response-variable-name="funcResponse" timeout="60" ignore-error="true">
+				<set-url>@("https://red-ccan-functionapp.azurewebsites.net/api/HttpTrigger1?useCase="+context.Request.Headers.GetValueOrDefault("UseCaseId")+"&model="+context.Variables.GetValueOrDefault<String>("deploymentId"))</set-url>
+				<set-method>GET</set-method>
+			</send-request>
+			<set-variable name="useFuncResponse" value="@(((IResponse)context.Variables["funcResponse"]).Body.As<JObject>().ToString())" />
+			<!-- Cache the response as a string -->
+			<cache-store-value key="@((string)context.Variables["UseCaseId"])" value="@((string)context.Variables["useFuncResponse"])" duration="3600" />
+		</otherwise>
+	</choose>
+	<set-variable name="policyJson" value="@(Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>((string)context.Variables["useFuncResponse"]))" />
+	<!-- Include Fragment, but first set all appropriate variables -->
+	<set-variable name="tokens" value="@((long)context.Variables.GetValueOrDefault<JObject>("policyJson")["configuration"]["tokens"])" />
+	<set-variable name="tokensPerMinute" value="@((int)context.Variables.GetValueOrDefault<JObject>("policyJson")["configuration"]["tokens_per_minute"])" />
+	<set-variable name="renewalPeriod" value="@((string)context.Variables.GetValueOrDefault<JObject>("policyJson")["configuration"]["renewal_period"])" />
+	<set-variable name="estimatePromptTokens" value="@((bool)context.Variables.GetValueOrDefault<JObject>("policyJson")["configuration"]["estimate_prompt_tokens"])" />
+	<set-variable name="llmCounter" value="@(context.Request.Headers.GetValueOrDefault("UseCaseId"))" />
+	<choose>
+		<!-- Hourly -->
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Hourly" && (bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="true" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Hourly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Hourly" && !(bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="false" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Hourly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<!-- Daily -->
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Daily" && (bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="true" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Daily" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Daily" && !(bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="false" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Daily" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<!-- Weekly -->
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Weekly" && (bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="true" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Weekly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Weekly" && !(bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="false" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Weekly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<!-- Monthly -->
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Monthly" && (bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="true" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Monthly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Monthly" && !(bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="false" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Monthly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<!-- Yearly -->
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Yearly" && (bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="true" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Yearly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+		<when condition="@((string)context.Variables["renewalPeriod"] == "Yearly" && !(bool)context.Variables["estimatePromptTokens"])">
+			<llm-token-limit counter-key="@((string)context.Variables["llmCounter"])" estimate-prompt-tokens="false" token-quota="@((long)context.Variables["tokens"])" tokens-per-minute="@((int)context.Variables["tokensPerMinute"])" token-quota-period="Yearly" remaining-quota-tokens-variable-name="remainingQuotaTokens" />
+		</when>
+	</choose>
+</fragment>

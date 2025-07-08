@@ -13,10 +13,17 @@
 <policies>
 	<inbound>
 		<base />
+		<set-variable name="certInfo" value="@(context.Request.Certificate != null ? 
+            "Subject: " + context.Request.Certificate.SubjectName + ", Thumbprint: " + context.Request.Certificate.Thumbprint
+            : "No client certificate provided.")" />
+		<trace source="clientCertificate" severity="information">
+			<message>@("Client Certificate Info:  " + context.Variables["certInfo"])</message>
+			<metadata name="Certificate Info" value="@((String)context.Variables["certInfo"])" />
+		</trace>
 		<set-variable name="claim1" value="Colors.Use" />
 		<!--<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />-->
-		<include-fragment fragment-id="entraid-validate-jwt-dynamic-scopes-v1" />
-		<!--<include-fragment fragment-id="validate-certificates-in-apim-v1" />-->
+		<!--<include-fragment fragment-id="entraid-validate-jwt-dynamic-scopes-v1" />-->
+		<include-fragment fragment-id="validate-certificates-in-apim-v1" />
 	</inbound>
 	<backend>
 		<base />

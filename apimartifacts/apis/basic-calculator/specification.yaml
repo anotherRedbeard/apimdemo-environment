@@ -4,6 +4,7 @@ info:
   description: Arithmetics is just a call away!
   version: '1.0'
 servers:
+  - url: http://red-scus-apimdemo-dev.azure-api.net/calc
   - url: https://red-scus-apimdemo-dev.azure-api.net/calc
 paths:
   /add:
