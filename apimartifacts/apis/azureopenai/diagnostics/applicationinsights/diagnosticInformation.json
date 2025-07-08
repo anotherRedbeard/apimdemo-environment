@@ -5,33 +5,42 @@
     "backend": {
       "request": {
         "body": {
-          "bytes": 1000
+          "bytes": 8192
         },
-        "headers": []
+        "headers": [
+          "UseCase"
+        ]
       },
       "response": {
         "body": {
-          "bytes": 1000
+          "bytes": 8192
         },
-        "headers": []
+        "headers": [
+          "UseCase"
+        ]
       }
     },
     "frontend": {
       "request": {
         "body": {
-          "bytes": 1000
+          "bytes": 8192
         },
-        "headers": []
+        "headers": [
+          "UseCase"
+        ]
       },
       "response": {
         "body": {
-          "bytes": 1000
+          "bytes": 8192
         },
-        "headers": []
+        "headers": [
+          "UseCase"
+        ]
       }
     },
     "httpCorrelationProtocol": "Legacy",
     "logClientIp": true,
+    "metrics": true,
     "sampling": {
       "percentage": 100,
       "samplingType": "fixed"

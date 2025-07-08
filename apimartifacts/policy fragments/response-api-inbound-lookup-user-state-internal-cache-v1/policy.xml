@@ -1,0 +1,27 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    - Copy and paste your code here or simply start coding
+-->
+<fragment>
+	<!-- If responseId is not null, look it up in cache -->
+	<choose>
+		<when condition="@(!string.IsNullOrEmpty((string)context.Variables["responseId"]))">
+			<cache-lookup-value key="@((string)context.Variables["responseId"])" variable-name="cachedUserId" />
+		</when>
+	</choose>
+	<!-- Compare current user to cached userId -->
+	<choose>
+		<when condition="@{
+            var currentUser = (string)context.Variables["userId"];
+            var cachedUser = (string)context.Variables.GetValueOrDefault("cachedUserId");
+            return !string.IsNullOrEmpty(cachedUser) && currentUser != cachedUser;
+        }">
+			<return-response>
+				<set-status code="403" reason="Forbidden" />
+				<set-body>Unauthorized to access this response.</set-body>
+			</return-response>
+		</when>
+	</choose>
+</fragment>

@@ -15,6 +15,7 @@
 				<origin>https://brd-scus-apimdemo-dev.developer.azure-api.net</origin>
 				<origin>https://red-scus-apimdemo-dev.developer.azure-api.net</origin>
 				<origin>http://localhost:3000</origin>
+				<origin>https://zealous-sand-0c1f9530f.6.azurestaticapps.net/</origin>
 			</allowed-origins>
 			<allowed-methods preflight-result-max-age="300">
 				<method>*</method>

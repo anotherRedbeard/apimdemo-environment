@@ -62,18 +62,11 @@ paths:
       responses:
         '200':
           description: ''
-  '/default/{path}':
+  /default/*:
     get:
       summary: Default Route
       description: This is the default route that will allow all requests to go through to backend api
       operationId: default-route
-      parameters:
-        - name: path
-          in: path
-          description: Default path for any map api endpoint
-          required: true
-          schema:
-            type: ''
       responses:
         '200':
           description: ''
