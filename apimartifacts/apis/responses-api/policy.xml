@@ -21,7 +21,8 @@
             }
         }" />
 		<!-- 4: If responseId is not null, look it up in cache -->
-		<include-fragment fragment-id="response-api-inbound-lookup-user-state-internal-cache-v1" />
+		<!--<include-fragment fragment-id="response-api-inbound-lookup-user-state-internal-cache-v1" />-->
+		<include-fragment fragment-id="response-api-inbound-lookup-user-state-azfunc-v1" />
 		<!-- Set backend -->
 		<set-backend-service id="apim-generated-policy" backend-id="responses-api-ai-endpoint" />
 	</inbound>
@@ -42,7 +43,8 @@
             }
         }" />
 		<!-- Save response and user in state store -->
-		<include-fragment fragment-id="response-api-outbound-store-user-state-internal-cache-v1" />
+		<!--<include-fragment fragment-id="response-api-outbound-store-user-state-internal-cache-v1" />-->
+		<include-fragment fragment-id="response-api-outbound-store-user-state-azfunc-v1" />
 		<set-header name="x-debug-input-response-id" exists-action="override">
 			<value>@((string)context.Variables.GetValueOrDefault<string>("responseId",""))</value>
 		</set-header>
