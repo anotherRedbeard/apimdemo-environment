@@ -35,7 +35,7 @@ fi
     "AllowFromAPIMToVNet 3443 ApiManagement VirtualNetwork Inbound 120"
     "AllowFromALBToVNet 6390 AzureLoadBalancer VirtualNetwork Inbound 130"
     "AllowFromVNetToStorage 443 VirtualNetwork Storage Outbound 120"
-    "AllowFromVNetToSQL 1443 VirtualNetwork Sql Outbound 130"
+    "AllowFromVNetToSQL 1433 VirtualNetwork Sql Outbound 130"
     "AllowFromVNetToKeyVault 443 VirtualNetwork AzureKeyVault Outbound 140"
     "AllowFromVNetToAzureMonitor [1886,443] VirtualNetwork AzureMonitor Outbound 150"
   )

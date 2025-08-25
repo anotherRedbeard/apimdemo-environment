@@ -18,6 +18,8 @@ APIM_SUBSCRIPTION_KEY=$6
 echo "Getting access token..."
 ACCESS_TOKEN=$(az account get-access-token --resource https://management.azure.com/ --query accessToken --output tsv)
 
+echo "Access token: $ACCESS_TOKEN"
+
 # Verify the API exists
 echo "Verifying the API exists..."
 API_ID=$(az apim api show --resource-group $RESOURCE_GROUP --service-name $APIM_NAME --api-id $API_NAME --query "id" --output tsv)
@@ -45,6 +47,8 @@ DEBUG_TOKEN=$(echo $DEBUG_CREDENTIALS_RESPONSE | jq -r .token)
 if [ -z "$DEBUG_TOKEN" ]; then
     echo "Failed to retrieve debug token."
     return 1
+else
+    echo "Debug token:  $DEBUG_TOKEN"    
 fi
 
 # Decode the APIM endpoint URL
@@ -53,7 +57,7 @@ DECODED_APIM_ENDPOINT=$(printf '%b' "${APIM_ENDPOINT//%/\\x}")
 # Use the debug token to call the actual endpoint and capture headers
 echo "Calling the actual endpoint with debug token..."
 RESPONSE_HEADERS=$(mktemp)
-APIM_RESPONSE=$(curl -s -D $RESPONSE_HEADERS -H "Apim-Debug-Authorization: $DEBUG_TOKEN" -H "Ocp-Apim-Subscription-Key: $APIM_SUBSCRIPTION_KEY" "$DECODED_APIM_ENDPOINT")
+APIM_RESPONSE=$(curl -v -D $RESPONSE_HEADERS -H "Apim-Debug-Authorization: $DEBUG_TOKEN" -H "Ocp-Apim-Subscription-Key: $APIM_SUBSCRIPTION_KEY" "$DECODED_APIM_ENDPOINT")
 
 # Print the response
 echo "Response: $APIM_RESPONSE"
