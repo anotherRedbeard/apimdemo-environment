@@ -1,0 +1,47 @@
+<!--
+    - Policies are applied in the order they appear.
+    - Position <base/> inside a section to inherit policies from the outer scope.
+    - Comments within policies are not preserved.
+-->
+<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements -->
+<policies>
+	<!-- Throttle, authorize, validate, cache, or transform the requests -->
+	<inbound>
+		<base />
+		<!-- Add user id to body of request -->
+		<set-variable name="requestBody" value="@((string)context.Request.Body.As<string>(preserveContent: true))" />
+		<set-variable name="modifiedBody" value="@{
+            var body = context.Variables.GetValueOrDefault<string>("requestBody");
+            var userId = context.Variables.GetValueOrDefault<string>("userId");
+
+            if (string.IsNullOrEmpty(body)) {
+                return body;
+            }
+
+            try {
+                var json = Newtonsoft.Json.Linq.JObject.Parse(body);
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    json["user"] = userId;
+                }
+                return json.ToString();
+            } catch {
+                return body; // Fail-safe: return unmodified body if parsing fails
+            }
+        }" />
+		<!-- Step 4: Replace request body with modified JSON -->
+		<set-body>@(context.Variables.GetValueOrDefault<string>("modifiedBody"))</set-body>
+	</inbound>
+	<!-- Control if and how the requests are forwarded to services  -->
+	<backend>
+		<base />
+	</backend>
+	<!-- Customize the responses -->
+	<outbound>
+		<base />
+	</outbound>
+	<!-- Handle exceptions and customize error responses  -->
+	<on-error>
+		<base />
+	</on-error>
+</policies>

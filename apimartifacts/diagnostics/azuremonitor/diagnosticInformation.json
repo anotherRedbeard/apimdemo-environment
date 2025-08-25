@@ -6,17 +6,13 @@
         "body": {
           "bytes": 1000
         },
-        "headers": [
-          "inbound-header"
-        ]
+        "headers": []
       },
       "response": {
         "body": {
           "bytes": 1000
         },
-        "headers": [
-          "outbound-header"
-        ]
+        "headers": []
       }
     },
     "frontend": {
@@ -24,9 +20,7 @@
         "body": {
           "bytes": 1000
         },
-        "headers": [
-          "inbound-header"
-        ]
+        "headers": []
       },
       "response": {
         "body": {

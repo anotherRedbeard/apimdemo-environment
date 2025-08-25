@@ -13,14 +13,16 @@
 <policies>
 	<inbound>
 		<base />
-		<!--<set-variable name="claim1" value="Calculator.Read" />
-        <include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />
-        <include-fragment fragment-id="store-jwt-claim-value-v1" />
-        <set-header name="inbound-header" exists-action="override">
-            <value>@(context.Variables.ContainsKey("audClaim") ? (string)context.Variables["audClaim"] : "unknown")</value>
-        </set-header>
-        -->
-		<authentication-certificate certificate-id="apim-kv-test-cert" />
+		<set-variable name="claim1" value="Calculator.Use" />
+		<!--<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />-->
+		<include-fragment fragment-id="entraid-validate-jwt-dynamic-scopes-v1" />
+		<include-fragment fragment-id="store-jwt-claim-value-v1" />
+		<set-header name="inbound-header" exists-action="override">
+			<value>@(context.Variables.ContainsKey("audClaim") ? (string)context.Variables["audClaim"] : "unknown")</value>
+		</set-header>
+		<set-header name="Host" exists-action="override">
+			<value>@(context.Request.OriginalUrl.Host)</value>
+		</set-header>
 	</inbound>
 	<backend>
 		<base />

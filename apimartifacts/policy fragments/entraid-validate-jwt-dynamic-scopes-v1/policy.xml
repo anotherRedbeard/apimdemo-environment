@@ -8,13 +8,24 @@
 	<validate-azure-ad-token tenant-id="{{entraid-tenant}}" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. EntraId Access token is missing or invalid." output-token-variable-name="jwt">
 		<client-application-ids>
 			<application-id>{{entra-frontend-client-id}}</application-id>
+			<application-id>{{entra-staticwebapp-clientid}}</application-id>
 		</client-application-ids>
 		<audiences>
 			<audience>{{entraid-backend-audience}}</audience>
+			<audience>{{entra-staticwebapp-aud}}</audience>
 		</audiences>
 	</validate-azure-ad-token>
+	<!-- Assign safe strings to variables -->
+	<set-variable name="rolesClaim" value="@(context.Variables.ContainsKey("jwt") ? (string)(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("roles", "") ?? "") : "")" />
+	<set-variable name="scpClaim" value="@(context.Variables.ContainsKey("jwt") ? (string)(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("scp", "") ?? "") : "")" />
 	<choose>
-		<when condition="@(!(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("roles","").Contains((string)context.Variables.GetValueOrDefault("role1")) || ((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("scp","").Contains(((string)context.Variables.GetValueOrDefault("claim1")))))">
+		<when condition="@(
+			((!string.IsNullOrEmpty((string)context.Variables.GetValueOrDefault("role1")) &&
+			  !context.Variables.GetValueOrDefault("rolesClaim", "").Contains((string)context.Variables.GetValueOrDefault("role1")))
+			||
+			 (!string.IsNullOrEmpty((string)context.Variables.GetValueOrDefault("claim1")) &&
+			  !context.Variables.GetValueOrDefault("scpClaim", "").Contains((string)context.Variables.GetValueOrDefault("claim1"))))
+		)">
 			<return-response>
 				<set-status code="403" reason="Forbidden" />
 				<set-body template="liquid">{

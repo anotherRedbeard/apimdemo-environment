@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: Map API
+  description: ''
+  version: '1.0'
+servers:
+  - url: https://red-scus-apimdemo-dev.azure-api.net/map
+paths:
+  /search/fuzzy:
+    get:
+      summary: Search Fuzzy
+      description: get results from fuzzy search
+      operationId: search-fuzzy
+      responses:
+        '200':
+          description: ''
+  /geocode:
+    get:
+      summary: Geocode
+      description: Get geocode endpoint
+      operationId: geocode
+      responses:
+        '200':
+          description: ''
+  /geocode/xml:
+    get:
+      summary: Geocode xml
+      description: Get geocode endpoint as xml
+      operationId: 67c08e97646a6b8841cc0094
+      responses:
+        '200':
+          description: ''
+  /geocode/batch/sync:
+    post:
+      summary: Sync Geocode Batch
+      description: Get geocode batch sync endpoint
+      operationId: 67c0c1dd7c2f94775fdfc9b0
+      responses:
+        '200':
+          description: ''
+  /geocode/reverse/batch/sync:
+    post:
+      summary: Sync Reverse Geocode Batch
+      description: Get reverse geocode batch sync endpoint
+      operationId: 67c0c3ccee9004e5499f16e3
+      responses:
+        '200':
+          description: ''
+  /geocode/batch/async:
+    post:
+      summary: Async Geocode Batch
+      description: Get geocode batch async endpoint
+      operationId: 67c0c667f091076985dc4a9b
+      responses:
+        '200':
+          description: ''
+  /geocode/reverse/batch/async:
+    post:
+      summary: Async Reverse Geocode Batch
+      description: Post reverse geocode batch async endpoint
+      operationId: 67c1e183833da788411dad45
+      responses:
+        '200':
+          description: ''
+  /default/*:
+    get:
+      summary: Default Route
+      description: This is the default route that will allow all requests to go through to backend api
+      operationId: default-route
+      responses:
+        '200':
+          description: ''
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

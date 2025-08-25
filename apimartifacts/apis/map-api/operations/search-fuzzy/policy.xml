@@ -1,0 +1,32 @@
+<!--
+    - Policies are applied in the order they appear.
+    - Position <base/> inside a section to inherit policies from the outer scope.
+    - Comments within policies are not preserved.
+-->
+<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements -->
+<policies>
+	<!-- Throttle, authorize, validate, cache, or transform the requests -->
+	<inbound>
+		<base />
+		<cache-lookup vary-by-developer="true" vary-by-developer-groups="true" allow-private-response-caching="true" must-revalidate="true" downstream-caching-type="none">
+			<vary-by-query-parameter>query</vary-by-query-parameter>
+		</cache-lookup>
+		<set-query-parameter name="api-version" exists-action="override">
+			<value>1.0</value>
+		</set-query-parameter>
+		<rewrite-uri template="/search/fuzzy/json" copy-unmatched-params="true" />
+	</inbound>
+	<!-- Control if and how the requests are forwarded to services  -->
+	<backend>
+		<base />
+	</backend>
+	<!-- Customize the responses -->
+	<outbound>
+		<base />
+		<cache-store duration="10" cache-response="true" />
+	</outbound>
+	<!-- Handle exceptions and customize error responses  -->
+	<on-error>
+		<base />
+	</on-error>
+</policies>

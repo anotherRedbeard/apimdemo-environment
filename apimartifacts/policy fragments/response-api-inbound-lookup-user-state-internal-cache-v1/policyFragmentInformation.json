@@ -1,0 +1,5 @@
+{
+  "properties": {
+    "description": "Inbound policy fragment to save user/response state in the internal cache for APIM"
+  }
+}

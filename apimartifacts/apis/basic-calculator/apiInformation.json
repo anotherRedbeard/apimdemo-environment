@@ -12,6 +12,7 @@
     "isCurrent": true,
     "displayName": "Basic Calculator",
     "protocols": [
+      "http",
       "https"
     ],
     "serviceUrl": "http://calcapi.cloudapp.net/api/",

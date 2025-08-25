@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "credentials": {},
+    "protocol": "http",
+    "url": "https://red-eus-demo-oai.openai.azure.com/openai"
+  }
+}

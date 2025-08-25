@@ -1,0 +1,5 @@
+{
+  "properties": {
+    "description": "This fragment contains the dynamic policies that you can add based on the incoming variables that are set by an azure function"
+  }
+}

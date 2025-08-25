@@ -23,7 +23,8 @@
       ]
     },
     "credentials": {
-      "header": {}
+      "header": {},
+      "query": {}
     },
     "description": "SouthCentralUS openai backend",
     "protocol": "http",
