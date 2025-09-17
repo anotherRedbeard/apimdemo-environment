@@ -7,17 +7,13 @@
         "body": {
           "bytes": 8192
         },
-        "headers": [
-          "UseCaseId"
-        ]
+        "headers": []
       },
       "response": {
         "body": {
           "bytes": 8192
         },
-        "headers": [
-          "UseCaseId"
-        ]
+        "headers": []
       }
     },
     "frontend": {
@@ -25,17 +21,13 @@
         "body": {
           "bytes": 8192
         },
-        "headers": [
-          "UseCaseId"
-        ]
+        "headers": []
       },
       "response": {
         "body": {
           "bytes": 8192
         },
-        "headers": [
-          "UseCaseId"
-        ]
+        "headers": []
       }
     },
     "logClientIp": true,

@@ -17,7 +17,7 @@
             <value>{{FrontDoorId}}</value>
         </check-header>-->
 		<set-variable name="claim1" value="starwars.read" />
-		<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />
+		<!--<include-fragment fragment-id="aadb2c-validate-jwt-dynamic-scopes-v1" />-->
 	</inbound>
 	<backend>
 		<base />

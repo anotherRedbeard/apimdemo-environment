@@ -27,9 +27,31 @@
 				<header>*</header>
 			</expose-headers>
 		</cors>
+		<!-- Step 1: Load Named Value into a variable -->
+		<set-variable name="rawIpList" value="{{allowed-ip-address}}" />
 		<!--<ip-filter action="allow">
             <address-range from="1.1.1.1" to="1.1.1.100" />
         </ip-filter>-->
+		<set-variable name="ipListTrace" value="@{
+            var newIps = new List<string>();
+            // Retrieve the Named Value
+            var rawIpList = context.Variables.GetValueOrDefault("rawIpList") as string;
+
+            // Parse into a list of strings
+            var ipList = rawIpList?.Split(',').Select(ip => ip.Trim()).ToList() ?? new List<string>();
+
+
+            // Trace each IP individually
+            foreach (var ip in ipList)
+            {
+                newIps.Add(ip);
+            }
+
+            // Format for trace output
+            var traceOutput = string.Join(" | ", newIps);
+
+            return traceOutput;
+        }" />
 	</inbound>
 	<backend>
 		<forward-request />

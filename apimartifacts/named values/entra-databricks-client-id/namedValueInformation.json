@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "entra-databricks-client-id",
+    "secret": false,
+    "tags": [],
+    "value": "85c5f2b6-fb46-484c-af83-53e06a55a199"
+  }
+}

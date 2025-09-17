@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "doc-intel",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "Extracts content, layout, and structured data from documents.",
+    "isCurrent": true,
+    "displayName": "Document Intelligence (formerly Form Recognizer)",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://docintelligence-eus2.cognitiveservices.azure.com/documentintelligence",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}
