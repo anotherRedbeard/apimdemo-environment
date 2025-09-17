@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "TestSub",
+    "scope": "/subscriptions/0272c02b-5a38-4b6b-86e6-dcc4ff2ff0e8/resourceGroups/red-scus-apim-rg/providers/Microsoft.ApiManagement/service/red-scus-apimdemo-dev/products/starter",
+    "allowTracing": false,
+    "ownerId": "/subscriptions/0272c02b-5a38-4b6b-86e6-dcc4ff2ff0e8/resourceGroups/red-scus-apim-rg/providers/Microsoft.ApiManagement/service/red-scus-apimdemo-dev/users/66e3460efb42681b54f3a7b7",
+    "state": "active"
+  }
+}

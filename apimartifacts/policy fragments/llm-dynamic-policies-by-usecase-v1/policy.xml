@@ -5,7 +5,7 @@
     - Copy and paste your code here or simply start coding
 -->
 <fragment>
-	<set-variable name="UseCaseId" value="@((string)context.Request.Headers.GetValueOrDefault("UseCaseId"))" />
+	<set-variable name="UseCaseId" value="@((string)context.Request.Headers.GetValueOrDefault("UseCaseId", ""))" />
 	<choose>
 		<when condition="@(context.Variables.GetValueOrDefault<String>("UseCaseId") == "" || context.Variables.GetValueOrDefault<String>("deploymentId") == "null")">
 			<return-response>

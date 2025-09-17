@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "SeanTest",
+    "scope": "/subscriptions/0272c02b-5a38-4b6b-86e6-dcc4ff2ff0e8/resourceGroups/red-scus-apim-rg/providers/Microsoft.ApiManagement/service/red-scus-apimdemo-dev/apis/mark-harrison-colors-api",
+    "allowTracing": false,
+    "state": "active"
+  }
+}

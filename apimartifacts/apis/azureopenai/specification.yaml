@@ -889,6 +889,7 @@ paths:
   /sdk/*:
     get:
       summary: sdk
+      description: sdk
       operationId: sdk
       parameters:
         - name: api-version
@@ -900,6 +901,7 @@ paths:
           description: ''
     post:
       summary: sdk
+      description: sdk
       operationId: post-sdk
       parameters:
         - name: api-version
@@ -1113,16 +1115,16 @@ components:
       type: object
       properties:
         temperature:
-          maximum: 2
-          minimum: 0
+          maximum: 2.0
+          minimum: 0.0
           type: number
           description: "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\nWe generally recommend altering this or `top_p` but not both."
           default: 1
           nullable: true
           example: 1
         top_p:
-          maximum: 1
-          minimum: 0
+          maximum: 1.0
+          minimum: 0.0
           type: number
           description: "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.\nWe generally recommend altering this or `temperature` but not both."
           default: 1
@@ -1150,14 +1152,14 @@ components:
           description: 'The maximum number of tokens allowed for the generated answer. By default, the number of tokens the model can return will be (4096 - prompt tokens).'
           default: 4096
         presence_penalty:
-          maximum: 2
-          minimum: -2
+          maximum: 2.0
+          minimum: -2.0
           type: number
           description: 'Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model''s likelihood to talk about new topics.'
           default: 0
         frequency_penalty:
-          maximum: 2
-          minimum: -2
+          maximum: 2.0
+          minimum: -2.0
           type: number
           description: 'Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model''s likelihood to repeat the same line verbatim.'
           default: 0
@@ -1188,16 +1190,16 @@ components:
                 $ref: '#/components/schemas/azureChatExtensionConfiguration'
               description: "  The configuration entries for Azure OpenAI chat extensions that use them.\n  This additional specification is only compatible with Azure OpenAI."
             n:
-              maximum: 128
-              minimum: 1
+              maximum: 128.0
+              minimum: 1.0
               type: integer
               description: How many chat completion choices to generate for each input message.
               default: 1
               nullable: true
               example: 1
             seed:
-              maximum: 9223372036854776000
-              minimum: -9223372036854776000
+              maximum: 9223372036854775800
+              minimum: -9223372036854775800
               type: integer
               description: 'If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same `seed` and parameters should return the same result.Determinism is not guaranteed, and you should refer to the `system_fingerprint` response parameter to monitor changes in the backend.'
               default: 0
@@ -1333,7 +1335,7 @@ components:
               oneOf:
                 - type: string
                   description: The contents of the message.
-                - minimum: 1
+                - minimum: 1.0
                   type: array
                   items:
                     $ref: '#/components/schemas/chatCompletionRequestMessageContentPart'
@@ -1483,8 +1485,8 @@ components:
           type: boolean
           description: Whether queries should be restricted to use of indexed data.
         strictness:
-          maximum: 5
-          minimum: 1
+          maximum: 5.0
+          minimum: 1.0
           type: integer
           description: 'The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer.'
           format: int32
@@ -1597,8 +1599,8 @@ components:
           type: boolean
           description: Whether queries should be restricted to use of indexed data.
         strictness:
-          maximum: 5
-          minimum: 1
+          maximum: 5.0
+          minimum: 1.0
           type: integer
           description: 'The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer.'
           format: int32
@@ -2278,8 +2280,8 @@ components:
           format: string
           example: a corgi in a field
         n:
-          maximum: 1
-          minimum: 1
+          maximum: 1.0
+          minimum: 1.0
           type: integer
           description: The number of images to generate.
           default: 1

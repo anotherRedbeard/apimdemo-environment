@@ -7,6 +7,7 @@
 <fragment>
 	<validate-azure-ad-token tenant-id="{{entraid-tenant}}" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. EntraId Access token is missing or invalid." output-token-variable-name="jwt">
 		<client-application-ids>
+			<application-id>{{entra-databricks-client-id}}</application-id>
 			<application-id>{{entra-frontend-client-id}}</application-id>
 			<application-id>{{entra-staticwebapp-clientid}}</application-id>
 		</client-application-ids>

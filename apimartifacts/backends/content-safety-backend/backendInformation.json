@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "credentials": {
+      "header": {},
+      "query": {}
+    },
+    "protocol": "http",
+    "tls": {
+      "validateCertificateChain": true,
+      "validateCertificateName": true
+    },
+    "type": "Single",
+    "url": "https://red-scus-contentsafety.cognitiveservices.azure.com/"
+  }
+}
