@@ -140,6 +140,26 @@ Before you begin, ensure you have the following installed:
     az deployment group create --resource-group <resource-group-name> --name apim-base-with-network-deployment --parameters ./iac/bicep/create-base-apim-with-networking.dev.bicepparam
     ```
 
+#### Create workspace-enabled APIM instance with networking
+
+- `create-ws-enabled-apim-with-networking.bicep` deploys a Premium SKU API Management instance with:
+  - Workspaces enabled (example public/private workspaces)
+  - Virtual Network and subnets to demonstrate internal vs public routing
+  - Intended to showcase how workspace scoping and (optionally) workspace gateways can be layered onto a networked APIM. One important thing that this does NOT do is to create the A record in the private DNS zone for the internal gateway.  You can use the [deploy-apim-and-create-a-record.sh](../../scripts/az-cli/deploy-apim-and-create-a-record.sh) script to run this deployment and it will create the A record for you after the deployment runs. You will then be able to resolve the internal gateway hostname to the internal IP address, you will need to make sure you link you Private DNS zone to your VNet.
+
+- **What's Included:**
+  - Premium sku of API Management
+  - VNet
+  - Subnet (/24 for internal workspace gateway)
+  - Unique api for each workspace and the global service
+
+- **Command to deploy via bicep:**
+
+  ```bash
+  az group create --name <resource-group-name> --location <location>
+  az deployment group create --resource-group <resource-group-name> --name apim-ws-network-deployment --parameters ./iac/bicep/create-ws-enabled-apim-with-networking.dev.bicepparam
+  ```
+
 ### Cleanup
 
 Make sure you clean up when you are done using these resources. The simplest way to do that is to just delete the resource group:

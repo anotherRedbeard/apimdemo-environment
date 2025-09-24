@@ -104,3 +104,82 @@ This repo shows how to use each of the new GenAI gateway features listed below:
 ### Scripts
 
 I have created a few scripts to help me test things out. Each script has inline comments to describe what is happening. In the future I will move these into the bicep section and create a main file to deploy these specific setups.
+
+### Script: deploy-apim-and-create-a-record.sh
+
+This Bash script automates deploying the APIM infrastructure (using a bicep/param file), polling for the internal self‑hosted gateway private IP, and ensuring a Private DNS A record exists that maps the gateway hostname to that private IP.
+
+Key capabilities:
+
+- Idempotent deployment using `az deployment group create` with a provided bicepparam file.
+- Auto creation of the resource group if it does not already exist (you supply the name with `-g`).
+- Polls the APIM internal gateway until a private IP is available (configurable poll interval & timeout).
+- Retrieves the gateway runtime host and ensures a Private DNS A record-set has (or is updated with) the discovered internal IP.
+
+Current options (run with `-h` to view in your environment):
+
+```text
+Usage: deploy-apim-and-create-a-record.sh -g <resourceGroup> [options]
+  -g  Resource group (required)
+  -s  Subscription ID
+  -p  Param file (default: iac/bicep/create-ws-enabled-apim-with-networking.bicepparam)
+  -z  Private DNS zone (default: azure-api.net)
+  -G  Internal gateway name (default: internal-gateway)
+  -V  API version (default: 2024-06-01-preview)
+  -i  Poll interval seconds (default: 20)
+  -t  Poll timeout seconds (default: 120)
+  -h  Help
+```
+
+Planned / emerging option:
+
+- `-l <location>` (coming soon): specify the location used when auto-creating the resource group. Currently the script expects a `LOCATION` environment variable if you want to control region for new RG creation; otherwise set it explicitly: `LOCATION=eastus`.
+
+Environment variable overrides:
+
+You may export these before running the script to change defaults without flags:
+
+```text
+PARAM_FILE
+PRIVATE_DNS_ZONE_NAME
+INTERNAL_GATEWAY_NAME
+API_VERSION
+POLL_INTERVAL_SECONDS
+POLL_TIMEOUT_SECONDS
+LOCATION   # used when RG is created; if unset defaults to Azure CLI default region or must be passed once -l is implemented
+```
+
+Example usage:
+
+```bash
+# Basic deploy using defaults (will create RG if missing)
+./scripts/az-cli/deploy-apim-and-create-a-record.sh -g my-apim-rg
+
+# Specify subscription and alternate param file
+./scripts/az-cli/deploy-apim-and-create-a-record.sh -g my-apim-rg -s 00000000-0000-0000-0000-000000000000 -p iac/bicep/custom-apim.bicepparam
+
+# Override poll timing & DNS zone
+POLL_INTERVAL_SECONDS=10 POLL_TIMEOUT_SECONDS=300 PRIVATE_DNS_ZONE_NAME="corp.internal" \
+  ./scripts/az-cli/deploy-apim-and-create-a-record.sh -g my-apim-rg
+
+# Set location for RG creation (pre -l flag)
+LOCATION=westus2 ./scripts/az-cli/deploy-apim-and-create-a-record.sh -g my-apim-rg
+```
+
+How DNS handling works:
+
+1. After deployment it queries the internal gateway resource until a private IP is returned (or timeout).
+2. It fetches the runtime hostname from the gateway config connection.
+3. It checks if the A record-set (name == hostname label) already contains the IP.
+4. If the IP is missing it adds it; if the record-set does not exist Azure creates it implicitly when adding the first record (or you can extend script to explicitly create record-set TTL).
+
+**Note:** After this script runs you will need to make sure you link your Private DNS zone to your VNet so that the APIM instance can resolve the internal gateway hostname to the internal IP address.
+
+Potential improvements (future):
+
+- Implement `-l` flag in script for consistency with README docs.
+- Normalize FQDN vs record-set label (strip zone suffix automatically before DNS ops).
+- Support adding multiple IPs (if gateway exposes more than one) with a loop.
+- Add configurable TTL and tags for resource group creation (e.g., `-T env=dev,owner=platform`).
+
+> If you adopt any of these improvements, update this section accordingly so the README stays in sync.

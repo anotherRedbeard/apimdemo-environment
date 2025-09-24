@@ -4,3 +4,8 @@
 
 # all dev bicepparm files
 /**/*.dev.bicepparam
+
+AzuriteConfig
+*.zip
+__**.json
+__**__
