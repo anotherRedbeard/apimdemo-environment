@@ -57,33 +57,8 @@ env:
   TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
-  whatif:
-    if: ${{ github.event.inputs.runWhatIf == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Azure Login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ env.TENANT_ID }}
-          subscription-id: ${{ env.SUBSCRIPTION_ID }}
-      - name: What-If (resource group scope)
-        uses: azure/arm-deploy@v2
-        with:
-          scope: resourcegroup
-          subscriptionId: ${{ env.SUBSCRIPTION_ID }}
-          resourceGroupName: ${{ github.event.inputs.resourceGroup }}
-          template: ./iac/bicep/create-ws-enabled-apim-with-networking.bicep
-          parameters: ${{ github.event.inputs.paramFile }}
-          deploymentMode: Validate
-          additionalArguments: --what-if
-          failOnStdErr: false
-
   ensure-rg:
     runs-on: ubuntu-latest
-    needs: [whatif]
-    if: ${{ always() && (needs.whatif.result == 'success' || github.event.inputs.runWhatIf != 'true') }}
     steps:
       - uses: actions/checkout@v4
       - name: Azure Login
@@ -105,9 +80,34 @@ jobs:
             tags={environment:${{ github.event.inputs.environment }}}
           deploymentName: ensure-rg-${{ github.run_number }}
 
+  whatif:
+    if: ${{ github.event.inputs.runWhatIf == 'true' }}
+    needs: [ensure-rg]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.TENANT_ID }}
+          subscription-id: ${{ env.SUBSCRIPTION_ID }}
+      - name: What-If (resource group scope)
+        uses: azure/arm-deploy@v2
+        with:
+          scope: resourcegroup
+          subscriptionId: ${{ env.SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ github.event.inputs.resourceGroup }}
+          template: ./iac/bicep/create-ws-enabled-apim-with-networking.bicep
+          parameters: ${{ github.event.inputs.paramFile }}
+          deploymentMode: Validate
+          additionalArguments: --what-if
+          failOnStdErr: false
+
   deploy:
     runs-on: ubuntu-latest
-    needs: [ensure-rg]
+    needs: [ensure-rg, whatif]
+    if: ${{ needs.ensure-rg.result == 'success' && (github.event.inputs.runWhatIf != 'true' || needs.whatif.result == 'success') }}
     steps:
       - uses: actions/checkout@v4
       - name: Azure Login
