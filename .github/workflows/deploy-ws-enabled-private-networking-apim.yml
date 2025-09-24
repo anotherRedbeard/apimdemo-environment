@@ -1,0 +1,206 @@
+name: Deploy Premium APIM in multi-locations with workspaces (Bicep)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment key (dev|test|prod) for tagging'
+        required: false
+        default: 'dev'
+      resourceGroup:
+        description: 'Target Resource Group name'
+        required: true
+        default: 'aaa-apimdemo-premium-rg'
+      location:
+        description: 'Azure location for deployment'
+        required: true
+        default: 'eastus2'
+      paramFile:
+        description: 'Bicep parameter file (must contain using <template>)'
+        required: true
+        default: 'iac/bicep/create-ws-enabled-apim-with-networking.dev.bicepparam'
+      deploymentName:
+        description: 'Optional deployment name override'
+        required: false
+        default: ''
+      runWhatIf:
+        description: 'Run what-if before deploy (true|false)'
+        required: false
+        default: 'true'
+      createDnsRecord:
+        description: 'Create internal gateway Private DNS A record (true|false)'
+        required: false
+        default: 'false'
+      internalGatewayName:
+        description: 'Internal gateway name (for DNS polling)'
+        required: false
+        default: 'internal-gateway'
+      dnsZone:
+        description: 'Private DNS zone name'
+        required: false
+        default: 'azure-api.net'
+      dnsTimeoutSeconds:
+        description: 'Max seconds to poll for gateway private IP'
+        required: false
+        default: '300'
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: apim-${{ github.event.inputs.resourceGroup || 'rg' }}
+  cancel-in-progress: false
+
+env:
+  SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+jobs:
+  whatif:
+    if: ${{ github.event.inputs.runWhatIf == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.TENANT_ID }}
+          subscription-id: ${{ env.SUBSCRIPTION_ID }}
+      - name: What-If (resource group scope)
+        uses: azure/arm-deploy@v2
+        with:
+          scope: resourcegroup
+          subscriptionId: ${{ env.SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ github.event.inputs.resourceGroup }}
+          template: ./iac/bicep/create-ws-enabled-apim-with-networking.bicep
+          parameters: ${{ github.event.inputs.paramFile }}
+          deploymentMode: Validate
+          additionalArguments: --what-if
+          failOnStdErr: false
+
+  ensure-rg:
+    runs-on: ubuntu-latest
+    needs: [whatif]
+    if: ${{ always() && (needs.whatif.result == 'success' || github.event.inputs.runWhatIf != 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.TENANT_ID }}
+          subscription-id: ${{ env.SUBSCRIPTION_ID }}
+      - name: Ensure Resource Group (subscription scope)
+        uses: azure/arm-deploy@v2
+        with:
+          scope: subscription
+          subscriptionId: ${{ env.SUBSCRIPTION_ID }}
+          region: ${{ github.event.inputs.location }}
+          template: ./iac/bicep/subscription/ensure-environment.bicep
+          parameters: |
+            rgName=${{ github.event.inputs.resourceGroup }}
+            rgLocation=${{ github.event.inputs.location }}
+            tags={environment:${{ github.event.inputs.environment }}}
+          deploymentName: ensure-rg-${{ github.run_number }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [ensure-rg]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.TENANT_ID }}
+          subscription-id: ${{ env.SUBSCRIPTION_ID }}
+      - name: Deploy APIM
+        id: apimdeployment
+        uses: azure/arm-deploy@v2
+        with:
+          scope: resourcegroup
+          subscriptionId: ${{ env.SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ github.event.inputs.resourceGroup }}
+          template: ./iac/bicep/create-ws-enabled-apim-with-networking.bicep
+          parameters: ${{ github.event.inputs.paramFile }}
+          deploymentName: ${{ github.event.inputs.deploymentName != '' && github.event.inputs.deploymentName || format('apim-{0}', github.run_number) }}
+          failOnStdErr: false
+      - name: Check Result
+        run: |
+          STATE='${{ steps.apimdeployment.outputs.provisioningState }}'
+          echo "Provisioning State: $STATE"
+          if [ "$STATE" != "Succeeded" ]; then echo "Deployment failed" >&2; exit 1; fi
+      - name: Upload Deployment Outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apim-deployment-outputs
+          path: ${{ steps.apimdeployment.outputs.deploymentOutputPath }}
+          if-no-files-found: ignore
+
+  dns:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: ${{ github.event.inputs.createDnsRecord == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.TENANT_ID }}
+          subscription-id: ${{ env.SUBSCRIPTION_ID }}
+      - name: Poll gateway & create A record
+        env:
+          RG: ${{ github.event.inputs.resourceGroup }}
+          GATEWAY_NAME: ${{ github.event.inputs.internalGatewayName }}
+          DNS_ZONE: ${{ github.event.inputs.dnsZone }}
+          TIMEOUT: ${{ github.event.inputs.dnsTimeoutSeconds }}
+          API_VERSION: 2024-06-01-preview
+        run: |
+          set -euo pipefail
+          SUB_ID=$(az account show --query id -o tsv)
+          GATEWAY_ID="/subscriptions/$SUB_ID/resourceGroups/$RG/providers/Microsoft.ApiManagement/gateways/$GATEWAY_NAME"
+          CONFIG_NAME="gw-${GATEWAY_NAME}-config"
+          GATEWAY_URL="https://management.azure.com${GATEWAY_ID}?api-version=${API_VERSION}"
+          CONFIG_URL="https://management.azure.com${GATEWAY_ID}/configConnections/${CONFIG_NAME}?api-version=${API_VERSION}"
+
+          deadline=$(( $(date +%s) + TIMEOUT ))
+          internal_ip=""
+          runtime_host=""
+          echo "Polling gateway $GATEWAY_NAME for private IP (timeout ${TIMEOUT}s)..."
+          while [[ $(date +%s) -lt $deadline ]]; do
+            if GW_JSON=$(az rest --method get --url "$GATEWAY_URL" 2>/dev/null); then
+              internal_ip=$(echo "$GW_JSON" | jq -r '.properties.frontend.inboundIPAddresses.private[0] // empty')
+              if [[ -n "$internal_ip" ]]; then
+                echo "Internal gateway IP: $internal_ip"
+                if GWHOST_JSON=$(az rest --method get --url "$CONFIG_URL" 2>/dev/null); then
+                  runtime_host=$(echo "$GWHOST_JSON" | jq -r '.properties.defaultHostname // empty')
+                  echo "Gateway Hostname: $runtime_host"
+                fi
+                break
+              fi
+            fi
+            sleep 20
+            echo "Retry..."
+          done
+          if [[ -z "$internal_ip" ]]; then
+            echo "Failed to resolve gateway IP in time" >&2; exit 1; fi
+
+          record_label="$runtime_host"
+          if [[ "$record_label" == *".$DNS_ZONE" ]]; then
+            record_label="${record_label%.$DNS_ZONE}"
+          fi
+          if [[ -z "$record_label" ]]; then
+            echo "Derived empty record label" >&2; exit 1; fi
+          echo "Creating/ensuring A record: $record_label.$DNS_ZONE -> $internal_ip"
+
+          existing=$(az network private-dns record-set a show -g "$RG" -z "$DNS_ZONE" -n "$record_label" --query "arecords[?ipv4Address=='$internal_ip'] | length(@)" -o tsv 2>/dev/null || echo 0)
+          if [[ "$existing" =~ ^[1-9][0-9]*$ ]]; then
+            echo "Record already contains IP $internal_ip"
+            exit 0
+          fi
+          az network private-dns record-set a add-record -g "$RG" -z "$DNS_ZONE" -n "$record_label" -a "$internal_ip" -o none
+          echo "Added IP $internal_ip to $record_label.$DNS_ZONE"
