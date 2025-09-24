@@ -77,8 +77,9 @@ jobs:
           parameters: |
             rgName=${{ github.event.inputs.resourceGroup }}
             rgLocation=${{ github.event.inputs.location }}
-            tags={environment:${{ github.event.inputs.environment }}}
+            tags='{"environment":"${{ github.event.inputs.environment }}"}'
           deploymentName: ensure-rg-${{ github.run_number }}
+          failOnStdErr: false
 
   whatif:
     if: ${{ github.event.inputs.runWhatIf == 'true' }}
