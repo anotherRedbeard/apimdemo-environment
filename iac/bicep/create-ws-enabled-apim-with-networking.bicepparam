@@ -2,6 +2,7 @@ using './create-ws-enabled-apim-with-networking.bicep'
 
 param apimName = 'aaa-scus-premium-apim-dev'
 param location = 'eastus2'
+param secondaryLocation = 'southcentralus'
 param apimSku = 'Premium'
 param apimCapacity = 1
 param vnetName = 'aaa-scus-premium-apim-vnet'
