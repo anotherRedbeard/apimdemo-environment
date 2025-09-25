@@ -67,24 +67,8 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ env.TENANT_ID }}
           subscription-id: ${{ env.SUBSCRIPTION_ID }}
-      - name: Show parameter lines
-        run: |
-          echo "rgName=${{ github.event.inputs.resourceGroup }}"
-          echo "rgLocation=${{ github.event.inputs.location }}"
-          echo "environment=${{ github.event.inputs.environment }}"
-      - name: Ensure Resource Group (subscription scope)
-        uses: azure/arm-deploy@v2
-        with:
-          scope: subscription
-          subscriptionId: ${{ env.SUBSCRIPTION_ID }}
-          region: ${{ github.event.inputs.location }}
-          template: ./iac/bicep/subscription/ensure-environment.bicep
-          parameters: >
-            rgName=${{ github.event.inputs.resourceGroup }}
-            rgLocation=${{ github.event.inputs.location }}
-            environment=${{ github.event.inputs.environment }}
-          deploymentName: ensure-rg-${{ github.run_number }}
-          failOnStdErr: false
+      - name: Ensure Resource Group
+        run: az group create -n "${{ github.event.inputs.resourceGroup }}" -l "${{ github.event.inputs.location }}" --tags environment=${{ github.event.inputs.environment }} -o none
 
   whatif:
     if: ${{ github.event.inputs.runWhatIf == 'true' }}
