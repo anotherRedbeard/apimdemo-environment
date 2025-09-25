@@ -89,7 +89,12 @@ jobs:
           subscriptionId: ${{ env.SUBSCRIPTION_ID }}
           resourceGroupName: ${{ github.event.inputs.resourceGroup }}
           template: ./iac/bicep/create-ws-enabled-apim-with-networking.bicep
-          parameters: ${{ github.event.inputs.paramFile }}
+          # We can combine a bicepparam file with additional/override parameters.
+          # The action/CLI will pass the file first, then inline name=value pairs.
+          parameters: >
+            ${{ github.event.inputs.paramFile }}
+            orgName=${{ env.ORG_NAME }}
+            adminEmail=${{ secrets.APIM_ADMIN_EMAIL }}
           deploymentMode: Validate
           additionalArguments: --what-if
           failOnStdErr: false
@@ -114,7 +119,11 @@ jobs:
           subscriptionId: ${{ env.SUBSCRIPTION_ID }}
           resourceGroupName: ${{ github.event.inputs.resourceGroup }}
           template: ./iac/bicep/create-ws-enabled-apim-with-networking.bicep
-          parameters: ${{ github.event.inputs.paramFile }}
+          # Combine parameter file plus secret overrides (same pattern as What-If step).
+          parameters: >
+            ${{ github.event.inputs.paramFile }}
+            orgName=${{ env.ORG_NAME }}
+            adminEmail=${{ secrets.APIM_ADMIN_EMAIL }}
           deploymentName: ${{ github.event.inputs.deploymentName != '' && github.event.inputs.deploymentName || format('apim-{0}', github.run_number) }}
           failOnStdErr: false
       - name: Check Result

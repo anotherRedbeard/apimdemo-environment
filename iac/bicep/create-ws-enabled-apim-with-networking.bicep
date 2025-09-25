@@ -47,10 +47,68 @@ param publicSubnetAddressPrefix string
 param privateSubnetAddressPrefix string
 
 @description('Array of API definitions to deploy. openApiSpecUrl is used for import.')
-param apis array
+param apis array = [
+  {
+    name: 'petstore-api'
+    displayName: 'Pet Store API'
+    description: 'Pet Store API'
+    path: 'petstore'
+    serviceUrl: 'https://petstore.swagger.io/v2'
+    openApiSpecUrl: 'https://petstore.swagger.io/v2/swagger.json'
+    subscriptionRequired: true
+    protocols: [
+      'https'
+    ]
+    apiType: 'http'
+    format: 'openapi+json-link'
+    subscriptionKeyParameterNames: {
+      header: 'api-key'
+      query: 'api-key'
+    }
+  }
+]
 
 @description('Array of workspace API definitions to deploy. openApiSpecUrl is used for import.')
-param workspaceApis array
+param workspaceApis array = [
+  {
+    workspaceName: 'public-ws'
+    name: 'ws-public-colors-api'
+    displayName: 'Public Workspace Colors API'
+    description: 'Public WorkspaceColors API'
+    path: 'ws-public/color'
+    serviceUrl: 'https://colors-api.azurewebsites.net/'
+    openApiSpecUrl: 'https://colors-api.azurewebsites.net/swagger/v1/swagger.json'
+    subscriptionRequired: true
+    protocols: [
+      'https'
+    ]
+    apiType: 'http'
+    format: 'openapi+json-link'
+    subscriptionKeyParameterNames: {
+      header: 'api-key'
+      query: 'api-key'
+    }
+  }
+  {
+    workspaceName: 'private-ws'
+    name: 'ws-private-fake-api'
+    displayName: 'Internal Workspace Fake API'
+    description: 'Internal WorkspaceFake API'
+    path: 'ws-private/fake'
+    serviceUrl: 'https://fakerestapi.azurewebsites.net/'
+    openApiSpecUrl: 'https://fakerestapi.azurewebsites.net/swagger/v1/swagger.json'
+    subscriptionRequired: true
+    protocols: [
+      'https'
+    ]
+    apiType: 'http'
+    format: 'openapi+json-link'
+    subscriptionKeyParameterNames: {
+      header: 'api-key'
+      query: 'api-key'
+    }
+  }
+]
 
 @description('Workspace definitions. NOTE: Workspaces do not attach to subnets individually; network isolation is configured at the APIM service (gateway) level. publicNetworkAccess Disabled limits public access for that workspace scope.')
 param workspaces array = [
@@ -246,26 +304,6 @@ module apimPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = {
     location: 'global'
   }
 }
-
-// Create A record
-/*module apimPrivateDnsZoneA 'br/public:avm/res/network/private-dns-zone/a:0.1.0' = {
-  name: 'apimPrivateDnsZoneARecordDeployment'
-  params: {
-    aRecords: [
-      {
-        ipv4Address: gatewaysMod.outputs.internalGatewayPrivateVip
-      }
-    ]
-    name: apimName
-    privateDnsZoneName: gatewaysMod.outputs.apimPrivateDnsZone.outputs.name
-    ttl: 300
-  }
-  dependsOn: [
-    gatewaysMod
-    apimPrivateDnsZone
-  ]
-}
-*/
 
 // Existing NSGs
 resource subnet1Nsg 'Microsoft.Network/networkSecurityGroups@2024-07-01' existing = {
