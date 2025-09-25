@@ -126,13 +126,19 @@ jobs:
             adminEmail=${{ secrets.APIM_ADMIN_EMAIL }}
           deploymentName: ${{ github.event.inputs.deploymentName != '' && github.event.inputs.deploymentName || format('apim-{0}', github.run_number) }}
           failOnStdErr: false
-      - name: Check Result
+      - name: Check Deployment State
+        # The arm-deploy action does not expose provisioningState directly unless template outputs it.
+        # Query the deployment explicitly to determine success.
+        env:
+          RG: ${{ github.event.inputs.resourceGroup }}
+          DEPLOYMENT_NAME: ${{ github.event.inputs.deploymentName != '' && github.event.inputs.deploymentName || format('apim-{0}', github.run_number) }}
         run: |
-          STATE='${{ steps.apimdeployment.outputs.provisioningState }}'
+          set -euo pipefail
+          STATE=$(az deployment group show -g "$RG" -n "$DEPLOYMENT_NAME" --query properties.provisioningState -o tsv || echo "Unknown")
           echo "Provisioning State: $STATE"
           if [ "$STATE" != "Succeeded" ]; then echo "Deployment failed" >&2; exit 1; fi
       - name: Upload Deployment Outputs
-        if: always()
+        if: ${{ steps.apimdeployment.outputs.deploymentOutputPath && steps.apimdeployment.outputs.deploymentOutputPath != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: apim-deployment-outputs
