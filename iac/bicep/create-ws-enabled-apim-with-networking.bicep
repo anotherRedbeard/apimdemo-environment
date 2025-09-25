@@ -428,3 +428,12 @@ resource subnet2RuleOutboundStorage 'Microsoft.Network/networkSecurityGroups/sec
     gatewaysMod
   ]
 }
+
+// -----------------
+// Outputs
+// -----------------
+@description('Deployed APIM service name')
+output apimServiceName string = service.outputs.name
+
+@description('Primary location of APIM service')
+output apimPrimaryLocation string = location

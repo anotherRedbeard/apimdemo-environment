@@ -30,7 +30,7 @@ on:
       createDnsRecord:
         description: 'Create internal gateway Private DNS A record (true|false)'
         required: false
-        default: 'false'
+        default: 'true'
       internalGatewayName:
         description: 'Internal gateway name (for DNS polling)'
         required: false
@@ -137,6 +137,35 @@ jobs:
           STATE=$(az deployment group show -g "$RG" -n "$DEPLOYMENT_NAME" --query properties.provisioningState -o tsv || echo "Unknown")
           echo "Provisioning State: $STATE"
           if [ "$STATE" != "Succeeded" ]; then echo "Deployment failed" >&2; exit 1; fi
+      - name: Deployment Summary
+        if: success()
+        env:
+          RG: ${{ github.event.inputs.resourceGroup }}
+          DEPLOYMENT_NAME: ${{ github.event.inputs.deploymentName != '' && github.event.inputs.deploymentName || format('apim-{0}', github.run_number) }}
+        run: |
+          set -euo pipefail
+          SUMMARY_FILE="$GITHUB_STEP_SUMMARY"
+          echo "# APIM Deployment Summary" >> "$SUMMARY_FILE"
+          echo "Deployment: $DEPLOYMENT_NAME" >> "$SUMMARY_FILE"
+          echo "Resource Group: $RG" >> "$SUMMARY_FILE"
+          # If outputs file exists (action artifact), parse; else query directly.
+          if [ -n "${{ steps.apimdeployment.outputs.deploymentOutputPath }}" ] && [ -f "${{ steps.apimdeployment.outputs.deploymentOutputPath }}" ]; then
+            echo "Using action generated outputs file." >> "$SUMMARY_FILE"
+            cat "${{ steps.apimdeployment.outputs.deploymentOutputPath }}" | jq -r 'to_entries | .[] | "- **\(.key)**: \(.value.value | tostring)"' >> "$SUMMARY_FILE" || echo "(Failed to parse outputs file)" >> "$SUMMARY_FILE"
+          else
+            # Query outputs directly via az for the deployment
+            RAW=$(az deployment group show -g "$RG" -n "$DEPLOYMENT_NAME" --query properties.outputs -o json || echo '{}')
+            if [ "$RAW" != "{}" ]; then
+              echo "$RAW" | jq -r 'to_entries | .[] | "- **\(.key)**: \(.value.value | tostring)"' >> "$SUMMARY_FILE" || echo "(Failed to parse outputs JSON)" >> "$SUMMARY_FILE"
+            else
+              echo "No template outputs defined." >> "$SUMMARY_FILE"
+            fi
+          fi
+          # Add a few important derived values
+          APIM_NAME=$(az deployment group show -g "$RG" -n "$DEPLOYMENT_NAME" --query "properties.parameters.apimName.value" -o tsv 2>/dev/null || echo 'unknown')
+          echo "\n## Key Resources" >> "$SUMMARY_FILE"
+            echo "- APIM Service Name: $APIM_NAME" >> "$SUMMARY_FILE"
+          echo "Summary written to $SUMMARY_FILE"
       - name: Upload Deployment Outputs
         if: ${{ steps.apimdeployment.outputs.deploymentOutputPath && steps.apimdeployment.outputs.deploymentOutputPath != '' }}
         uses: actions/upload-artifact@v4
