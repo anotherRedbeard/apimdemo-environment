@@ -71,7 +71,7 @@ jobs:
         run: |
           echo "rgName=${{ github.event.inputs.resourceGroup }}"
           echo "rgLocation=${{ github.event.inputs.location }}"
-          echo "tags={\"environment\":\"${{ github.event.inputs.environment }}\"}"
+          echo "environment=${{ github.event.inputs.environment }}"
       - name: Ensure Resource Group (subscription scope)
         uses: azure/arm-deploy@v2
         with:
@@ -82,7 +82,7 @@ jobs:
           parameters: >
             rgName=${{ github.event.inputs.resourceGroup }}
             rgLocation=${{ github.event.inputs.location }}
-            tags={"environment":"${{ github.event.inputs.environment }}"}
+            environment=${{ github.event.inputs.environment }}
           deploymentName: ensure-rg-${{ github.run_number }}
           failOnStdErr: false
 

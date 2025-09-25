@@ -6,9 +6,11 @@ param rgName string
 @description('Azure region for the Resource Group')
 param rgLocation string
 
-@description('Optional tags to apply to the Resource Group')
-param tags object = {
-  environment: 'dev'
+@description('Environment name used for tagging (e.g. dev, test, prod)')
+param environment string = 'dev'
+
+var tags = {
+  environment: environment
 }
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
