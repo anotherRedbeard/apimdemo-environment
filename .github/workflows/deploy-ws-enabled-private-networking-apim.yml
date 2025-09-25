@@ -79,7 +79,7 @@ jobs:
           subscriptionId: ${{ env.SUBSCRIPTION_ID }}
           region: ${{ github.event.inputs.location }}
           template: ./iac/bicep/subscription/ensure-environment.bicep
-          parameters: |
+          parameters: >
             rgName=${{ github.event.inputs.resourceGroup }}
             rgLocation=${{ github.event.inputs.location }}
             tags={"environment":"${{ github.event.inputs.environment }}"}
