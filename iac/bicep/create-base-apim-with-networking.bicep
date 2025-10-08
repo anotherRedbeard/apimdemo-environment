@@ -83,12 +83,10 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.5.1' = {
       {
         name: publicSubnetName
         addressPrefix: publicSubnetAddressPrefix
-        delegation: 'Microsoft.Web/serverFarms'
       }
       {
         name: privateSubnetName2
         addressPrefix: privateSubnet2AddressPrefix
-        delegation: 'Microsoft.Web/hostingEnvironments'
       }
       {
         name: privateSubnetName3
