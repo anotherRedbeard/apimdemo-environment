@@ -132,6 +132,7 @@ Before you begin, ensure you have the following installed:
   - Premium sku of API Management
   - VNet
   - Subnet (/27 for APIM)
+  - Petstore API added during deployment
 
 - **Command to deploy via bicep:**
 

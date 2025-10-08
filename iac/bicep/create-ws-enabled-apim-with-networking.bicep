@@ -296,7 +296,7 @@ module apiModules 'br/public:avm/res/api-management/service/api:0.1.0' = [for ap
   ]
 }]
 
-// DNS Private Zone (unchanged)
+// DNS Private Zone
 module apimPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = {
   name: 'privateDnsZoneDeployment'
   params: {

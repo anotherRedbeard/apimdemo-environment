@@ -8,8 +8,10 @@ param apimSku = 'Developer'
 param apimCapacity = 1
 param vnetName = 'vnetName'
 param publicSubnetName  = 'publicSubnetName'
-param privateSubnetName  = 'privateSubnetName'
+param privateSubnetName2  = 'privateSubnetName2'
+param privateSubnetName3  = 'privateSubnetName3'
 param vnetAddressPrefix = '<vnetAddressPrefix>'
 param publicSubnetAddressPrefix = '<publicSubnetAddressPrefix>'
-param privateSubnetAddressPrefix = '<privateSubnetAddressPrefix>'
+param privateSubnet2AddressPrefix = '<privateSubnet2AddressPrefix>'
+param privateSubnet3AddressPrefix = '<privateSubnet3AddressPrefix>'
 
