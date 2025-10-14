@@ -141,6 +141,24 @@ Before you begin, ensure you have the following installed:
     az deployment group create --resource-group <resource-group-name> --name apim-base-with-network-deployment --parameters ./iac/bicep/create-base-apim-with-networking.dev.bicepparam
     ```
 
+#### Create AI Package with networking options
+
+- `create-ai-package-with-networking.bicep` is the main template to create an AI package with networking options (Vnet and subnet). These options are applied for my demos so there may be some automation pieces missing for me to be able to demo them in the Portal..
+- **What's Included:**
+  - Developer sku of API Management
+  - VNet
+  - 3 Subnets (/24 for APIM, AppGw, and Private Endpoint)
+  - Petstore API added during deployment
+  - AI Services and Models (if specified in the parameters file)
+  - Log Analytics workspace for monitoring
+
+- **Command to deploy via bicep:**
+
+    ```bash
+    az group create --name <resource-group-name> --location <location>
+    az deployment group create --resource-group <resource-group-name> --name ai-package-with-network-deployment --parameters ./iac/bicep/create-ai-package-with-networking.dev.bicepparam
+    ```
+
 #### Create workspace-enabled APIM instance with networking
 
 - `create-ws-enabled-apim-with-networking.bicep` deploys a Premium SKU API Management instance with:
@@ -151,8 +169,72 @@ Before you begin, ensure you have the following installed:
 - **What's Included:**
   - Premium sku of API Management
   - VNet
-  - Subnet (/24 for internal workspace gateway)
-  - Unique api for each workspace and the global service
+    - APIM-Subnet (/24 for internal workspace gateway)
+    - AppGw-Subnet (/24 for Application Gateway)
+    - PE-Subnet (/24 for Private Endpoint)
+  - PetStore api for the global service
+  - AI Foundry service and model (if specified in the parameters file)
+  - Log Analytics workspace for monitoring
+  - Application Gateway v2 in front of APIM
+
+- **Architecture**
+
+  The diagrams below illustrate the private-network deployment of APIM behind an Application Gateway, enabling secure agentic (MCP) calls to external APIs (e.g., Petstore) and model augmentations while preserving internal-only exposure of APIM.
+
+```mermaid
+graph TD
+  %% Style definitions
+  classDef azure fill:#2560e0,stroke:#10325c,color:#ffffff;
+  classDef diag fill:#ffe8c2,stroke:#c27d00,color:#000000;
+  classDef ext fill:#ffffff,stroke:#888888,color:#222222;
+
+  subgraph Internet[Public Internet]
+    UserBrowser[(Developer / Client)]
+    AgentRuntime[(AI Agent Runtime)]
+  end
+
+  UserBrowser -->|HTTP 80| AppGW_PIP[(Public IP)]
+  AgentRuntime -->|HTTP 80| AppGW_PIP
+
+  subgraph VNet[Virtual Network vnetName]
+    subgraph Subnet_AG[appgw-subnet]
+      AppGW[Application Gateway Standard_v2]
+    end
+
+    subgraph Subnet_APIM[apim-subnet internal]
+      APIM[API Management Internal]
+      MCPServer[[MCP Server via APIM Route]]:::azure
+    end
+
+    subgraph Subnet_PE[private-endpoint Foundry]
+      FoundryPE[(Private Endpoint)]
+    end
+  end
+
+  subgraph Observability
+    LAW[(Log Analytics Workspace)]:::diag
+    AppInsights[(App Insights)]:::diag
+  end
+
+  subgraph ExternalAPIs[External Services]
+    OpenAIModels[(AI Foundry Model Deployments)]:::ext
+  end
+
+  %% Flows
+  AppGW_PIP --> AppGW
+  AppGW -->|Internal HTTP| APIM
+  APIM -->|Outbound HTTPS| Petstore-Api
+  APIM -->|Invoke Model APIs| OpenAIModels
+  APIM --> MCPServer --> Petstore-Api
+  FoundryPE --> OpenAIModels
+
+  %% Observability wiring
+  APIM -- Logs/Metrics --> AppInsights
+  AppGW -- Diagnostics --> LAW
+  AppInsights --> LAW
+
+  class AppGW,APIM,MCPServer,FoundryPE,LAW,AppInsights azure
+```
 
 - **Command to deploy via bicep:**
 
