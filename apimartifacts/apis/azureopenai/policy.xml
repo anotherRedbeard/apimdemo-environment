@@ -15,7 +15,7 @@
 		<base />
 		<!-- Extract deployment-id from the request URL and set it as a variable -->
 		<set-variable name="deploymentId" value="@(context.Request.MatchedParameters.GetValueOrDefault("deployment-id", ""))" />
-		<!--<include-fragment fragment-id="llm-dynamic-policies-by-usecase-v1" />-->
+		<include-fragment fragment-id="llm-dynamic-policies-by-usecase-v1" />
 		<!--OpenAI Policies-->
 		<!--<set-header name="api-key" exists-action="override">
             <value>{{AzureOpenAIKey}}</value>
@@ -28,6 +28,7 @@
 		<!--2. APIM instance must be integrated with AppInsights-->
 		<!--3. AppInsights logging must be enabled for the api you want to log-->
 		<!--4. Enable customer metrics with dimensions in AppInsights-->
+		<!--*****************************Emit token metric policy***********************************-->
 		<azure-openai-emit-token-metric namespace="AzureOpenAI">
 			<dimension name="Client IP" value="@(context.Request.IpAddress)" />
 			<dimension name="Subscription ID" />
@@ -35,8 +36,9 @@
 			<dimension name="custom" value="@(context.Variables.GetValueOrDefault<String>("deploymentId"))" />
 			<dimension name="UseCaseId" value="@(context.Request.Headers.GetValueOrDefault("UseCaseId"))" />
 		</azure-openai-emit-token-metric>
+		<!--*****************************Token limit policy***********************************-->
 		<azure-openai-token-limit counter-key="@(context.Subscription.Id)" tokens-per-minute="5000" estimate-prompt-tokens="false" />
-		<!--Load Balancing-->
+		<!--*****************************Backend load balancer and circuit breaker***********************************-->
 		<!-- Route based on the deployment-id value -->
 		<choose>
 			<when condition="@(context.Variables.GetValueOrDefault<String>("deploymentId") == "gpt35-model")">
@@ -52,7 +54,7 @@
 				<set-backend-service backend-id="eus-aoai-backend" />
 			</otherwise>
 		</choose>
-		<!--Content Safety Policy-->
+		<!--*****************************Content safety policy***********************************-->
 		<llm-content-safety backend-id="content-safety-backend" shield-prompt="true">
 			<categories output-type="EightSeverityLevels">
 				<category name="SelfHarm" threshold="4" />
@@ -61,6 +63,7 @@
 				<category name="Sexual" threshold="4" />
 			</categories>
 		</llm-content-safety>
+		<!--*****************************Semantic caching policy***********************************-->
 		<!--Semantic cache lookup-->
 		<azure-openai-semantic-cache-lookup embeddings-backend-auth="system-assigned" embeddings-backend-id="embeddings-backend" score-threshold="0.05">
 			<vary-by>@(context.Subscription.Id)</vary-by>

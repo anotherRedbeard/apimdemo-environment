@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "test/foo",
+    "apiRevision": "1",
+    "apiVersionSetId": "/subscriptions/0272c02b-5a38-4b6b-86e6-dcc4ff2ff0e8/resourceGroups/red-scus-apim-rg/providers/Microsoft.ApiManagement/service/red-scus-apimdemo-dev/apiVersionSets/68f951fc72b48c819fb3094a",
+    "authenticationSettings": {},
+    "description": "",
+    "isCurrent": true,
+    "displayName": "test",
+    "protocols": [
+      "https"
+    ],
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

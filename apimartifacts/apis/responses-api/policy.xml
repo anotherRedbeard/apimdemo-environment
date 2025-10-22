@@ -23,6 +23,10 @@
 		<!-- 4: If responseId is not null, look it up in cache -->
 		<!--<include-fragment fragment-id="response-api-inbound-lookup-user-state-internal-cache-v1" />-->
 		<include-fragment fragment-id="response-api-inbound-lookup-user-state-azfunc-v1" />
+		<set-variable name="foo" value="@(context.Request.OriginalUrl.Path)" />
+		<set-variable name="bar" value="@(context.Request.Url.Path)" />
+		<set-variable name="baz" value="@(context.Request.Url.Path.Substring(context.Api.Path.Length))" />
+		<rewrite-uri template="@("/v1" + context.Request.Url.Path)" copy-unmatched-params="true" />
 		<!-- Set backend -->
 		<set-backend-service id="apim-generated-policy" backend-id="responses-api-ai-endpoint" />
 	</inbound>

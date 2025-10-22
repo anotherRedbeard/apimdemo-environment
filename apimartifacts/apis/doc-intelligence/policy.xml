@@ -11,6 +11,7 @@
 		<set-header name="Ocp-Apim-Subscription-Key" exists-action="override">
 			<value>{{doc-intel-key}}</value>
 		</set-header>
+		<set-variable name="backendurl" value="https://docintelligence-eus2.cognitiveservices.azure.com/formrecognizer" />
 	</inbound>
 	<!-- Control if and how the requests are forwarded to services  -->
 	<backend>
@@ -19,6 +20,31 @@
 	<!-- Customize the responses -->
 	<outbound>
 		<base />
+		<choose>
+			<when condition="@(context.Response.Headers.ContainsKey("Operation-Location"))">
+				<set-variable name="foo" value="@(context.Request.OriginalUrl.Path)" />
+				<set-variable name="bar" value="@(context.Request.OriginalUrl.Path.Substring(0,20))" />
+				<set-header name="Operation-Location" exists-action="override">
+					<value>@{
+                        string returnUrl = context.Response.Headers.GetValueOrDefault("Operation-Location");
+                        string firstMatch = "";
+                        string originalPath = context.Request.OriginalUrl.Path;
+                        string pattern = @"^/([^/]+)/";
+
+                        // Using a regular expression to check for the urlPrefix since it's not available in the context object
+                        Match match = Regex.Match(originalPath, pattern);
+
+                        if (match.Success)
+                        {
+                            firstMatch = match.Groups[1].Value; // Group 1 contains the captured word
+                        }
+
+                        var newUri = returnUrl.Replace((string)context.Variables.GetValueOrDefault("backendurl"), context.Request.OriginalUrl.Host + "/" + firstMatch);
+                        return "https://"+newUri.ToString();
+                    }</value>
+				</set-header>
+			</when>
+		</choose>
 	</outbound>
 	<!-- Handle exceptions and customize error responses  -->
 	<on-error>

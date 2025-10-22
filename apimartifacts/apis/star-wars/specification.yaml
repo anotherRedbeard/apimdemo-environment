@@ -28,7 +28,7 @@ paths:
       responses:
         '200':
           description: ''
-  /film:
+  /films:
     get:
       summary: Get Film
       description: Get Film

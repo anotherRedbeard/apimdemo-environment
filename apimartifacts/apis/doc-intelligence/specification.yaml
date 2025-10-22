@@ -1127,15 +1127,11 @@ paths:
             image/png:
               schema:
                 type: file
-              examples:
-                default:
-                  value: 
+              example: ''
             application/json:
               schema:
                 type: file
-              examples:
-                default:
-                  value: 
+              example: ''
         '400':
           description: An unexpected error response.
           content:
@@ -1189,15 +1185,11 @@ paths:
             application/pdf:
               schema:
                 type: file
-              examples:
-                default:
-                  value: 
+              example: ''
             application/json:
               schema:
                 type: file
-              examples:
-                default:
-                  value: 
+              example: ''
         '400':
           description: An unexpected error response.
           content:

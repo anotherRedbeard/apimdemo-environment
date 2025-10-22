@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "path": "pets",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key \u0060special-key\u0060 to test the authorization filters.",
+    "isCurrent": true,
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "displayName": "Swagger Petstore",
+    "protocols": [
+      "http",
+      "https"
+    ],
+    "serviceUrl": "https://petstore.swagger.io/v2",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true,
+    "termsOfServiceUrl": "http://swagger.io/terms/"
+  }
+}
