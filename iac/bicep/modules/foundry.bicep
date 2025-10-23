@@ -94,6 +94,10 @@ resource aiProjectManagerRoleAssignment 'Microsoft.Authorization/roleAssignments
     principalId: deployer().objectId
     principalType: 'User'
   }
+  // Ensure cognitiveService fully provisioned before applying role assignment
+  dependsOn: [
+    cognitiveService
+  ]
 }
 
 
@@ -111,6 +115,9 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
       }
     ]
   }
+  dependsOn: [
+    cognitiveService
+  ]
 }
 
 resource appInsightsConnection 'Microsoft.CognitiveServices/accounts/connections@2025-06-01' = if (length(appInsightsId) > 0 && length(appInsightsInstrumentationKey) > 0) {
@@ -143,6 +150,9 @@ resource roleAssignmentCognitiveServicesUser 'Microsoft.Authorization/roleAssign
     principalId: apimPrincipalId
     principalType: 'ServicePrincipal'
   }
+  dependsOn: [
+    cognitiveService
+  ]
 }
 
 module modelDeployments 'deployments.bicep' = {
@@ -151,6 +161,9 @@ module modelDeployments 'deployments.bicep' = {
     cognitiveServiceName: cognitiveService.name
     modelsConfig: modelsConfig
   }
+  dependsOn: [
+    cognitiveService
+  ]
 }
 
 // Private Endpoints (one per Cognitive Services account) if subnet supplied
@@ -172,6 +185,9 @@ resource cognitiveServicePrivateEndpoint 'Microsoft.Network/privateEndpoints@202
       }
     ]
   }
+  dependsOn: [
+    cognitiveService
+  ]
 }
 
 // Optional DNS zone group attachments

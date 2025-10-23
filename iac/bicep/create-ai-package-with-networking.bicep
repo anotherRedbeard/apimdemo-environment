@@ -117,7 +117,7 @@ param appGatewayMinCapacity int = 1
 param appGatewayMaxCapacity int = 2
 
 @description('Availability zones to deploy the Application Gateway into (empty array for no explicit zones).')
-param appGatewayZones array = [ 1 ]
+param appGatewayZones array = [ 1, 2, 3 ]
 
 @description('Name for a new Public IP (ignored if existingPublicIpResourceId provided).')
 param publicIpName string = '${apimName}-agw-pip'
@@ -228,6 +228,52 @@ module apimAppInsightsLogger 'br/public:avm/res/api-management/service/logger:0.
   ]
 }
 
+// get existing APIM service from service resource id
+resource existingApimService 'Microsoft.ApiManagement/service@2022-08-01' existing = {
+  name: apimName
+}
+
+// Create all api diagnostics
+resource apimAppInsights 'Microsoft.ApiManagement/service/diagnostics@2022-08-01' = {
+  parent: existingApimService
+  name: 'applicationinsights'
+  properties: {
+    alwaysLog: 'allErrors'
+    httpCorrelationProtocol: 'Legacy'
+    verbosity: 'verbose'
+    logClientIp: true
+    loggerId: apimAppInsightsLogger.outputs.resourceId
+    sampling: {
+      samplingType: 'fixed'
+      percentage: 100
+    }
+    frontend: {
+      request: {
+        body: {
+          bytes: 8190
+        }
+      }
+      response: {
+        body: {
+          bytes: 8190
+        }
+      }
+    }
+    backend: {
+      request: {
+        body: {
+          bytes: 8192
+        }
+      }
+      response: {
+        body: {
+          bytes: 8192
+        }
+      }
+    }
+  }
+}
+
 module apiModules 'br/public:avm/res/api-management/service/api:0.1.0' = [for api in apis: {
   name: 'apiDeployment-${api.name}'
   params: {
@@ -263,6 +309,50 @@ module foundryModule './modules/foundry.bicep' = {
   }
 }
 
+// Add api for foundry to apim
+module foundryApiModules 'br/public:avm/res/api-management/service/api:0.1.0' = {
+  name: 'apiDeployment-foundry'
+  params: {
+    apiManagementServiceName: service.outputs.name
+    apiType: 'http'
+    description: 'AI Foundry API'
+    displayName: 'AI Foundry API'
+    format: 'openapi+json-link'
+    name: 'aifoundry'
+    path: 'foundry'
+    protocols: ['https']
+    serviceUrl: foundryModule.outputs.projectEndpoint
+    subscriptionKeyParameterNames: {
+      header: 'api-key'
+      query: 'api-key'
+    }
+    subscriptionRequired: true
+    value: 'https://raw.githubusercontent.com/Azure/azure-rest-api-specs/refs/heads/main/specification/ai/data-plane/Azure.AI.Agents/preview/2025-05-15-preview/azure-ai-agents.json'
+  }
+  dependsOn: [
+  ]
+}
+
+// Get reference to the foundry API resource
+resource foundryApi 'Microsoft.ApiManagement/service/apis@2024-06-01-preview' existing = {
+  name: 'aifoundry'
+  parent: existingApimService
+}
+
+// API policy for the foundry API
+resource foundryApiPolicy 'Microsoft.ApiManagement/service/apis/policies@2024-06-01-preview' = {
+  // Per APIM contract the name of any *policies* entity must be exactly 'policy'
+  name: 'policy'
+  parent: foundryApi
+  properties: {
+    format: 'rawxml'
+    value: loadTextContent('./create-ai-package-foundry-policy.xml')
+  }
+  dependsOn: [
+    foundryApiModules
+  ]
+}
+
 // Network Security Group for the apim subnet
 resource apimSubnetNsg 'Microsoft.Network/networkSecurityGroups@2024-07-01' = {
   name: '${vnetName}-${privateSubnetName}-nsg-${location}'
@@ -289,7 +379,7 @@ resource appGatewaySubnetNsg 'Microsoft.Network/networkSecurityGroups@2024-07-01
           sourceAddressPrefix: 'GatewayManager'
           destinationAddressPrefix: '*'
           access: 'Allow'
-          priority: 2704
+          priority: 2710
           direction: 'Inbound'
         }
       }
@@ -299,7 +389,11 @@ resource appGatewaySubnetNsg 'Microsoft.Network/networkSecurityGroups@2024-07-01
         properties: {
           protocol: 'Tcp'
           sourcePortRange: '*'
-          destinationPortRange: '80'
+          // Multiple ports must use destinationPortRanges (not a comma-delimited string)
+          destinationPortRanges: [
+            '80'
+            '443'
+          ]
           sourceAddressPrefix: 'Internet'
           destinationAddressPrefix: '*'
           access: 'Allow'
@@ -310,25 +404,6 @@ resource appGatewaySubnetNsg 'Microsoft.Network/networkSecurityGroups@2024-07-01
     ]
   }
 }
-
-// (GatewayManager ephemeral rule already injected by policy as AllowGatewayManager @ ~2702)
-
-// (Optional future) Allow HTTPS can be added similarly if/when listener on 443 introduced
-// resource appGwRuleInboundHttps 'Microsoft.Network/networkSecurityGroups/securityRules@2024-07-01' = {
-//   parent: appGatewaySubnetNsg
-//   name: 'Inbound-Internet-HTTPS'
-//   properties: {
-//     protocol: 'Tcp'
-//     sourcePortRange: '*'
-//     destinationPortRange: '443'
-//     sourceAddressPrefix: '*'
-//     destinationAddressPrefix: 'VirtualNetwork'
-//     access: 'Allow'
-//     priority: 110
-//     direction: 'Inbound'
-//   }
-//   dependsOn: [ virtualNetwork ]
-// }
 
 // Inbound rules now conditional on resolved IP
 resource subnet3RuleInboundVNet 'Microsoft.Network/networkSecurityGroups/securityRules@2024-07-01' = {
@@ -535,6 +610,24 @@ module applicationGateway 'br/public:avm/res/network/application-gateway:0.7.2' 
   params: {
     name: applicationGatewayName
     availabilityZones: appGatewayZones
+    diagnosticSettings: [
+      {
+        name: '${applicationGatewayName}-diagnostic'
+        logCategoriesAndGroups: [
+          {
+            categoryGroup: 'allLogs'
+            enabled: true
+          }
+        ]
+        metricCategories: [
+          {
+            category: 'AllMetrics'
+            enabled: true
+          }
+        ]
+        workspaceResourceId: law.outputs.resourceId
+      }
+    ]
     location: location
     sku: appGatewaySkuName
     enableHttp2: appGatewayEnableHttp2
@@ -605,6 +698,8 @@ module applicationGateway 'br/public:avm/res/network/application-gateway:0.7.2' 
         }
       }
     ]
+    sslPolicyType: 'Predefined'
+    sslPolicyName: 'AppGwSslPolicy20220101'
   }
   dependsOn: [
     service
