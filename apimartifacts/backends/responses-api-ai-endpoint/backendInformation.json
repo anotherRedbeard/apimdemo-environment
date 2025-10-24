@@ -9,6 +9,6 @@
       "validateCertificateChain": false,
       "validateCertificateName": false
     },
-    "url": "https://red-eus-demo-oai.openai.azure.com/openai/v1"
+    "url": "https://red-eus-demo-oai.openai.azure.com/openai"
   }
 }

@@ -28,7 +28,7 @@
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"
     },
-    "subscriptionRequired": true,
+    "subscriptionRequired": false,
     "termsOfServiceUrl": "https://github.com/markharrison/ColorsAPI/blob/master/LICENSE"
   }
 }

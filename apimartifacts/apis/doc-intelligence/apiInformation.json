@@ -9,11 +9,11 @@
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://docintelligence-eus2.cognitiveservices.azure.com/documentintelligence",
+    "serviceUrl": "https://docintelligence-eus2.cognitiveservices.azure.com/formrecognizer",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"
     },
-    "subscriptionRequired": true
+    "subscriptionRequired": false
   }
 }

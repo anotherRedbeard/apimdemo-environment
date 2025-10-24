@@ -90,9 +90,7 @@ paths:
             text/event-stream:
               schema:
                 $ref: '#/components/schemas/responseStreamEvent'
-              examples:
-                default:
-                  value: 
+              example: ''
         '400':
           description: Service unavailable
           headers:

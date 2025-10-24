@@ -9,6 +9,7 @@ paths:
   /get:
     get:
       summary: FetchData
+      description: FetchData
       operationId: fetchdata
       responses:
         '200':
@@ -16,6 +17,7 @@ paths:
   '/status/{code}':
     get:
       summary: GetStatus
+      description: GetStatus
       operationId: getstatus
       parameters:
         - name: code
@@ -29,6 +31,7 @@ paths:
   /*:
     get:
       summary: WildcardGet
+      description: WildcardGet
       operationId: wildcardget
       responses:
         '200':
