@@ -5,6 +5,14 @@
       "query": {}
     },
     "protocol": "http",
+    "credentials": {
+      "query": {},
+      "header": {},
+      "managedIdentity": {
+        "resource": "https://cognitiveservices.azure.com",
+        "clientId": null
+      }
+    },
     "tls": {
       "validateCertificateChain": false,
       "validateCertificateName": false
