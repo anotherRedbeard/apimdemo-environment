@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Mark Harrison Colors API
-  description: Colors API
+  description: Colors API new test
   termsOfService: https://github.com/markharrison/ColorsAPI/blob/master/LICENSE
   contact:
     name: Mark Harrison

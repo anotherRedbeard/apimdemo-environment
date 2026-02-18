@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "aisearchindex",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "Client that can be used to query an index and upload, merge, or delete documents.",
+    "isCurrent": true,
+    "displayName": "SearchIndexClient",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://contososrch212121.search.windows.net",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

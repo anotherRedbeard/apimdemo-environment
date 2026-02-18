@@ -5,38 +5,50 @@
     "backend": {
       "request": {
         "body": {
-          "bytes": 1000
+          "bytes": 0
         },
-        "headers": []
+        "headers": [
+          "WWW-Authenticate",
+          "logger"
+        ]
       },
       "response": {
         "body": {
-          "bytes": 1000
+          "bytes": 0
         },
-        "headers": []
+        "headers": [
+          "WWW-Authenticate",
+          "logger"
+        ]
       }
     },
     "frontend": {
       "request": {
         "body": {
-          "bytes": 1000
+          "bytes": 0
         },
-        "headers": []
+        "headers": [
+          "WWW-Authenticate",
+          "logger"
+        ]
       },
       "response": {
         "body": {
-          "bytes": 1000
+          "bytes": 0
         },
-        "headers": []
+        "headers": [
+          "WWW-Authenticate",
+          "logger"
+        ]
       }
     },
-    "httpCorrelationProtocol": "W3C",
+    "httpCorrelationProtocol": "Legacy",
     "logClientIp": true,
     "metrics": true,
     "sampling": {
       "percentage": 100,
       "samplingType": "fixed"
     },
-    "verbosity": "information"
+    "verbosity": "verbose"
   }
 }

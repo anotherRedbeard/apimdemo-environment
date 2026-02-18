@@ -1,7 +1,13 @@
 {
   "properties": {
-    "credentials": {},
+    "credentials": {
+      "header": {}
+    },
     "protocol": "http",
+    "tls": {
+      "validateCertificateChain": false,
+      "validateCertificateName": false
+    },
     "url": "https://red-eus-demo-oai.openai.azure.com/openai"
   }
 }

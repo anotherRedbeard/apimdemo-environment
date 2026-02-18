@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "searchserviceclient",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "Client that can be used to manage and query indexes and documents, as well as manage other resources, on a search service.",
+    "isCurrent": true,
+    "displayName": "AI Search Service API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://contososrch212121.search.windows.net",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Gold",
+    "description": "Gold Product",
+    "approvalRequired": true,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}

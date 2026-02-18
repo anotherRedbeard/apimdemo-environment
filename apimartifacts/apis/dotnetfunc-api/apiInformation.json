@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "dotnetfunc",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "This is the OpenAPI Document on Azure Functions",
+    "isCurrent": true,
+    "displayName": "DotNetFuncDemo",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://red-scus-dotnetfunc-app.azurewebsites.net/api",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": false
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Bronze",
+    "description": "Bronze product",
+    "approvalRequired": true,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}
