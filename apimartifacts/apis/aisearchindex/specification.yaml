@@ -203,7 +203,7 @@ paths:
           in: query
           description: Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails.
           schema:
-            minimum: 700
+            minimum: 700.0
             type: integer
             format: int32
         - name: answers
@@ -1422,7 +1422,7 @@ components:
         semanticErrorHandling:
           $ref: '#/components/schemas/SemanticErrorHandling'
         semanticMaxWaitInMilliseconds:
-          minimum: 700
+          minimum: 700.0
           type: integer
           description: Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails.
           format: int32

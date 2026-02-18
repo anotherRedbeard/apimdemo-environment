@@ -3,6 +3,7 @@
     "path": "tempconvert",
     "apiRevision": "1",
     "authenticationSettings": {},
+    "description": "testing soap",
     "isCurrent": true,
     "displayName": "TempConvert",
     "protocols": [

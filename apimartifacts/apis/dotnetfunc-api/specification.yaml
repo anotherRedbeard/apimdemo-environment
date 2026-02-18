@@ -33,9 +33,7 @@ paths:
             text/plain:
               schema:
                 type: string
-              examples:
-                default:
-                  value: 
+              example: ''
   /HttpTrigger1:
     get:
       tags:
@@ -56,9 +54,7 @@ paths:
             text/plain:
               schema:
                 type: string
-              examples:
-                default:
-                  value: 
+              example: ''
   /.well-known/oauth-protected-resource:
     get:
       tags:
