@@ -14,6 +14,9 @@
 		<set-variable name="urlPathLength" value="@(context.Request.OriginalUrl.Path.Length)" />
 		<set-variable name="apiPathLength" value="@(context.Api.Path.Length)" />
 		<rewrite-uri template="@("/" + context.Api.Version + "/" + context.Request.Url.Path)" copy-unmatched-params="true" />
+		<set-header name="revision" exists-action="override">
+			<value>rev1</value>
+		</set-header>
 	</inbound>
 	<!-- Control if and how the requests are forwarded to services  -->
 	<backend>

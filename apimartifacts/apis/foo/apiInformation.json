@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "path": "foobar",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "isCurrent": true,
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/openai/openai-openapi/blob/master/LICENSE"
+    },
+    "displayName": "Azure AI Foundry Models Service",
+    "protocols": [
+      "https"
+    ],
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

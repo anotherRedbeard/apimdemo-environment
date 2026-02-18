@@ -838,7 +838,7 @@ components:
   securitySchemes:
     apiKeyHeader:
       type: apiKey
-      name: Ocp-Apim-Subscription-Key
+      name: api-key
       in: header
     apiKeyQuery:
       type: apiKey

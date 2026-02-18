@@ -1,0 +1,47 @@
+<!--
+    - Policies are applied in the order they appear.
+    - Position <base/> inside a section to inherit policies from the outer scope.
+    - Comments within policies are not preserved.
+-->
+<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements -->
+<policies>
+	<!-- Throttle, authorize, validate, cache, or transform the requests -->
+	<inbound>
+		<return-response>
+			<set-status code="200" reason="OK" />
+			<set-header name="Content-Type" exists-action="override">
+				<value>application/json</value>
+			</set-header>
+			<set-header name="Cache-Control" exists-action="override">
+				<value>public, max-age=3600</value>
+			</set-header>
+			<set-body>@{
+                return JsonConvert.SerializeObject(new {
+                    resource = "https://red-scus-apimdemo-dev.azure-api.net/obo-mcp-server/mcp",
+                    authorization_servers = new[] {
+                        $"https://login.microsoftonline.com/{{entraid-tenant}}/v2.0"
+                    },
+                    bearer_methods_supported = new[] {
+                        "header"
+                    },
+                    scopes_supported = new[] {
+                        "api://bfb3f32b-de1b-46b6-896b-bf32d658f66f/access_mcp"
+                    }
+                });
+            }</set-body>
+		</return-response>
+		<base />
+	</inbound>
+	<!-- Control if and how the requests are forwarded to services  -->
+	<backend>
+		<base />
+	</backend>
+	<!-- Customize the responses -->
+	<outbound>
+		<base />
+	</outbound>
+	<!-- Handle exceptions and customize error responses  -->
+	<on-error>
+		<base />
+	</on-error>
+</policies>

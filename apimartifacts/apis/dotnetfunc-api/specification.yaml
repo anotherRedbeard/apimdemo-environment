@@ -1,0 +1,88 @@
+openapi: 3.0.1
+info:
+  title: DotNetFuncDemo
+  description: This is the OpenAPI Document on Azure Functions
+  version: '1.0'
+servers:
+  - url: https://red-scus-apimdemo-dev.azure-api.net/dotnetfunc
+paths:
+  /GraphMe:
+    get:
+      tags:
+        - graph
+      summary: Get Graph /me
+      description: Calls Microsoft Graph API /me endpoint using the provided Authorization header
+      operationId: GraphMe
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer token for Microsoft Graph API
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User profile from Microsoft Graph
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Missing or invalid Authorization header
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                default:
+                  value: 
+  /HttpTrigger1:
+    get:
+      tags:
+        - greeting
+      summary: HTTP Trigger Function
+      description: Returns a welcome message with incoming HTTP headers
+      operationId: HttpTrigger1
+      parameters:
+        - name: name
+          in: query
+          description: Optional name parameter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with headers information
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                default:
+                  value: 
+  /.well-known/oauth-protected-resource:
+    get:
+      tags:
+        - oauth
+      summary: OAuth Protected Resource Metadata
+      description: Returns OAuth 2.0 Protected Resource Metadata
+      operationId: OAuthProtectedResource
+      responses:
+        '200':
+          description: Protected resource metadata
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Silver",
+    "description": "Silver Product",
+    "approvalRequired": true,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}

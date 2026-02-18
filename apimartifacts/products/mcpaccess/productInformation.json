@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "MCPAccess",
+    "description": "MCPAccess product",
+    "approvalRequired": true,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}

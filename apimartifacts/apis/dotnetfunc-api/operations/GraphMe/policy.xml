@@ -1,0 +1,79 @@
+<!--
+    - Policies are applied in the order they appear.
+    - Position <base/> inside a section to inherit policies from the outer scope.
+    - Comments within policies are not preserved.
+-->
+<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements -->
+<policies>
+	<!-- Throttle, authorize, validate, cache, or transform the requests -->
+	<inbound>
+		<base />
+		<!-- 1) MCP Policy already validating Auth Header -->
+		<!-- 2) Extract the incoming user access token (the 'assertion' for OBO) -->
+		<set-variable name="incoming_access_token" value="@(context.Request.Headers.GetValueOrDefault("Authorization", "").Replace("Bearer ", ""))" />
+		<!-- 3) Prepare OBO token request to Microsoft Entra ID -->
+		<set-variable name="obo_body" value="@{
+                // NOTE: For Entra v2 tokens use 'scope' (space-delimited); for v1, use 'resource'.
+                // OBO requires 'requested_token_use=on_behalf_of' and the incoming token as 'assertion'.
+                var form = 
+                $"client_id=bfb3f32b-de1b-46b6-896b-bf32d658f66f" +
+                $"&client_secret={System.Uri.EscapeDataString("b6Z8Q~CJn4myB0.3t-9pFJ5P1p4FyoQDFSf7Ea_W")}" +
+                $"&grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer" +
+                $"&requested_token_use=on_behalf_of" +
+                $"&scope={System.Uri.EscapeDataString("User.Read")}" +
+                $"&assertion={System.Uri.EscapeDataString((string)context.Variables["incoming_access_token"])}";
+                return form;
+            }" />
+		<!-- 4) Exchange the token (OBO) -->
+		<send-request ignore-error="false" timeout="30" response-variable-name="obo_token_resp">
+			<set-url>https://login.microsoftonline.com/{{entraid-tenant}}/oauth2/v2.0/token</set-url>
+			<set-method>POST</set-method>
+			<set-header name="Content-Type" exists-action="override">
+				<value>application/x-www-form-urlencoded</value>
+			</set-header>
+			<set-body>@((string)context.Variables["obo_body"])</set-body>
+		</send-request>
+		<!-- 5) Parse OBO response and fail fast on error -->
+		<choose>
+			<when condition="@(!(context.Variables.ContainsKey("obo_token_resp")))">
+				<return-response>
+					<set-status code="502" reason="Bad Gateway" />
+					<set-body>{"error":"token_exchange_failed","error_description":"No response from token endpoint"}</set-body>
+				</return-response>
+			</when>
+		</choose>
+		<set-variable name="obo_json" value="@{
+                var resp = (IResponse)context.Variables["obo_token_resp"];
+                return resp.Body.As<JObject>(preserveContent: true);
+            }" />
+		<choose>
+			<when condition="@(((JObject)context.Variables["obo_json"]).GetValue("access_token") == null)">
+				<return-response>
+					<set-status code="401" reason="Unauthorized" />
+					<set-body>@(((JObject)context.Variables["obo_json"]).ToString())</set-body>
+				</return-response>
+			</when>
+		</choose>
+		<!-- 6) Set downstream Authorization header with the OBO token -->
+		<set-variable name="downstream_access_token" value="@(((JObject)context.Variables["obo_json"]).Value<string>("access_token"))" />
+		<set-header name="Authorization" exists-action="override">
+			<value>@($"Bearer {context.Variables["downstream_access_token"]}")</value>
+		</set-header>
+		<!-- (Optional) Remove the original token to avoid token confusion at the backend -->
+		<!-- <set-header name="X-Original-Authorization" exists-action="override"> <value>@(context.Request.Headers.GetValueOrDefault("Authorization",""))</value> </set-header> -->
+		<!-- <set-header name="Authorization" exists-action="delete" /> -->
+		<!-- Continue to backend -->
+	</inbound>
+	<!-- Control if and how the requests are forwarded to services  -->
+	<backend>
+		<base />
+	</backend>
+	<!-- Customize the responses -->
+	<outbound>
+		<base />
+	</outbound>
+	<!-- Handle exceptions and customize error responses  -->
+	<on-error>
+		<base />
+	</on-error>
+</policies>
