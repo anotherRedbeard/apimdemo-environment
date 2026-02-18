@@ -12,6 +12,7 @@
     "protocols": [
       "https"
     ],
+    "serviceUrl": "https://red-scus-apimdemo-dev.azure-api.net/foobar",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"
